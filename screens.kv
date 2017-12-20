@@ -1,0 +1,315 @@
+#:kivy 1.8.0
+#:import FadeTransition kivy.uix.screenmanager.FadeTransition
+
+<LangButton>:
+    canvas.before:
+        Color:
+            rgb:1,1,1
+        RoundedRectangle:
+            pos:self.pos
+            size:self.size
+            radius:[9,]
+    font_size:'38dp'
+    font_name:'font\\PT_Sans-Web-Bold'
+    color:0.97, 0.43, 0.08, 1
+    background_color: 1, 1, 1, 0
+    size_hint: None, None
+    size:325,100
+
+<WiTest>:
+
+<FormInput>:
+#    canvas.before:
+#        Color:
+#            rgba:1,1,1,0
+#        RoundedRectangle:
+#            size:self.size
+#            pos:self.pos
+#            radius:[9,]
+    size_hint: None,None
+    size:800,80
+    font_name:'font\\PT_Sans-Web-Regular'
+    foreground_color:[0.97, 0.03, 0.08, 1]
+    background_color: [1, 1, 1, 1]
+    font_size:42
+    multiline: False
+
+#<ModalForm>:
+#    orientation:'vertical'
+#    padding = [250,10,]
+#    spacing = 10
+#    size_hint = 1, None
+#    height = 450
+<WiFiView>:
+
+<ModalLayout>:
+    orientation:'vertical'
+    size_hint: 1, None
+    pos_hint: {'top': 1}
+    height: 450
+    padding: [250,10,]
+    spacing: 10
+
+<WiFiInput>:
+
+<ScreenChoise>:
+    source:'video\\uniflex.mp4'
+    play:True
+    BoxLayout:
+        orientation:'vertical'
+        size_hint:None,None
+        size:1200,500
+        canvas:
+            Color:
+                rgba:.3,.3,.3,.7
+            RoundedRectangle:
+                size:self.size
+                pos:self.pos
+                radius:[9,]
+        AnchorLayout:
+            anchor_x:'center'
+            anchor_y:'center'
+            size_hint:1,None
+            height:200
+            Image:
+                source:'img\\logo_white.png'
+        Label:
+            text:'Пожалуйста, выберите язык для продолжения работы'
+            font_size:32
+            font_name:'font\\PT_Sans-Web-Regular'
+            size_hint_y:None
+            height:40
+        Label:
+            text:'Please, choose the language to continue'
+            font_size:32
+            font_name:'font\\PT_Sans-Web-Regular'
+            size_hint_y:None
+            height:40
+        AnchorLayout:
+            anchor_x:'center'
+            GridLayout:
+                size_hint_x:None
+                width:750
+                cols:2
+                spacing:50
+    #            padding:[250,10,0,10]
+                AnchorLayout:
+                    anchor_x:'center'
+                    anchor_y:'center'
+                    LangButton:
+                        text:'Русский'
+                        on_press: root.manager.current='Меню'
+                AnchorLayout:
+                    anchor_x:'center'
+                    anchor_y:'center'
+                    LangButton:
+                        text:'English'
+                        on_press: root.manager.current='Меню'
+
+
+
+<ScreenMenu>:
+    FloatLayout:
+        size: app.res_width, app.res_heigth
+        pos: 0, 0
+        canvas:
+            Color:
+                rgba: 0.97, 0.43, 0.08, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        Image:
+            size_hint: None, None
+            size: 115, 984
+            source: 'img\\pattern_1.png'
+            pos: 0 , (app.res_heigth - 984)/2
+        Image:
+            size_hint: None, None
+            size: 115, 984
+            source: 'img\\pattern_2.png'
+            pos: app.res_width-115 , (app.res_heigth - 984)/2
+#        WiTest:
+        AnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'top'
+            size: app.res_width-230, app.res_heigth
+            ModalLayout:
+                popup:popup1.__self__
+                id: bl
+
+                WiFiView:
+                    id:popup1
+                    size_hint:None,None
+                    size:1200,500
+                    on_parent:
+                        if self.parent == bl:self.parent.remove_widget(self)
+
+                    WiFiInput:
+                    VKeyboard:
+                        docked: False
+
+
+            BoxLayout:
+                orientation:'vertical'
+                Image:
+                    source:'img\\logo_white_300x72.png'
+                    size_hint:1,None
+                    height:140
+                    padding:[0,20,0,28]
+                AnchorLayout:
+                    anchor_x: 'center'
+                    anchor_y: 'top'
+                    GridLayout:
+                        size_hint:None,None
+                        size:1200,350
+                        cols:3
+                        AnchorLayout:
+                            anchor_y:'center'
+                            anchor_x:'center'
+                            BoxLayout:
+                                orientation:'vertical'
+                                size_hint:None,None
+                                size:250,300
+                                padding:[25,]
+                                Button:
+                                    text:u'\ue008'
+                                    font_name:'font\\education-48'
+                                    size_hint:None,None
+                                    size:200,200
+
+                                    font_size:80
+                                    background_normal:'img\\btn.png'
+                                    background_down:'img\\btn_press.png'
+                                Label:
+                                    text:'ПОЗНАКОМИТЬСЯ \nС КОМПАНИЕЙ'
+                                    font_name:'font\\PT_Sans_Narrow-Bold'
+                                    halign:'center'
+                                    font_size:28
+                                    color: 0.3, 0.3, 0.3, 1
+                        AnchorLayout:
+                            anchor_y:'center'
+                            anchor_x:'center'
+                            BoxLayout:
+                                orientation:'vertical'
+                                size_hint:None,None
+                                size:250,300
+                                padding:[25,]
+                                Button:
+                                    text:u'\ue02c'
+                                    font_name:'font\\education-48'
+                                    size_hint:None,None
+                                    size:200,200
+                                    font_size:90
+                                    background_normal:'img\\btn.png'
+                                    background_down:'img\\btn_press.png'
+                                Label:
+                                    text:'ОТРАСЛЕВЫЕ\nРЕШЕНИЯ'
+                                    font_name:'font\\PT_Sans_Narrow-Bold'
+                                    halign:'center'
+                                    font_size:28
+                                    color: 0.3, 0.3, 0.3, 1
+                        AnchorLayout:
+                            anchor_y:'center'
+                            anchor_x:'center'
+                            BoxLayout:
+                                orientation:'vertical'
+                                size_hint:None,None
+                                size:250,300
+                                padding:[25,]
+                                Button:
+                                    text:'N'
+                                    font_name:'font\\education-48'
+                                    size_hint:None,None
+                                    size:200,200
+                                    font_size:90
+                                    background_normal:'img\\btn.png'
+                                    background_down:'img\\btn_press.png'
+
+                                Label:
+                                    text:'СЛУЖБА ЗАБОТЫ\nО КЛИЕНТАХ'
+                                    font_name:'font\\PT_Sans_Narrow-Bold'
+                                    halign:'center'
+                                    font_size:28
+                                    color: 0.3, 0.3, 0.3, 1
+                    BoxLayout:
+                        orientation:'horizontal'
+                        AnchorLayout:
+                            anchor_x: 'right'
+                            anchor_y: 'bottom'
+                            size_hint:None,1
+                            width: 1200+(app.res_width-1200)/2
+                            padding:[0,100,]
+                            Carousel:
+                                size_hint:None,None
+                                size:1200,410
+                                loop: True
+                                scroll_timeout:200
+                                Image:
+                                    source:'img\\slider_1.png'
+                                    size_hint:None,None
+                                    size:1200,410
+                                Image:
+                                    source:'img\\slider_2.png'
+                                    size_hint:None,None
+                                    size:1200,410
+								Image:
+                                    source:'img\\slider_3.png'
+                                    size_hint:None,None
+                                    size:1200,410
+                        AnchorLayout:
+                            anchor_x: 'right'
+                            anchor_y: 'bottom'
+                            padding:[100,70,]
+                            Button:
+                                text:''
+                                size_hint:None,None
+                                size:151,105
+                                font_size:42
+                                background_normal:'img\\wifi_knopka.png'
+                                background_down:'img\\wifi_knopka.png'
+                                on_release: bl.popup.open()
+
+
+
+
+
+<ScreenBuklet>:
+    BoxLayout:
+        Button:
+            text:'Видео'
+            on_press: root.manager.current='Видео'
+        Button:
+            text:'Назад'
+            on_press: root.manager.current='Меню'
+
+<ScreenVideo>:
+    BoxLayout:
+        Button:
+            text:'Буклет'
+            on_press: root.manager.current='Буклет'
+        Button:
+            text:'Назад'
+            on_press: root.manager.current='Меню'
+
+<Manager>:
+    id: screen_manager
+    transition: FadeTransition()
+    ScreenChoise:
+        id: choise
+        name:'Выбор языка'
+        manager: screen_manager
+
+    ScreenMenu:
+        id: menu
+        name: 'Меню'
+        manager: screen_manager
+
+    ScreenBuklet:
+        id: buklet
+        name: 'Буклет'
+        manager: screen_manager
+
+    ScreenVideo:
+        id: video
+        name: 'Видео'
+        manager: screen_manager
