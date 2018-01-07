@@ -19,13 +19,6 @@
 <WiTest>:
 
 <FormInput>:
-#    canvas.before:
-#        Color:
-#            rgba:1,1,1,0
-#        RoundedRectangle:
-#            size:self.size
-#            pos:self.pos
-#            radius:[9,]
     size_hint: None,None
     size:800,80
     font_name:'font\\PT_Sans-Web-Regular'
@@ -145,8 +138,7 @@
 #                        if self.parent == bl:self.parent.remove_widget(self)
 #
 #                    WiFiInput:
-#                    VKeyboard:
-#                        docked: False
+
 
 
             BoxLayout:
@@ -271,16 +263,45 @@
 #                                on_release: bl.popup.open()
 
 <ScreenWiFiForm>:
-    FloatLayout:
-        size: app.res_width, app.res_heigth
-        pos: 0, 0
+    BoxLayout:
+        orientation:'vertical'
         canvas:
             Color:
                 rgba: 0.97, 0.43, 0.08, 1
             Rectangle:
                 pos: self.pos
                 size: self.size
-
+        Image:
+            source:'img\\logo_white_300x72.png'
+            size_hint:1,None
+            height:140
+            padding:[0,20,0,28]
+        AnchorLayout:
+            FormInput:
+                hint_text:'Имя'
+                padding_x:23
+                padding_y:12
+        AnchorLayout:
+            FormInput:
+                hint_text:'Организация'
+                padding_x:23
+                padding_y:12
+        AnchorLayout:
+            FormInput:
+                hint_text:'e-mail'
+                padding_x:23
+                padding_y:12
+        AnchorLayout:
+            VKeyboard:
+        AnchorLayout:
+            anchor_x: 'right'
+            anchor_y: 'bottom'
+            Button:
+                text:'Назад'
+                size_hint:None,None
+                size:151,105
+                font_size:42
+                on_press: root.manager.current='Меню'
 
 
 <ScreenBuklet>:

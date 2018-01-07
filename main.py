@@ -5,6 +5,7 @@ from kivy.config import Config
 from kivy.core.window import Window
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.behaviors.cover import CoverBehavior
+from kivy.uix.behaviors.focus import FocusBehavior
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
@@ -16,7 +17,6 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.video import Video
 from kivy.graphics.instructions import Canvas
 from kivy.uix.popup import Popup
-from kivy.uix.vkeyboard import VKeyboard
 from kivy.properties import ObjectProperty
 from functools import partial
 from kivy.core.window import Window
@@ -30,6 +30,9 @@ Window.size = (width, height)
 
 # TODO: 1.Форма анкеты
 # TODO: 2.Второе модельное окно для запроса инфы на Wi-Fi
+
+Config.set('kivy','keyboard_mode','')
+Config.write()
 
 class ScreenMenu(Screen):
     pass
@@ -126,94 +129,94 @@ class WiFiView(ModalView):
         # except:
         #     pass
 
-class WiFiInput(BoxLayout):
-
-    def __init__(self, **kwargs):
-        super(WiFiInput, self).__init__(**kwargs)
-
-        self.orientation = 'vertical'
-        self.spacing = 15
-        self.padding = [25, ]
-
-        self.fname = FormInput(hint_text='Имя', padding_x=23, padding_y=12)
-        self.fprtn = FormInput(hint_text='Организация', padding_x=23, padding_y=12)
-        self.fmail = FormInput(hint_text='e-mail', padding_x=23, padding_y=12)
-        self.aname = AnchorLayout(anchor_x='center')
-        self.aprtn = AnchorLayout(anchor_x='center')
-        self.amail = AnchorLayout(anchor_x='center')
-        self.algpw = AnchorLayout(anchor_x='center', anchor_y='center')
-        self.aclos = RelativeLayout(size_hint=(1, None), height=1)
-
-        self.bclos = Button(text='×', size_hint=(None, None), size=(25, 25), pos=(1100,-36))
-
-        self.abutton = AnchorLayout(anchor_x='center')
-        self.header = Label(text='Заполниwте форму', size_hint=(1, None), height=45)
-        self.wbutton = WiFiButton()
-        self.loginpassword = Label(font_size=32, font_name='font\\PT_Sans-Web-Regular')
-        self.algpw.add_widget(self.loginpassword)
-
-        self.aname.add_widget(self.fname)
-        self.wbutton.bind(on_press=self.sendmail)
-        self.aprtn.add_widget(self.fprtn)
-        self.amail.add_widget(self.fmail)
-        self.abutton.add_widget(self.wbutton)
-        self.aclos.add_widget(self.bclos)
-
-        self.add_widget(self.aclos)
-        self.add_widget(self.header)
-        self.add_widget(self.aname)
-        self.add_widget(self.aprtn)
-        self.add_widget(self.amail)
-        self.add_widget(self.abutton)
-
-    def sendmail(self, instance):
-        print(self.fname.text)
-        print(self.fprtn.text)
-        print(self.fmail.text)
-        # Проверка на заполнение полей, если всё
-        # нормально слать почту и генерить пароль
-        # и перестраивать модельную форму
-        self.remove_widget(self.aname)
-        self.remove_widget(self.aprtn)
-        self.remove_widget(self.amail)
-        self.remove_widget(self.header)
-        self.remove_widget(self.abutton)
-        self.getconnect()
-
-    def getconnect(self):
-
-        jsonfile = open('pswd.json', 'r')
-        logdict = json.load(jsonfile)
-        jsonfile.close()
-        ind = -1
-        for i, x in enumerate(logdict):
-            if x['used'] == 1:
-                msg = "Логин: {}\n\nПароль: {}".format(x['login'], x['password'])
-                self.loginpassword.text = msg
-                self.add_widget(self.algpw)
-                ind = i
-                break
-            else:
-                continue
-        if ind != -1:
-            logdict[ind]['used'] = 0
-            jsonfile = open("pswd.json", "w+")
-            jsonfile.write(json.dumps(logdict))
-            jsonfile.close()
-        # self.clearform()
-
-
-    def clearform(self):
-        self.fname.text = ''
-        self.fprtn.text = ''
-        self.fmail.text = ''
-
-    def startform(self):
-        self.add_widget(self.header)
-        self.add_widget(self.aname)
-        self.add_widget(self.aprtn)
-        self.add_widget(self.amail)
-        self.add_widget(self.abutton)
+# class WiFiInput(BoxLayout):
+#
+#     def __init__(self, **kwargs):
+#         super(WiFiInput, self).__init__(**kwargs)
+#
+#         self.orientation = 'vertical'
+#         self.spacing = 15
+#         self.padding = [25, ]
+#
+#         self.fname = FormInput(hint_text='Имя', padding_x=23, padding_y=12)
+#         self.fprtn = FormInput(hint_text='Организация', padding_x=23, padding_y=12)
+#         self.fmail = FormInput(hint_text='e-mail', padding_x=23, padding_y=12)
+#         self.aname = AnchorLayout(anchor_x='center')
+#         self.aprtn = AnchorLayout(anchor_x='center')
+#         self.amail = AnchorLayout(anchor_x='center')
+#         self.algpw = AnchorLayout(anchor_x='center', anchor_y='center')
+#         self.aclos = RelativeLayout(size_hint=(1, None), height=1)
+#
+#         self.bclos = Button(text='×', size_hint=(None, None), size=(25, 25), pos=(1100,-36))
+#
+#         self.abutton = AnchorLayout(anchor_x='center')
+#         self.header = Label(text='Заполниwте форму', size_hint=(1, None), height=45)
+#         self.wbutton = WiFiButton()
+#         self.loginpassword = Label(font_size=32, font_name='font\\PT_Sans-Web-Regular')
+#         self.algpw.add_widget(self.loginpassword)
+#
+#         self.aname.add_widget(self.fname)
+#         self.wbutton.bind(on_press=self.sendmail)
+#         self.aprtn.add_widget(self.fprtn)
+#         self.amail.add_widget(self.fmail)
+#         self.abutton.add_widget(self.wbutton)
+#         self.aclos.add_widget(self.bclos)
+#
+#         self.add_widget(self.aclos)
+#         self.add_widget(self.header)
+#         self.add_widget(self.aname)
+#         self.add_widget(self.aprtn)
+#         self.add_widget(self.amail)
+#         self.add_widget(self.abutton)
+#
+#     def sendmail(self, instance):
+#         print(self.fname.text)
+#         print(self.fprtn.text)
+#         print(self.fmail.text)
+#         # Проверка на заполнение полей, если всё
+#         # нормально слать почту и генерить пароль
+#         # и перестраивать модельную форму
+#         self.remove_widget(self.aname)
+#         self.remove_widget(self.aprtn)
+#         self.remove_widget(self.amail)
+#         self.remove_widget(self.header)
+#         self.remove_widget(self.abutton)
+#         self.getconnect()
+#
+#     def getconnect(self):
+#
+#         jsonfile = open('pswd.json', 'r')
+#         logdict = json.load(jsonfile)
+#         jsonfile.close()
+#         ind = -1
+#         for i, x in enumerate(logdict):
+#             if x['used'] == 1:
+#                 msg = "Логин: {}\n\nПароль: {}".format(x['login'], x['password'])
+#                 self.loginpassword.text = msg
+#                 self.add_widget(self.algpw)
+#                 ind = i
+#                 break
+#             else:
+#                 continue
+#         if ind != -1:
+#             logdict[ind]['used'] = 0
+#             jsonfile = open("pswd.json", "w+")
+#             jsonfile.write(json.dumps(logdict))
+#             jsonfile.close()
+#         # self.clearform()
+#
+#
+#     def clearform(self):
+#         self.fname.text = ''
+#         self.fprtn.text = ''
+#         self.fmail.text = ''
+#
+#     def startform(self):
+#         self.add_widget(self.header)
+#         self.add_widget(self.aname)
+#         self.add_widget(self.aprtn)
+#         self.add_widget(self.amail)
+#         self.add_widget(self.abutton)
 
 
 
