@@ -133,20 +133,20 @@
             anchor_x: 'center'
             anchor_y: 'top'
             size: app.res_width-230, app.res_heigth
-            ModalLayout:
-                popup:popup1.__self__
-                id: bl
-
-                WiFiView:
-                    id:popup1
-                    size_hint:None,None
-                    size:1200,500
-                    on_parent:
-                        if self.parent == bl:self.parent.remove_widget(self)
-
-                    WiFiInput:
-                    VKeyboard:
-                        docked: False
+#            ModalLayout:
+#                popup:popup1.__self__
+#                id: bl
+#
+#                WiFiView:
+#                    id:popup1
+#                    size_hint:None,None
+#                    size:1200,500
+#                    on_parent:
+#                        if self.parent == bl:self.parent.remove_widget(self)
+#
+#                    WiFiInput:
+#                    VKeyboard:
+#                        docked: False
 
 
             BoxLayout:
@@ -267,9 +267,19 @@
                                 font_size:42
                                 background_normal:'img\\wifi_knopka.png'
                                 background_down:'img\\wifi_knopka.png'
-                                on_release: bl.popup.open()
+                                on_press: root.manager.current='Доступ'
+#                                on_release: bl.popup.open()
 
-
+<ScreenWiFiForm>:
+    FloatLayout:
+        size: app.res_width, app.res_heigth
+        pos: 0, 0
+        canvas:
+            Color:
+                rgba: 0.97, 0.43, 0.08, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
 
 
 
@@ -312,4 +322,14 @@
     ScreenVideo:
         id: video
         name: 'Видео'
+        manager: screen_manager
+
+    ScreenWiFiForm:
+        id:wifiform
+        name:'Доступ'
+        manager: screen_manager
+
+    ScreenWiFiInfo:
+        id:dostup
+        name:'Пароль'
         manager: screen_manager

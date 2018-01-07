@@ -35,8 +35,6 @@ class ScreenMenu(Screen):
     pass
 
 
-
-
 class ScreenBuklet(Screen):
     pass
 
@@ -44,6 +42,12 @@ class ScreenBuklet(Screen):
 class ScreenVideo(Screen):
     pass
 
+
+class ScreenWiFiForm(Screen):
+    pass
+
+class ScreenWiFiInfo(Screen):
+    pass
 
 class Manager(ScreenManager):
     pass
