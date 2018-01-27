@@ -1,5 +1,7 @@
 #:kivy 1.8.0
 #:import FadeTransition kivy.uix.screenmanager.FadeTransition
+#:set foc 'empty'
+#:include unikeyboard.kv
 
 <LangButton>:
     canvas.before:
@@ -17,6 +19,7 @@
     size:325,100
 
 <WiTest>:
+<KeyButton>:
 
 <FormInput>:
     size_hint: None,None
@@ -67,7 +70,7 @@
             Image:
                 source:'img\\logo_white.png'
         Label:
-            text:'Пожалуйста, выберите язык для продолжения работы'
+            text:u'\u041F\u043E\u0436\u0430\u043B\u0443\u0439\u0441\u0442\u0430, \u0432\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u044F\u0437\u044B\u043A \u0434\u043B\u044F \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0435\u043D\u0438\u044F \u0440\u0430\u0431\u043E\u0442\u044B'
             font_size:32
             font_name:'font\\PT_Sans-Web-Regular'
             size_hint_y:None
@@ -90,14 +93,14 @@
                     anchor_x:'center'
                     anchor_y:'center'
                     LangButton:
-                        text:'Русский'
-                        on_press: root.manager.current='Меню'
+                        text:u'\u0420\u0443\u0441\u0441\u043A\u0438\u0439'
+                        on_press: root.manager.current='Menu'
                 AnchorLayout:
                     anchor_x:'center'
                     anchor_y:'center'
                     LangButton:
                         text:'English'
-                        on_press: root.manager.current='Меню'
+                        on_press: root.manager.current='Menu'
 
 
 
@@ -121,26 +124,10 @@
             size: 115, 984
             source: 'img\\pattern_2.png'
             pos: app.res_width-115 , (app.res_heigth - 984)/2
-#        WiTest:
         AnchorLayout:
             anchor_x: 'center'
             anchor_y: 'top'
             size: app.res_width-230, app.res_heigth
-#            ModalLayout:
-#                popup:popup1.__self__
-#                id: bl
-#
-#                WiFiView:
-#                    id:popup1
-#                    size_hint:None,None
-#                    size:1200,500
-#                    on_parent:
-#                        if self.parent == bl:self.parent.remove_widget(self)
-#
-#                    WiFiInput:
-
-
-
             BoxLayout:
                 orientation:'vertical'
                 Image:
@@ -173,7 +160,7 @@
                                     background_normal:'img\\btn.png'
                                     background_down:'img\\btn_press.png'
                                 Label:
-                                    text:'ПОЗНАКОМИТЬСЯ \nС КОМПАНИЕЙ'
+                                    text:'\u041F\u041E\u0417\u041D\u0410\u041A\u041E\u041C\u0418\u0422\u042C\u0421\u042F \n\u0421 \u041A\u041E\u041C\u041F\u0410\u041D\u0418\u0415\u0419'
                                     font_name:'font\\PT_Sans_Narrow-Bold'
                                     halign:'center'
                                     font_size:28
@@ -195,7 +182,7 @@
                                     background_normal:'img\\btn.png'
                                     background_down:'img\\btn_press.png'
                                 Label:
-                                    text:'ОТРАСЛЕВЫЕ\nРЕШЕНИЯ'
+                                    text:'\u041E\u0422\u0420\u0410\u0421\u041B\u0415\u0412\u042B\u0415\n\u0420\u0415\u0428\u0415\u041D\u0418\u042F'
                                     font_name:'font\\PT_Sans_Narrow-Bold'
                                     halign:'center'
                                     font_size:28
@@ -218,7 +205,7 @@
                                     background_down:'img\\btn_press.png'
 
                                 Label:
-                                    text:'СЛУЖБА ЗАБОТЫ\nО КЛИЕНТАХ'
+                                    text:'\u0421\u041B\u0423\u0416\u0411\u0410 \u0417\u0410\u0411\u041E\u0422\u042B\n\u041E \u041A\u041B\u0418\u0415\u041D\u0422\u0410\u0425'
                                     font_name:'font\\PT_Sans_Narrow-Bold'
                                     halign:'center'
                                     font_size:28
@@ -259,12 +246,13 @@
                                 font_size:42
                                 background_normal:'img\\wifi_knopka.png'
                                 background_down:'img\\wifi_knopka.png'
-                                on_press: root.manager.current='Доступ'
+                                on_press: root.manager.current='FormAccess'
 #                                on_release: bl.popup.open()
 
 <ScreenWiFiForm>:
-    BoxLayout:
-        orientation:'vertical'
+    FloatLayout:
+        size: app.res_width, app.res_heigth
+        pos: 0, 0
         canvas:
             Color:
                 rgba: 0.97, 0.43, 0.08, 1
@@ -272,85 +260,120 @@
                 pos: self.pos
                 size: self.size
         Image:
-            source:'img\\logo_white_300x72.png'
-            size_hint:1,None
-            height:140
-            padding:[0,20,0,28]
+            size_hint: None, None
+            size: 115, 984
+            source: 'img\\pattern_1.png'
+            pos: 0 , (app.res_heigth - 984)/2
+        Image:
+            size_hint: None, None
+            size: 115, 984
+            source: 'img\\pattern_2.png'
+            pos: app.res_width-115 , (app.res_heigth - 984)/2
         AnchorLayout:
-            FormInput:
-                hint_text:'Имя'
-                padding_x:23
-                padding_y:12
-        AnchorLayout:
-            FormInput:
-                hint_text:'Организация'
-                padding_x:23
-                padding_y:12
-        AnchorLayout:
-            FormInput:
-                hint_text:'e-mail'
-                padding_x:23
-                padding_y:12
-        AnchorLayout:
-            VKeyboard:
-        AnchorLayout:
-            anchor_x: 'right'
-            anchor_y: 'bottom'
-            Button:
-                text:'Назад'
-                size_hint:None,None
-                size:151,105
-                font_size:42
-                on_press: root.manager.current='Меню'
+            anchor_x: 'center'
+            anchor_y: 'top'
+            size: app.res_width-230, app.res_heigth
+            BoxLayout:
+                orientation:'vertical'
+#                canvas:
+#                    Color:
+#                        rgba: 0.97, 0.43, 0.08, 1
+#                    Rectangle:
+#                        pos: self.pos
+#                        size: self.size
+                Image:
+                    source:'img\\logo_white_300x72.png'
+                    size_hint:1,None
+                    height:140
+                    padding:[0,20,0,28]
+                AnchorLayout:
+                    FormInput:
+                        id: imya
+                        hint_text:u'\u0418\u043C\u044F'
+                        padding_x:23
+                        padding_y:12
+                AnchorLayout:
+                    FormInput:
+                        id:prtn
+                        hint_text:u'\u041e\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u044f'
+                        padding_x:23
+                        padding_y:12
+                AnchorLayout:
+                    FormInput:
+                        id:mail
+                        hint_text:'e-mail'
+                        padding_x:23
+                        padding_y:12
+                AnchorLayout:
+                    anchor_x:'center'
+                    anchor_y:'center'
+                    size_hint:1,None
+                    height:450
+                    BoxLayout:
+                        orientation:'vertical'
+                        size_hint:None,None
+                        size:1450,400  #  1450 - С€РёСЂРёРЅР° РєР»Р°РІРёР°С‚СѓСЂС‹
+                        UniKeyboard:
+                            id:keyborda
+                            tablist:[u'\u0418\u043C\u044F',u'\u041e\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u044f','e-mail']
+                AnchorLayout:
+                    anchor_x: 'right'
+                    anchor_y: 'bottom'
+                    Button:
+                        text:u'\u041D\u0430\u0437\u0430\u0434'
+                        size_hint:None,None
+                        size:151,105
+                        font_size:42
+                        on_press: root.manager.current='Menu'
 
 
 <ScreenBuklet>:
     BoxLayout:
         Button:
-            text:'Видео'
-            on_press: root.manager.current='Видео'
+            text:u'\u0412\u0438\u0434\u0435\u043E'
+            on_press: root.manager.current='Video'
         Button:
-            text:'Назад'
-            on_press: root.manager.current='Меню'
+            text:u'\u041D\u0430\u0437\u0430\u0434'
+            on_press: root.manager.current='Menu'
 
 <ScreenVideo>:
     BoxLayout:
         Button:
-            text:'Буклет'
-            on_press: root.manager.current='Буклет'
+            text:u'\u0411\u0443\u043A\u043B\u0435\u0442'
+            on_press: root.manager.current='Booklet'
         Button:
-            text:'Назад'
-            on_press: root.manager.current='Меню'
+            text:u'\u041D\u0430\u0437\u0430\u0434'
+            on_press: root.manager.current='Menu'
 
 <Manager>:
     id: screen_manager
     transition: FadeTransition()
     ScreenChoise:
         id: choise
-        name:'Выбор языка'
+        name:'Language selection'
         manager: screen_manager
 
     ScreenMenu:
         id: menu
-        name: 'Меню'
+        name: 'Menu'
         manager: screen_manager
 
     ScreenBuklet:
         id: buklet
-        name: 'Буклет'
+        name: 'Booklet'
         manager: screen_manager
 
     ScreenVideo:
         id: video
-        name: 'Видео'
+        name: 'Video'
         manager: screen_manager
 
     ScreenWiFiForm:
         id:wifiform
-        name:'Доступ'
+        name:'FormAccess'
         manager: screen_manager
 
     ScreenWiFiInfo:
         id:dostup
-        name:'Пароль'
+        name:'Access'
         manager: screen_manager

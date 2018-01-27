@@ -20,12 +20,13 @@ from kivy.uix.popup import Popup
 from kivy.properties import ObjectProperty
 from functools import partial
 from kivy.core.window import Window
+import unikeyboard
 import json
 import smtplib
 
-Window.fullscreen = True
-width = 2560
-height = 1440
+Window.fullscreen = False
+width = 1920
+height = 1080
 Window.size = (width, height)
 
 # TODO: 1.Форма анкеты
@@ -218,7 +219,8 @@ class WiFiView(ModalView):
 #         self.add_widget(self.amail)
 #         self.add_widget(self.abutton)
 
-
+class KeyButton(Button):
+    pass
 
 class WiFiButton(Button):
 
