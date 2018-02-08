@@ -1,0 +1,72 @@
+# -*- coding: utf-8 -*-
+# choice.kv
+# Choose your destiny... language
+
+<LangButton>:
+    canvas.before:
+        Color:
+            rgb:1,1,1
+        RoundedRectangle:
+            pos:self.pos
+            size:self.size
+            radius:[9,]
+    font_size:'38dp'
+    font_name:'font\\PT_Sans-Web-Bold'
+    color:0.97, 0.43, 0.08, 1
+    background_color: 1, 1, 1, 0
+    size_hint: None, None
+    size:325,100
+
+<ScreenChoice>:
+    source:'video\\uniflex.mp4'
+    play:True
+    BoxLayout:
+        orientation:'vertical'
+        size_hint:None,None
+        size:1200,500
+        canvas:
+            Color:
+                rgba:.3,.3,.3,.7
+            RoundedRectangle:
+                size:self.size
+                pos:self.pos
+                radius:[9,]
+        AnchorLayout:
+            anchor_x:'center'
+            anchor_y:'center'
+            size_hint:1,None
+            height:200
+            Image:
+                source:'img\\logo_white.png'
+        Label:
+            text:app.uni_text('RU','choiceplease')
+            font_size:32
+            font_name:'font\\PT_Sans-Web-Regular'
+            size_hint_y:None
+            height:40
+        Label:
+            text:app.uni_text('EN','choiceplease')
+            font_size:32
+            font_name:'font\\PT_Sans-Web-Regular'
+            size_hint_y:None
+            height:40
+        AnchorLayout:
+            anchor_x:'center'
+            GridLayout:
+                size_hint_x:None
+                width:750
+                cols:2
+                spacing:50
+    #            padding:[250,10,0,10]
+                AnchorLayout:
+                    anchor_x:'center'
+                    anchor_y:'center'
+                    LangButton:
+                        text:app.uni_text('RU','choicebutton')
+                        on_press: root.manager.current='Menu';app.interface_lang='RU';root.manager.start()
+                AnchorLayout:
+                    anchor_x:'center'
+                    anchor_y:'center'
+                    LangButton:
+                        text:app.uni_text('EN','choicebutton')
+                        on_press: root.manager.current='Menu';app.interface_lang='EN';root.manager.start()

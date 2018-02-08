@@ -1,356 +1,38 @@
 #:kivy 1.8.0
 #:import FadeTransition kivy.uix.screenmanager.FadeTransition
 #:set foc 'empty'
-#:include unikeyboard.kv
+#:include kv\choice.kv
+#:include kv\menu.kv
+#:include kv\wifiinfo.kv
+#:include kv\wifiform.kv
+#:include kv\anketa1.kv
 
-<LangButton>:
-    canvas.before:
-        Color:
-            rgb:1,1,1
-        RoundedRectangle:
-            pos:self.pos
-            size:self.size
-            radius:[9,]
-    font_size:'38dp'
-    font_name:'font\\PT_Sans-Web-Bold'
-    color:0.97, 0.43, 0.08, 1
-    background_color: 1, 1, 1, 0
-    size_hint: None, None
-    size:325,100
-
-<WiTest>:
-<KeyButton>:
-
-<FormInput>:
-    size_hint: None,None
-    size:800,80
-    font_name:'font\\PT_Sans-Web-Regular'
-    foreground_color:[0.97, 0.03, 0.08, 1]
-    background_color: [1, 1, 1, 1]
-    font_size:42
-    multiline: False
-
-#<ModalForm>:
-#    orientation:'vertical'
-#    padding = [250,10,]
-#    spacing = 10
-#    size_hint = 1, None
-#    height = 450
-<WiFiView>:
-
-<ModalLayout>:
-    orientation:'vertical'
-    size_hint: 1, None
-    pos_hint: {'top': 1}
-    height: 450
-    padding: [250,10,]
-    spacing: 10
-
-<WiFiInput>:
-
-<ScreenChoise>:
-    source:'video\\uniflex.mp4'
-    play:True
-    BoxLayout:
-        orientation:'vertical'
-        size_hint:None,None
-        size:1200,500
-        canvas:
-            Color:
-                rgba:.3,.3,.3,.7
-            RoundedRectangle:
-                size:self.size
-                pos:self.pos
-                radius:[9,]
-        AnchorLayout:
-            anchor_x:'center'
-            anchor_y:'center'
-            size_hint:1,None
-            height:200
-            Image:
-                source:'img\\logo_white.png'
-        Label:
-            text:u'\u041F\u043E\u0436\u0430\u043B\u0443\u0439\u0441\u0442\u0430, \u0432\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u044F\u0437\u044B\u043A \u0434\u043B\u044F \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0435\u043D\u0438\u044F \u0440\u0430\u0431\u043E\u0442\u044B'
-            font_size:32
-            font_name:'font\\PT_Sans-Web-Regular'
-            size_hint_y:None
-            height:40
-        Label:
-            text:'Please, choose the language to continue'
-            font_size:32
-            font_name:'font\\PT_Sans-Web-Regular'
-            size_hint_y:None
-            height:40
-        AnchorLayout:
-            anchor_x:'center'
-            GridLayout:
-                size_hint_x:None
-                width:750
-                cols:2
-                spacing:50
-    #            padding:[250,10,0,10]
-                AnchorLayout:
-                    anchor_x:'center'
-                    anchor_y:'center'
-                    LangButton:
-                        text:u'\u0420\u0443\u0441\u0441\u043A\u0438\u0439'
-                        on_press: root.manager.current='Menu'
-                AnchorLayout:
-                    anchor_x:'center'
-                    anchor_y:'center'
-                    LangButton:
-                        text:'English'
-                        on_press: root.manager.current='Menu'
-
-
-
-<ScreenMenu>:
-    FloatLayout:
-        size: app.res_width, app.res_heigth
-        pos: 0, 0
-        canvas:
-            Color:
-                rgba: 0.97, 0.43, 0.08, 1
-            Rectangle:
-                pos: self.pos
-                size: self.size
-        Image:
-            size_hint: None, None
-            size: 115, 984
-            source: 'img\\pattern_1.png'
-            pos: 0 , (app.res_heigth - 984)/2
-        Image:
-            size_hint: None, None
-            size: 115, 984
-            source: 'img\\pattern_2.png'
-            pos: app.res_width-115 , (app.res_heigth - 984)/2
-        AnchorLayout:
-            anchor_x: 'center'
-            anchor_y: 'top'
-            size: app.res_width-230, app.res_heigth
-            BoxLayout:
-                orientation:'vertical'
-                Image:
-                    source:'img\\logo_white_300x72.png'
-                    size_hint:1,None
-                    height:140
-                    padding:[0,20,0,28]
-                AnchorLayout:
-                    anchor_x: 'center'
-                    anchor_y: 'top'
-                    GridLayout:
-                        size_hint:None,None
-                        size:1200,350
-                        cols:3
-                        AnchorLayout:
-                            anchor_y:'center'
-                            anchor_x:'center'
-                            BoxLayout:
-                                orientation:'vertical'
-                                size_hint:None,None
-                                size:250,300
-                                padding:[25,]
-                                Button:
-                                    text:u'\ue008'
-                                    font_name:'font\\education-48'
-                                    size_hint:None,None
-                                    size:200,200
-
-                                    font_size:80
-                                    background_normal:'img\\btn.png'
-                                    background_down:'img\\btn_press.png'
-                                Label:
-                                    text:'\u041F\u041E\u0417\u041D\u0410\u041A\u041E\u041C\u0418\u0422\u042C\u0421\u042F \n\u0421 \u041A\u041E\u041C\u041F\u0410\u041D\u0418\u0415\u0419'
-                                    font_name:'font\\PT_Sans_Narrow-Bold'
-                                    halign:'center'
-                                    font_size:28
-                                    color: 0.3, 0.3, 0.3, 1
-                        AnchorLayout:
-                            anchor_y:'center'
-                            anchor_x:'center'
-                            BoxLayout:
-                                orientation:'vertical'
-                                size_hint:None,None
-                                size:250,300
-                                padding:[25,]
-                                Button:
-                                    text:u'\ue02c'
-                                    font_name:'font\\education-48'
-                                    size_hint:None,None
-                                    size:200,200
-                                    font_size:90
-                                    background_normal:'img\\btn.png'
-                                    background_down:'img\\btn_press.png'
-                                Label:
-                                    text:'\u041E\u0422\u0420\u0410\u0421\u041B\u0415\u0412\u042B\u0415\n\u0420\u0415\u0428\u0415\u041D\u0418\u042F'
-                                    font_name:'font\\PT_Sans_Narrow-Bold'
-                                    halign:'center'
-                                    font_size:28
-                                    color: 0.3, 0.3, 0.3, 1
-                        AnchorLayout:
-                            anchor_y:'center'
-                            anchor_x:'center'
-                            BoxLayout:
-                                orientation:'vertical'
-                                size_hint:None,None
-                                size:250,300
-                                padding:[25,]
-                                Button:
-                                    text:'N'
-                                    font_name:'font\\education-48'
-                                    size_hint:None,None
-                                    size:200,200
-                                    font_size:90
-                                    background_normal:'img\\btn.png'
-                                    background_down:'img\\btn_press.png'
-
-                                Label:
-                                    text:'\u0421\u041B\u0423\u0416\u0411\u0410 \u0417\u0410\u0411\u041E\u0422\u042B\n\u041E \u041A\u041B\u0418\u0415\u041D\u0422\u0410\u0425'
-                                    font_name:'font\\PT_Sans_Narrow-Bold'
-                                    halign:'center'
-                                    font_size:28
-                                    color: 0.3, 0.3, 0.3, 1
-                    BoxLayout:
-                        orientation:'horizontal'
-                        AnchorLayout:
-                            anchor_x: 'right'
-                            anchor_y: 'bottom'
-                            size_hint:None,1
-                            width: 1200+(app.res_width-1200)/2
-                            padding:[0,100,]
-                            Carousel:
-                                size_hint:None,None
-                                size:1200,410
-                                loop: True
-                                scroll_timeout:200
-                                Image:
-                                    source:'img\\slider_1.png'
-                                    size_hint:None,None
-                                    size:1200,410
-                                Image:
-                                    source:'img\\slider_2.png'
-                                    size_hint:None,None
-                                    size:1200,410
-								Image:
-                                    source:'img\\slider_3.png'
-                                    size_hint:None,None
-                                    size:1200,410
-                        AnchorLayout:
-                            anchor_x: 'right'
-                            anchor_y: 'bottom'
-                            padding:[100,70,]
-                            Button:
-                                text:''
-                                size_hint:None,None
-                                size:151,105
-                                font_size:42
-                                background_normal:'img\\wifi_knopka.png'
-                                background_down:'img\\wifi_knopka.png'
-                                on_press: root.manager.current='FormAccess'
-#                                on_release: bl.popup.open()
-
-<ScreenWiFiForm>:
-    FloatLayout:
-        size: app.res_width, app.res_heigth
-        pos: 0, 0
-        canvas:
-            Color:
-                rgba: 0.97, 0.43, 0.08, 1
-            Rectangle:
-                pos: self.pos
-                size: self.size
-        Image:
-            size_hint: None, None
-            size: 115, 984
-            source: 'img\\pattern_1.png'
-            pos: 0 , (app.res_heigth - 984)/2
-        Image:
-            size_hint: None, None
-            size: 115, 984
-            source: 'img\\pattern_2.png'
-            pos: app.res_width-115 , (app.res_heigth - 984)/2
-        AnchorLayout:
-            anchor_x: 'center'
-            anchor_y: 'top'
-            size: app.res_width-230, app.res_heigth
-            BoxLayout:
-                orientation:'vertical'
-#                canvas:
-#                    Color:
-#                        rgba: 0.97, 0.43, 0.08, 1
-#                    Rectangle:
-#                        pos: self.pos
-#                        size: self.size
-                Image:
-                    source:'img\\logo_white_300x72.png'
-                    size_hint:1,None
-                    height:140
-                    padding:[0,20,0,28]
-                AnchorLayout:
-                    FormInput:
-                        id: imya
-                        hint_text:u'\u0418\u043C\u044F'
-                        padding_x:23
-                        padding_y:12
-                AnchorLayout:
-                    FormInput:
-                        id:prtn
-                        hint_text:u'\u041e\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u044f'
-                        padding_x:23
-                        padding_y:12
-                AnchorLayout:
-                    FormInput:
-                        id:mail
-                        hint_text:'e-mail'
-                        padding_x:23
-                        padding_y:12
-                AnchorLayout:
-                    anchor_x:'center'
-                    anchor_y:'center'
-                    size_hint:1,None
-                    height:450
-                    BoxLayout:
-                        orientation:'vertical'
-                        size_hint:None,None
-                        size:1450,400  #  1450 - ширина клавиатуры
-                        UniKeyboard:
-                            id:keyborda
-                            tablist:[u'\u0418\u043C\u044F',u'\u041e\u0440\u0433\u0430\u043D\u0438\u0437\u0430\u0446\u0438\u044f','e-mail']
-                AnchorLayout:
-                    anchor_x: 'right'
-                    anchor_y: 'bottom'
-                    Button:
-                        text:u'\u041D\u0430\u0437\u0430\u0434'
-                        size_hint:None,None
-                        size:151,105
-                        font_size:42
-                        on_press: root.manager.current='Menu'
 
 
 <ScreenBuklet>:
     BoxLayout:
         Button:
             text:u'\u0412\u0438\u0434\u0435\u043E'
-            on_press: root.manager.current='Video'
+            on_press: root.manager.current='Video';root.manager.start()
         Button:
             text:u'\u041D\u0430\u0437\u0430\u0434'
-            on_press: root.manager.current='Menu'
+            on_press: root.manager.current='Menu';root.manager.start()
 
 <ScreenVideo>:
     BoxLayout:
         Button:
             text:u'\u0411\u0443\u043A\u043B\u0435\u0442'
-            on_press: root.manager.current='Booklet'
+            on_press: root.manager.current='Booklet';root.manager.start()
         Button:
             text:u'\u041D\u0430\u0437\u0430\u0434'
-            on_press: root.manager.current='Menu'
+            on_press: root.manager.current='Menu';root.manager.start()
 
 <Manager>:
     id: screen_manager
     transition: FadeTransition()
-    ScreenChoise:
-        id: choise
-        name:'Language selection'
+    ScreenChoice:
+        id: choice
+        name: 'Language selection'
         manager: screen_manager
 
     ScreenMenu:
@@ -369,11 +51,16 @@
         manager: screen_manager
 
     ScreenWiFiForm:
-        id:wifiform
-        name:'FormAccess'
+        id: wifiform
+        name: 'FormAccess'
         manager: screen_manager
 
     ScreenWiFiInfo:
-        id:dostup
-        name:'Access'
+        id: dostup
+        name: 'Access'
+        manager: screen_manager
+
+    ScreenAnketa1:
+        id: anketa1
+        name: 'Anketa1page'
         manager: screen_manager

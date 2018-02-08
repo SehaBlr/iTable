@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{dc82ee3c-393a-4a3c-b103-2d108a6a20cd}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>
+    </StartupFile>
+    <SearchPath />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <InterpreterId />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="font\ARIALUNI.TTF" />
+    <Content Include="font\education-48.ttf" />
+    <Content Include="font\FreeSans.ttf" />
+    <Content Include="font\PT_Sans-Web-Bold.ttf" />
+    <Content Include="font\PT_Sans-Web-BoldItalic.ttf" />
+    <Content Include="font\PT_Sans-Web-Italic.ttf" />
+    <Content Include="font\PT_Sans-Web-Regular.ttf" />
+    <Content Include="font\PT_Sans_Narrow-Bold.ttf" />
+    <Content Include="font\PT_Sans_Narrow-Regular.ttf" />
+    <Content Include="img\btn.png" />
+    <Content Include="img\btn_k.png" />
+    <Content Include="img\btn_k_press.png" />
+    <Content Include="img\btn_press.png" />
+    <Content Include="img\logo_white.png" />
+    <Content Include="img\logo_white_300x72.png" />
+    <Content Include="img\pattern_1.png" />
+    <Content Include="img\pattern_2.png" />
+    <Content Include="img\slider_1.png" />
+    <Content Include="img\slider_2.png" />
+    <Content Include="img\slider_3.png" />
+    <Content Include="img\wifi_knopka.png" />
+    <Content Include="screens.kv" />
+    <Content Include="video\uniflex.mp4" />
+    <Content Include="video\uniflex_presentation_.mp4" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="main.py" />
+    <Compile Include="unikeyboard.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="font" />
+    <Folder Include="img" />
+    <Folder Include="video" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
+</Project>

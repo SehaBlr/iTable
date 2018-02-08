@@ -1,0 +1,139 @@
+# -*- coding: utf-8 -*-
+# wifiinfo.kv
+#:include kv\unikeyboard.kv
+
+
+<FormInput>:
+    size_hint: None,None
+    size:800,80
+    font_name:'font\\PT_Sans_Narrow-Regular'
+    foreground_color:[0, 0, 0, 1]
+    background_color: [1, 1, 1, 1]
+    font_size:42
+    multiline: False
+
+
+<ScreenWiFiForm>:
+    FloatLayout:
+        size: 1920, 1080
+        pos: 0, 0
+        canvas:
+            Color:
+                rgba: 0.97, 0.43, 0.08, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        Image:
+            size_hint: None, None
+            size: 115, 984
+            source: 'img\\pattern_1.png'
+            pos: 0, 48
+        Image:
+            size_hint: None, None
+            size: 115, 984
+            source: 'img\\pattern_2.png'
+            pos: 1805, 48
+        AnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'top'
+            BoxLayout:
+                orientation:'vertical'
+                AnchorLayout:
+                    anchor_x: 'center'
+                    anchor_y: 'center'
+                    size_hint:1,None
+                    height:132
+                    Image:
+                        source:'img\\logo_white_300x72.png'
+                        size_hint:None,None
+                        size: 300, 72
+                AnchorLayout:
+                    anchor_x: 'center'
+                    anchor_y: 'bottom'
+                    size_hint:1,None
+                    height:98
+                    Label:
+                        font_name:'font\\PT_Sans_Narrow-Regular'
+                        font_size:36
+                        text:app.uni_text(app.interface_lang,'wififormtext')
+                AnchorLayout:
+                    anchor_x: 'center'
+                    anchor_y: 'bottom'
+                    BoxLayout:
+                        orientation:'horizontal'
+                        size_hint:None,None
+                        size: 1450,341
+                        BoxLayout:
+                            orientation:'vertical'
+                            size_hint:None,1
+                            padding: [200,0,0,0]
+                            width:1000
+                            AnchorLayout:
+                                anchor_y:'center'
+                                FormInput:
+                                    id: imya
+                                    hint_text:app.uni_text(app.interface_lang,'wififormname')
+                                    padding_x:23
+                                    padding_y:12
+                            AnchorLayout:
+                                anchor_y:'center'
+                                FormInput:
+                                    id:prtn
+                                    hint_text:app.uni_text(app.interface_lang,'wififormprtn')
+                                    padding_x:23
+                                    padding_y:12
+                            AnchorLayout:
+                                anchor_y:'center'
+                                FormInput:
+                                    id:mail
+                                    hint_text:'e-mail'
+                                    padding_x:23
+                                    padding_y:12
+                        AnchorLayout:
+                            anchor_x: 'center'
+                            anchor_y: 'center'
+                            size_hint:None,1
+                            width: 450
+                            Button:
+                                text:app.uni_text(app.interface_lang,'wififormbutton')
+                                font_name:'font\\PT_Sans_Narrow-Regular'
+                                font_size:36
+                                size_hint: None, None
+                                size:250, 100
+                                background_normal:'img\\password_button_off.png'
+                                background_down:'img\\password_button_on.png'
+                                on_press:root.sendmail(root.manager)
+                AnchorLayout:
+                    anchor_x:'center'
+                    anchor_y:'center'
+                    size_hint:1,None
+                    height:489
+                    BoxLayout:
+                        orientation:'horizontal'
+                        size_hint:1,None
+                        height:400
+                        AnchorLayout:
+                            anchor_x: 'left'
+                            anchor_y: 'bottom'
+                            size_hint:None,None
+                            size:235,400
+                        BoxLayout:
+                            orientation:'vertical'
+                            size_hint:None,None
+                            size:1450,400  #  1450 - ширина клавиатуры
+                            UniKeyboard:
+                                id:keyborda
+                                tablist:['imya','prtn','mail']
+                                idslist:root.ids.items()
+                        AnchorLayout:
+                            anchor_x: 'center'
+                            anchor_y: 'bottom'
+                            size_hint:None,None
+                            size:235,400
+                            Button:
+                                text:''
+                                size_hint:None,None
+                                size:101,64
+                                background_normal:'img\\back.png'
+                                background_down:'img\\back.png'
+                                on_press: root.manager.current='Menu'

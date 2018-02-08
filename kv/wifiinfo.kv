@@ -1,0 +1,68 @@
+# -*- coding: utf-8 -*-
+# wifiinfo.kv
+
+<ScreenWiFiInfo>:
+    FloatLayout:
+        size: 1920, 1080
+        pos: 0, 0
+        canvas:
+            Color:
+                rgba: 0.97, 0.43, 0.08, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        Image:
+            size_hint: None, None
+            size: 115, 984
+            source: 'img\\pattern_1.png'
+            pos: 0, 48
+        Image:
+            size_hint: None, None
+            size: 115, 984
+            source: 'img\\pattern_2.png'
+            pos: 1805, 48
+        BoxLayout:
+            orientation:'vertical'
+            AnchorLayout:
+                anchor_x: 'center'
+                anchor_y: 'center'
+                size_hint: 1, None
+                height: 132
+                Image:
+                    source: 'img\\logo_white_300x72.png'
+                    size_hint: None, None
+                    size: 300, 72
+            Label:
+                size_hint: 1, None
+                height:200
+                font_name:'font\\PT_Sans_Narrow-Regular'
+                font_size:36
+                text:app.uni_text(app.interface_lang,'wififormgraci')
+            Label:
+                size_hint: 1, None
+                height:348
+                font_name:'font\\PT_Sans_Narrow-Regular'
+                font_size:36
+                line_height: 2
+                markup: True
+                text:app.uni_text(app.interface_lang,'wifinfoaccess').format(root.manager.login,root.manager.password)
+            Label:
+                size_hint: 1, None
+                height: 320
+                font_name: 'font\\PT_Sans_Narrow-Regular'
+                font_size: 36
+                halign: 'center'
+                text:app.uni_text(app.interface_lang,'wififormattention')
+            AnchorLayout:
+                anchor_x: 'right'
+                anchor_y: 'bottom'
+                size_hint:1,None
+                height: 80
+                padding:[0,0,50,16]
+                Button:
+                    text:''
+                    size_hint:None,None
+                    size:101,64
+                    background_normal:'img\\back.png'
+                    background_down:'img\\back.png'
+                    on_press: root.manager.current='Menu';root.manager.start()
