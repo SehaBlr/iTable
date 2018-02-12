@@ -24,6 +24,7 @@ import sys
 import os
 import codecs
 import timer
+from datetime import datetime as dt
 from email.mime.text import MIMEText
 from email.header    import Header
 
@@ -214,6 +215,22 @@ class ScreenAnketa1(Screen):
     pass
 
 
+class ScreenAnketa2(Screen):
+    pass
+
+
+class ScreenAnketa3(Screen):
+    pass
+
+
+class ScreenAnketa4(Screen):
+    pass
+
+
+class ScreenAnketa5(Screen):
+    pass
+
+
 class ScreensApp(App):
     interface_lang = StringProperty()
 
@@ -226,6 +243,10 @@ class ScreensApp(App):
             return(logdict[interface][lang])
         except:
             return ('!%%%%%!')
+
+    def log_using(self,current):
+        now = dt.now()
+        print(f'{now:%d.%m.%Y %H:%M} запушен {current}')
 
     def build(self):
         return Manager()
