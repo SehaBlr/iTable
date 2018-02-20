@@ -1,0 +1,111 @@
+# -*- coding: utf-8 -*-
+# anketa4.kv
+# 4 page anketa
+
+<ScreenAnketa4>:
+    GridLayout:
+        cols: 2
+        canvas:
+            Color:
+                rgba: 0.97, 0.43, 0.08, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.2,1
+            canvas:
+                Color:
+                    rgba: 0.31,0.31,0.31,1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Image:
+                source:'img\\logo_white_300x72.png'
+            Button:
+                text:app.uni_text(app.interface_lang,'anketamenu1')
+                halign:'center'
+                font_name:'font\\PT_Sans_Narrow-Bold'
+                font_size:42
+            Label:
+                text:app.uni_text(app.interface_lang,'anketamenu2')
+                halign:'center'
+                font_name:'font\\PT_Sans_Narrow-Bold'
+                font_size:42
+            Button:
+                text:app.uni_text(app.interface_lang,'anketamenu3')
+                halign:'center'
+                font_name:'font\\PT_Sans_Narrow-Bold'
+                font_size:42
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.8,1
+            padding:[40,0,40,0]
+            Label:
+                text: app.uni_text(app.interface_lang,'anketa4intro')
+                font_name:'font\\PT_Sans_Narrow-Bold'
+                text_size: self.size
+                size_hint_y: None
+                height: 120
+                halign: 'left'
+                valign: 'middle'
+                font_size:32
+                halign:'left'
+            TextInput:
+                id: a4q1
+                font_name:'font\\PT_Sans_Narrow-Regular'
+                foreground_color:[0, 0, 0, 1]
+                background_color: [1, 1, 1, 1]
+                font_size:42
+                multiline: True
+            UniKeyboard:
+                size_hint: None, None
+                size: 1450, 400  #  1450 - ширина клавиатуры
+                id: keyborda
+                tablist: []
+                idslist:root.ids.items()
+            BoxLayout:
+                orientation: 'horizontal'
+                size_hint:1,None
+                height:150
+                Widget:
+                    size_hint: .3, 1
+                    width: 650
+                AnchorLayout:
+                    size_hint: .2, 1
+                    width: 200
+                    Button:
+                        text: app.uni_text(app.interface_lang,'back').upper()
+                        size_hint:None,None
+                        size:193,66
+                        font_name:'font\\PT_Sans_Narrow-Regular'
+                        font_size:32
+                        background_normal:'img\\btn_k.png'
+                        background_down:'img\\btn_k_press.png'
+                        on_press: root.manager.current='Anketa3page';root.manager.start()
+                AnchorLayout:
+                    size_hint: .2, 1
+                    width: 200
+                    Button:
+                        text: app.uni_text(app.interface_lang,'forward').upper()
+                        size_hint:None,None
+                        size:193,66
+                        font_name:'font\\PT_Sans_Narrow-Regular'
+                        font_size:32
+                        background_normal:'img\\btn_k.png'
+                        background_down:'img\\btn_k_press.png'
+                        on_press: root.manager.current='Anketa5page';root.manager.start()
+                Widget:
+                    size_hint: .1, 1
+                    width: 650
+                AnchorLayout:
+                    size_hint: .2, 1
+                    width: 200
+                    Button:
+                        text:''
+                        size_hint:None,None
+                        size:101,64
+                        background_normal:'img\\back.png'
+                        background_down:'img\\back.png'
+                        on_press: root.manager.current='Menu';root.manager.start()

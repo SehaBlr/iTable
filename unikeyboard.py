@@ -8,12 +8,12 @@ from itertools import cycle
 class UniKeyboard(StackLayout):
 
     mem_focus=StringProperty()
-    current_lang=StringProperty('EN')
+    current_lang=StringProperty('RU')
     num_keyboard=BooleanProperty(False)
     tablist=ListProperty([])
     idslist = ListProperty([])
     keyaction=ListProperty([u'\u0531', u'\u2936', '123', 'RU', 'EN', u'\u232B','ABC'])
-    upper=BooleanProperty(False)
+    upper=BooleanProperty(True)
 
 class Key(Button,FocusBehavior,EventDispatcher):
 
@@ -130,6 +130,7 @@ class Key(Button,FocusBehavior,EventDispatcher):
                 if k==hint:
                     v.focus = True
                     v.select_all()
+
                     return True
                     break
             except:

@@ -4,6 +4,7 @@ import kivy
 from kivy.app import App
 
 from kivy.core.window import Window
+from kivy.properties import *
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.behaviors.cover import CoverBehavior
 from kivy.uix.behaviors.focus import FocusBehavior
@@ -14,16 +15,15 @@ from kivy.uix.video import Video
 from kivy.clock import Clock
 from kivy.properties import ObjectProperty
 from functools import partial
-from kivy.properties import *
 import unikeyboard
 import re
-import conf
 import json
 import smtplib
 import sys
 import os
 import codecs
 import timer
+import win32net
 from datetime import datetime as dt
 from email.mime.text import MIMEText
 from email.header    import Header
@@ -36,9 +36,34 @@ from email.header    import Header
 
 glob_tim = ObjectProperty(None)
 
+
+class Manager(ScreenManager):
+
+    login = StringProperty()
+    password = StringProperty()
+    access = ReferenceListProperty(login, password)
+
+    def my_callback(self, dt):
+        if self.current == 'Access':
+            self.current = 'Menu'
+            self.start()
+        else:
+            self.current = 'Language selection'
+
+
+    def start(self):
+        global glob_tim
+        try:
+            glob_tim.cancel()
+        except:
+            print('нет таймера')
+        glob_tim = Clock.schedule_once(self.my_callback, 120)
+
+
 class ScreenMenu(Screen):
 
-    def open_wifi_form(self, manager):
+    @staticmethod
+    def open_wifi_form(manager):
         global glob_tim
         manager.current = 'FormAccess'
         manager.ids.wifiform.ids.imya.text = ''
@@ -47,19 +72,6 @@ class ScreenMenu(Screen):
         manager.ids.wifiform.ids.imya.background_color = [1, 1, 1, 1]
         manager.ids.wifiform.ids.prtn.background_color = [1, 1, 1, 1]
         manager.ids.wifiform.ids.mail.background_color = [1, 1, 1, 1]
-
-
-
-    def uni_text_b(self,lang,interface):
-        filepath=os.getcwd()+'\\json\\text.json'
-        jsonfile = codecs.open(filepath, 'r','utf-8')
-        logdict = json.load(jsonfile)
-        jsonfile.close()
-        try:
-            return(logdict[interface][lang])
-        except:
-            return ('!%%%%%!')
-
 
 
 class ScreenBuklet(Screen):
@@ -71,6 +83,11 @@ class ScreenVideo(Screen):
 
 
 class ScreenWiFiForm(Screen):
+
+    def __init__(self, **kwargs):
+        super(ScreenWiFiForm, self).__init__(**kwargs)
+        self.login = ''
+        self.password = ''
 
     def sendmail(self, manager):
 
@@ -101,77 +118,50 @@ class ScreenWiFiForm(Screen):
         if a+b+c == 3:
             manager.current = 'Access'
             manager.access = self.getconnect()
+            # TODO В случае получения тапла с пустыпи логином и паролем, отрисовывать лейбл с информацией
 
-
-
-
-
-    def getconnect(self):
-        tolist = ['smarkov@uniflex.by','nyankovskaya@a.uniflex.by']
-        jsonfile = open('pswd.json', 'r')
+    @staticmethod
+    def getconnect():
+        tolist = App.get_running_app().config.get('mail','maillist').split(';')
+        smtp = App.get_running_app().config.get('mail','smtpip')
+        port = App.get_running_app().config.get('mail', 'smtpport')
+        sending = App.get_running_app().config.getint('mail', 'sendmail')
+        filepath = App.get_running_app().config.get('mail', 'filepath')
+        jsonfile = open(filepath, 'r')
         logdict = json.load(jsonfile)
-        self.login = ''
-        self.password = ''
+        countpassword = len(logdict)
+        # TODO Если countpassword меньше, например, пяти, то отсылать письмо админам, о том, что паролей осталось мало
         jsonfile.close()
-        ind = -1
-        for i, x in enumerate(logdict):
-            if x['used'] == 1:
-                self.login = x['login']
-                self.password = x['password']
-                msg = "\n\n\nLogin: {}\n  Password: {}".format(self.login, self.password)
-                # self.loginpassword.text = msg
-                # self.add_widget(self.algpw)
-                mail = MIMEText(msg,'plain','utf-8')
-                mail['Subject'] = Header('Запрос пароля к Wi-Fi c iTable','utf-8')
-                mail['From'] = 'itable@uniflex.by'
-                mail['To'] = ", ".join(tolist)
-
-                ind = i
-                break
-            else:
-                continue
-        else:
-            self.login = ''
-            self.password = ''
-        # s = smtplib.SMTP('192.168.64.5', '25')
-        # s.starttls()
-        # s.sendmail(mail['From'], tolist, mail.as_string())
-        # s.quit()
-        if ind != -1:
-            logdict[ind]['used'] = 0
-            jsonfile = open("pswd.json", "w+")
+        if logdict:
+            x=logdict.pop()
+            login = x['login']
+            password = x['password']
+            date = x['date']
+            msg = "\nLogin: {}\n  Password: {}".format(login, password)
+            mail = MIMEText(msg, 'plain', 'utf-8')
+            mail['Subject'] = Header('Запрос пароля к Wi-Fi c iTable', 'utf-8')
+            mail['From'] = 'itable@uniflex.by'
+            mail['To'] = ", ".join(tolist)
+            if sending:
+                try:
+                    s = smtplib.SMTP(smtp, port)
+                    s.starttls()
+                    s.sendmail(mail['From'], tolist, mail.as_string())
+                    s.quit()
+                except:
+                    print('Не сработала отправка почты')
+            jsonfile = open(filepath, "w+")
             jsonfile.write(json.dumps(logdict))
             jsonfile.close()
-        return (self.login,self.password)
+        else:
+            login = ''
+            password = ''
+
+        return login, password
 
 
 class ScreenWiFiInfo(Screen):
     pass
-
-
-
-class Manager(ScreenManager):
-
-    login = StringProperty()
-    password = StringProperty()
-    access = ReferenceListProperty(login, password)
-
-    def my_callback(self,dt):
-        if self.current=='Access':
-            self.current = 'Menu'
-            self.start()
-        else:
-            self.current='Language selection'
-
-
-    def start(self):
-        global glob_tim
-        try:
-            glob_tim.cancel()
-        except:
-            print('нет таймера')
-        glob_tim=Clock.schedule_once(self.my_callback, 120)
-
 
 
 class LangButton(Button):
@@ -234,9 +224,10 @@ class ScreenAnketa5(Screen):
 class ScreensApp(App):
     interface_lang = StringProperty()
 
-    def uni_text(self,lang,interface):
-        filepath=os.getcwd()+'\\json\\text.json'
-        jsonfile = codecs.open(filepath, 'r','utf-8')
+    @staticmethod
+    def uni_text(lang, interface):
+        filepath = os.getcwd() + '\\json\\text.json'
+        jsonfile = codecs.open(filepath, 'r', 'utf-8')
         logdict = json.load(jsonfile)
         jsonfile.close()
         try:
@@ -244,13 +235,20 @@ class ScreensApp(App):
         except:
             return ('!%%%%%!')
 
-    def log_using(self,current):
+    def log_using(self, current):
         now = dt.now()
-        print(f'{now:%d.%m.%Y %H:%M} запушен {current}')
+        print(f'[{now:%d.%m.%Y %H:%M}] start screen {current}')
 
     def build(self):
+        config = self.config
         return Manager()
 
+    def build_config(self, config):
+        config.setdefaults('mail', {'smtpip': '192.168.0.1',
+                                    'smtpport': '42',
+                                    'maillist': 'mail@domain.com; mail2@domain.com',
+                                    'filepath': '',
+                                    'sendmail': '0'})
 
 
 if __name__ == '__main__':
