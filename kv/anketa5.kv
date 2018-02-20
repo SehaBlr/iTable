@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+#:kivy 1.10.0
 # anketa5.kv
 # 5 page anketa
 
@@ -41,12 +41,30 @@
         BoxLayout:
             orientation: 'vertical'
             size_hint: 0.8,1
+            padding:[40,0,40,0]
             Label:
-                text: app.uni_text(app.interface_lang,'anketa1intro')
-                size_hint: 1, .4
+                text: app.uni_text(app.interface_lang,'anketa5intro')
+                font_name:'font\\PT_Sans_Narrow-Bold'
+                text_size: self.size
+                size_hint_y: None
+                height: 120
+                halign: 'left'
+                valign: 'middle'
+                font_size:32
+                halign:'left'
+            TextInput:
+                id: a4q1
                 font_name:'font\\PT_Sans_Narrow-Regular'
-                font_size:34
-                halign:'center'
+                foreground_color:[0, 0, 0, 1]
+                background_color: [1, 1, 1, 1]
+                font_size:42
+                multiline: True
+            UniKeyboard:
+                size_hint: None, None
+                size: 1450, 400  #  1450 - ширина клавиатуры
+                id: keyborda
+                tablist: []
+                idslist:root.ids.items()
             BoxLayout:
                 orientation: 'horizontal'
                 size_hint:1,None
@@ -58,9 +76,13 @@
                     size_hint: .2, 1
                     width: 200
                     Button:
-                        text:''
+                        text: app.uni_text(app.interface_lang,'back').upper()
                         size_hint:None,None
-                        size:101,64
+                        size:193,66
+                        font_name:'font\\PT_Sans_Narrow-Regular'
+                        font_size:32
+                        background_normal:'img\\btn_k.png'
+                        background_down:'img\\btn_k_press.png'
                         on_press: root.manager.current='Anketa4page';root.manager.start()
                 Widget:
                     size_hint: .2, 1

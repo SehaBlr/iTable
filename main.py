@@ -91,26 +91,38 @@ class ScreenWiFiForm(Screen):
 
     def sendmail(self, manager):
 
-        print(self.ids.imya.text)
-        print(self.ids.prtn.text)
-        print(self.ids.mail.text)
         if re.match(r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)', self.ids.mail.text):
             self.ids.mail.background_color = [1, 1, 1, 1]
+            self.ids.mail_error.text = u''
             a = 1
-        else:
+        else: # TODO Тексты ошибок надо убрать в json и вытягивать значение для определённого языка
             self.ids.mail.background_color = [1, .7, .7, 1]
+            if len(self.ids.mail.text):
+                self.ids.mail_error.text = u'e-mail заполнен некорректно'
+            else:
+                self.ids.mail_error.text = u'Необходимо заполнить e-mail'
             a = 0
         if len(self.ids.imya.text) >= 2:
             self.ids.imya.background_color = [1, 1, 1, 1]
+            self.ids.imya_error.text = u''
             b = 1
         else:
             self.ids.imya.background_color = [1, .7, .7, 1]
+            if len(self.ids.imya.text):
+                self.ids.imya_error.text = u'Имя заполнено некорректно'
+            else:
+                self.ids.imya_error.text = u'Необходимо ввести Ваше имя'
             b = 0
         if len(self.ids.prtn.text) >= 2:
             self.ids.prtn.background_color = [1, 1, 1, 1]
+            self.ids.prtn_error.text = u''
             c = 1
         else:
             self.ids.prtn.background_color = [1, .7, .7, 1]
+            if len(self.ids.prtn.text):
+                self.ids.prtn_error.text = u'Наименование организации заполнено некорректно'
+            else:
+                self.ids.prtn_error.text = u'Необходимо заполнить наименование Вашей организации'
             c = 0
         # Проверка на заполнение полей, если всё
         # нормально слать почту и генерить пароль
@@ -165,10 +177,6 @@ class ScreenWiFiInfo(Screen):
 
 
 class LangButton(Button):
-    pass
-
-
-class FormInput(TextInput):
     pass
 
 
