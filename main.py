@@ -9,6 +9,7 @@ from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.behaviors.cover import CoverBehavior
 from kivy.uix.behaviors.focus import FocusBehavior
 from kivy.uix.button import Button
+from kivy.atlas import Atlas
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.video import Video
@@ -174,20 +175,6 @@ class ScreenWiFiForm(Screen):
 
 class ScreenWiFiInfo(Screen):
     pass
-
-
-class LangButton(Button):
-    pass
-
-
-class WiFiButton(Button):
-
-    def __init__(self, **kwargs):
-        super(WiFiButton, self).__init__(**kwargs)
-        self.size_hint = (0.5, None)
-        self.height = 100
-        self.text = 'Получить доступ к Wi-Fi'
-        self.font_size = 32
 
 
 class ScreenChoice(CoverBehavior, Video, AnchorLayout, Screen):

@@ -1,6 +1,9 @@
 #:kivy 1.10.0
 # anketa3.kv
 # 3 page anketa
+<Radio@CheckBox>:
+    background_radio_down:'img\\radio_checked.png'
+    background_radio_normal:'img\\radio.png'
 
 <ScreenAnketa3>:
     GridLayout:
@@ -41,219 +44,261 @@
             orientation: 'vertical'
             size_hint: 0.8,1
             padding:[120,0,80,0]
-            
-            Label:
-                text: app.uni_text(app.interface_lang,'anketa3intro2')
-                font_name:'font\\PT_Sans_Narrow-Bold'
-                text_size: self.size
-                size_hint_y: None
-                height: 60
-                halign: 'left'
-                valign: 'middle'
-                font_size:32
-                halign:'left'
-            Label:
-                text: app.uni_text(app.interface_lang,'anketa3intro2a')
-                font_name:'font\\PT_Sans_Narrow-Regular'
-                text_size: self.size
-                size_hint_y: None
-                height: 30
-                halign: 'left'
-                valign: 'middle'
-                font_size:24
-                halign:'left'
-            GridLayout:
-                cols: 6
-                Widget:
-                    size_hint_x: None
-                    width: 500
+            BoxLayout:
+                orientation:'vertical'
+                size_hint:1, 0.65
+                padding:[0,80,0,0]
                 Label:
-                    text:app.uni_text(app.interface_lang,'anketa3v5')
-                    halign:'center'
-                    font_name:'font\\PT_Sans_Narrow-Regular'
-                    font_size:28
+                    text: app.uni_text(app.interface_lang,'anketa3intro2')
+                    font_name:'font\\PT_Sans_Narrow-Bold'
+                    text_size: self.size
+                    size_hint_y: None
+                    height: 60
+                    halign: 'left'
+                    valign: 'middle'
+                    font_size:32
+                    halign:'left'
                 Label:
-                    text:app.uni_text(app.interface_lang,'anketa3v6')
-                    halign:'center'
+                    text: app.uni_text(app.interface_lang,'anketa3intro2a')
                     font_name:'font\\PT_Sans_Narrow-Regular'
-                    font_size:28
-                Label:
-                    text:app.uni_text(app.interface_lang,'anketa3v7')
-                    halign:'center'
-                    font_name:'font\\PT_Sans_Narrow-Regular'
-                    font_size:28
-                Label:
-                    text:app.uni_text(app.interface_lang,'anketa3v8')
-                    halign:'center'
-                    font_name:'font\\PT_Sans_Narrow-Regular'
-                    font_size:28
+                    text_size: self.size
+                    size_hint_y: None
+                    height: 30
+                    halign: 'left'
+                    valign: 'middle'
+                    font_size:24
+                    halign:'left'
+                GridLayout:
+                    cols: 6
+                    padding:[0,20,0,0]
+                    Widget:
+                        size_hint_x: None
+                        width: 500
+                    Label:
+                        text:app.uni_text(app.interface_lang,'anketa3v5')
+                        halign:'center'
+                        font_name:'font\\PT_Sans_Narrow-Regular'
+                        font_size:28
+                    Label:
+                        text:app.uni_text(app.interface_lang,'anketa3v6')
+                        halign:'center'
+                        font_name:'font\\PT_Sans_Narrow-Regular'
+                        font_size:28
+                    Label:
+                        text:app.uni_text(app.interface_lang,'anketa3v7')
+                        halign:'center'
+                        font_name:'font\\PT_Sans_Narrow-Regular'
+                        font_size:28
+                    Label:
+                        text:app.uni_text(app.interface_lang,'anketa3v8')
+                        halign:'center'
+                        font_name:'font\\PT_Sans_Narrow-Regular'
+                        font_size:28
 
+                    Label:
+                        text:app.uni_text(app.interface_lang,'anketa3v9')
+                        halign:'center'
+                        font_name:'font\\PT_Sans_Narrow-Regular'
+                        font_size:28
+                    Label:
+                        text:app.uni_text(app.interface_lang,'anketa3q1')
+                        size_hint_x: None
+                        width: 500
+                        text_size: self.size
+                        halign:'left'
+                        font_name:'font\\PT_Sans_Narrow-Regular'
+                        font_size:28
+                    Radio:
+                        id: a3q1v5
+                        group: 'q8'
+                        
+                    Radio:
+                        id: a3q1v6
+                        group: 'q8'
+                    Radio:
+                        id: a3q1v2
+                        group: 'q8'
+                    Radio:
+                        id: a3q1v3
+                        group: 'q8'
+                    Radio:
+                        id: a3q1v4
+                        group: 'q8'
+                    Label:
+                        text:app.uni_text(app.interface_lang,'anketa3q2')
+                        size_hint_x: None
+                        text_size: self.size
+                        width: 500
+                        halign:'left'
+                        font_name:'font\\PT_Sans_Narrow-Regular'
+                        font_size:28
+                    Radio:
+                        id: a3q2v5
+                        group: 'q9'
+                    Radio:
+                        id: a3q2v6
+                        group: 'q9'
+                    Radio:
+                        id: a3q2v2
+                        group: 'q9'
+                    Radio:
+                        id: a3q2v3
+                        group: 'q9'
+                    Radio:
+                        id: a3q2v4
+                        group: 'q9'
+                    Label:
+                        text:app.uni_text(app.interface_lang,'anketa3q3')
+                        size_hint_x: None
+                        text_size: self.size
+                        width: 500
+                        halign:'left'
+                        font_name:'font\\PT_Sans_Narrow-Regular'
+                        font_size:28
+                    Radio:
+                        id: a3q3v5
+                        group: 'q10'
+                    Radio:
+                        id: a3q3v6
+                        group: 'q10'
+                    Radio:
+                        id: a3q3v7
+                        group: 'q10'
+                    Radio:
+                        id: a3q3v8
+                        group: 'q10'
+                    Radio:
+                        id: a3q3v9
+                        group: 'q10'
+                    Label:
+                        text:app.uni_text(app.interface_lang,'anketa3q4')
+                        size_hint_x: None
+                        text_size: self.size
+                        width: 500
+                        halign:'left'
+                        font_name:'font\\PT_Sans_Narrow-Regular'
+                        font_size:28
+                    Radio:
+                        id: a3q4v5
+                        group: 'q11'
+                    Radio:
+                        id: a3q4v6
+                        group: 'q11'
+                    Radio:
+                        id: a3q4v7
+                        group: 'q11'
+                    Radio:
+                        id: a3q4v8
+                        group: 'q11'
+                    Radio:
+                        id: a3q4v9
+                        group: 'q11'
+                    Label:
+                        text:app.uni_text(app.interface_lang,'anketa3q5')
+                        size_hint_x: None
+                        text_size: self.size
+                        width: 500
+                        halign:'left'
+                        font_name:'font\\PT_Sans_Narrow-Regular'
+                        font_size:28
+                    Radio:
+                        id: a3q5v5
+                        group: 'q12'
+                    Radio:
+                        id: a3q5v6
+                        group: 'q12'
+                    Radio:
+                        id: a3q5v7
+                        group: 'q12'
+                    Radio:
+                        id: a3q5v8
+                        group: 'q12'
+                    Radio:
+                        id: a3q5v9
+                        group: 'q12'
+                    Label:
+                        text:app.uni_text(app.interface_lang,'anketa3q6')
+                        size_hint_x: None
+                        text_size: self.size
+                        width: 500
+                        halign:'left'
+                        font_name:'font\\PT_Sans_Narrow-Regular'
+                        font_size:28
+                    Radio:
+                        id: a3q6v5
+                        group: 'q13'
+                    Radio:
+                        id: a3q6v6
+                        group: 'q13'
+                    Radio:
+                        id: a3q6v7
+                        group: 'q13'
+                    Radio:
+                        id: a3q6v8
+                        group: 'q13'
+                    Radio:
+                        id: a3q6v9
+                        group: 'q13'
+                    Label:
+                        text:app.uni_text(app.interface_lang,'anketa3q7')
+                        size_hint_x: None
+                        text_size: self.size
+                        width: 500
+                        halign:'left'
+                        font_name:'font\\PT_Sans_Narrow-Regular'
+                        font_size:28
+                    Radio:
+                        id: a3q7v5
+                        group: 'q14'
+                    Radio:
+                        id: a3q7v6
+                        group: 'q14'
+                    Radio:
+                        id: a3q7v7
+                        group: 'q14'
+                    Radio:
+                        id: a3q7v8
+                        group: 'q14'
+                    Radio:
+                        id: a3q7v9
+                        group: 'q14'
+            
+            BoxLayout:
+                orientation:'vertical'
+                size_hint:1, 0.35
+                padding:[0,60,0,0]
                 Label:
-                    text:app.uni_text(app.interface_lang,'anketa3v9')
-                    halign:'center'
-                    font_name:'font\\PT_Sans_Narrow-Regular'
-                    font_size:28
-                Label:
-                    text:app.uni_text(app.interface_lang,'anketa3q1')
-                    size_hint_x: None
-                    width: 500
+                    text: app.uni_text(app.interface_lang,'anketa3intro3')
+                    font_name:'font\\PT_Sans_Narrow-Bold'
                     text_size: self.size
+                    size_hint_y: None
+                    height: 60
+                    halign: 'left'
+                    valign: 'middle'
+                    font_size:32
                     halign:'left'
-                    font_name:'font\\PT_Sans_Narrow-Regular'
-                    font_size:28
-                CheckBox:
-                    id: a3q1v5
-                    group: 'q8'
-                CheckBox:
-                    id: a3q1v6
-                    group: 'q8'
-                CheckBox:
-                    id: a3q1v2
-                    group: 'q8'
-                CheckBox:
-                    id: a3q1v3
-                    group: 'q8'
-                CheckBox:
-                    id: a3q1v4
-                    group: 'q8'
                 Label:
-                    text:app.uni_text(app.interface_lang,'anketa3q2')
-                    size_hint_x: None
-                    text_size: self.size
-                    width: 500
-                    halign:'left'
+                    text: app.uni_text(app.interface_lang,'anketa3intro3a')
                     font_name:'font\\PT_Sans_Narrow-Regular'
-                    font_size:28
-                CheckBox:
-                    id: a3q2v5
-                    group: 'q9'
-                CheckBox:
-                    id: a3q2v6
-                    group: 'q9'
-                CheckBox:
-                    id: a3q2v2
-                    group: 'q9'
-                CheckBox:
-                    id: a3q2v3
-                    group: 'q9'
-                CheckBox:
-                    id: a3q2v4
-                    group: 'q9'
-                Label:
-                    text:app.uni_text(app.interface_lang,'anketa3q3')
-                    size_hint_x: None
                     text_size: self.size
-                    width: 500
+                    size_hint_y: None
+                    height: 45
+                    halign: 'left'
+                    valign: 'middle'
+                    font_size:24
                     halign:'left'
-                    font_name:'font\\PT_Sans_Narrow-Regular'
-                    font_size:28
-                CheckBox:
-                    id: a3q3v5
-                    group: 'q10'
-                CheckBox:
-                    id: a3q3v6
-                    group: 'q10'
-                CheckBox:
-                    id: a3q3v7
-                    group: 'q10'
-                CheckBox:
-                    id: a3q3v8
-                    group: 'q10'
-                CheckBox:
-                    id: a3q3v9
-                    group: 'q10'
-                Label:
-                    text:app.uni_text(app.interface_lang,'anketa3q4')
-                    size_hint_x: None
-                    text_size: self.size
-                    width: 500
-                    halign:'left'
-                    font_name:'font\\PT_Sans_Narrow-Regular'
-                    font_size:28
-                CheckBox:
-                    id: a3q4v5
-                    group: 'q11'
-                CheckBox:
-                    id: a3q4v6
-                    group: 'q11'
-                CheckBox:
-                    id: a3q4v7
-                    group: 'q11'
-                CheckBox:
-                    id: a3q4v8
-                    group: 'q11'
-                CheckBox:
-                    id: a3q4v9
-                    group: 'q11'
-                Label:
-                    text:app.uni_text(app.interface_lang,'anketa3q5')
-                    size_hint_x: None
-                    text_size: self.size
-                    width: 500
-                    halign:'left'
-                    font_name:'font\\PT_Sans_Narrow-Regular'
-                    font_size:28
-                CheckBox:
-                    id: a3q5v5
-                    group: 'q12'
-                CheckBox:
-                    id: a3q5v6
-                    group: 'q12'
-                CheckBox:
-                    id: a3q5v7
-                    group: 'q12'
-                CheckBox:
-                    id: a3q5v8
-                    group: 'q12'
-                CheckBox:
-                    id: a3q5v9
-                    group: 'q12'
-                Label:
-                    text:app.uni_text(app.interface_lang,'anketa3q6')
-                    size_hint_x: None
-                    text_size: self.size
-                    width: 500
-                    halign:'left'
-                    font_name:'font\\PT_Sans_Narrow-Regular'
-                    font_size:28
-                CheckBox:
-                    id: a3q6v5
-                    group: 'q13'
-                CheckBox:
-                    id: a3q6v6
-                    group: 'q13'
-                CheckBox:
-                    id: a3q6v7
-                    group: 'q13'
-                CheckBox:
-                    id: a3q6v8
-                    group: 'q13'
-                CheckBox:
-                    id: a3q6v9
-                    group: 'q13'
-                Label:
-                    text:app.uni_text(app.interface_lang,'anketa3q7')
-                    size_hint_x: None
-                    text_size: self.size
-                    width: 500
-                    halign:'left'
-                    font_name:'font\\PT_Sans_Narrow-Regular'
-                    font_size:28
-                CheckBox:
-                    id: a3q7v5
-                    group: 'q14'
-                CheckBox:
-                    id: a3q7v6
-                    group: 'q14'
-                CheckBox:
-                    id: a3q7v7
-                    group: 'q14'
-                CheckBox:
-                    id: a3q7v8
-                    group: 'q14'
-                CheckBox:
-                    id: a3q7v9
-                    group: 'q14'
+                BoxLayout:
+                    Slider:
+                        id: anketa3q8
+                        step: 20
+                        size_hint:0.3, 1
+                    Label:
+                        text: '{} '.format(int(anketa3q8.value/20))
+                        font_name:'font\\PT_Sans_Narrow-Regular'
+                        font_size:48
+                        size_hint:0.1, 1
+                    Widget:
+                        size_hint:0.6, 1
 
             BoxLayout:
                 orientation: 'horizontal'
