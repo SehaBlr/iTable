@@ -14,7 +14,6 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.video import Video
 from kivy.clock import Clock
-from kivy.properties import ObjectProperty
 from functools import partial
 import unikeyboard
 import re
@@ -23,6 +22,7 @@ import smtplib
 import sys
 import os
 import codecs
+import csv
 import timer
 import win32net
 from datetime import datetime as dt
@@ -59,6 +59,37 @@ class Manager(ScreenManager):
         except:
             print('нет таймера')
         glob_tim = Clock.schedule_once(self.my_callback, 120)
+
+    def anketa_clear_info(self):
+        # self.ids.anketa1.ids.ank1q1.text = ''
+        # self.ids.anketa1.ids.ank1q2.text = ''
+        # self.ids.anketa1.ids.ank1q3.text = ''
+        # self.ids.anketa1.ids.ank1q4.text = ''
+        for v in self.ids.anketa1.ids:
+            try:
+                self.ids.anketa1.ids[v].text = ''
+            except:
+                pass
+        for v in self.ids.anketa2.ids:
+            try:
+                self.ids.anketa2.ids[v].active = False
+            except:
+                pass
+        for v in self.ids.anketa3.ids:
+            try:
+                self.ids.anketa3.ids[v].active = False
+            except:
+                pass
+        self.ids.anketa3.ids.anketa3q8.value = 0
+        self.ids.anketa4.ids.a4q1.text = ''
+        self.ids.anketa5.ids.a5q1.text = ''
+
+    def anketa_send_info(self):
+        with open('eggs.csv', 'w') as csvfile:
+            spamwriter = csv.writer(csvfile, delimiter=' ',
+                                    quotechar='|', quoting=csv.QUOTE_MINIMAL)
+            spamwriter.writerow(['Spam'] * 5 + ['Baked Beans'])
+            spamwriter.writerow(['Spam', 'Lovely Spam', 'Wonderful Spam'])
 
 
 class ScreenMenu(Screen):

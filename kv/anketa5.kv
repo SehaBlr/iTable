@@ -53,7 +53,7 @@
                 font_size:32
                 halign:'left'
             TextInput:
-                id: a4q1
+                id: a5q1
                 font_name:'font\\PT_Sans_Narrow-Regular'
                 foreground_color:[0, 0, 0, 1]
                 background_color: [1, 1, 1, 1]
@@ -70,7 +70,7 @@
                 size_hint:1,None
                 height:150
                 Widget:
-                    size_hint: .4, 1
+                    size_hint: .3, 1
                     width: 650
                 AnchorLayout:
                     size_hint: .2, 1
@@ -84,6 +84,18 @@
                         background_normal:'img\\btn_k.png'
                         background_down:'img\\btn_k_press.png'
                         on_press: root.manager.current='Anketa4page';root.manager.start()
+                AnchorLayout:
+                    size_hint: .2, 1
+                    width: 200
+                    Button:
+                        text: 'Отправить'
+                        size_hint:None,None
+                        size:193,66
+                        font_name:'font\\PT_Sans_Narrow-Regular'
+                        font_size:32
+                        background_normal:'img\\btn_k.png'
+                        background_down:'img\\btn_k_press.png'
+                        on_press: root.manager.current='Menu';root.manager.anketa_send_info()
                 Widget:
                     size_hint: .2, 1
                     width: 650
