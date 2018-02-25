@@ -101,6 +101,7 @@ ENV/
 .mypy_cache/
 .idea/
 .vs/
+.vscode/
 
 # video
 *.mp4
