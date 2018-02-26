@@ -4,7 +4,7 @@ import kivy
 from kivy.app import App
 
 from kivy.core.window import Window
-from kivy.properties import *
+from kivy.properties import ObjectProperty,StringProperty,ReferenceListProperty
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.behaviors.cover import CoverBehavior
 from kivy.uix.behaviors.focus import FocusBehavior
@@ -34,6 +34,9 @@ from email.header    import Header
 # TODO: ADD: Организовать подгрузку текста из JSON файла на выбранном языке из первой формы
 # TODO: Окно с данными доступа к Wifi
 # TODO: Настроить отправщик почты с кириллицей
+# Оранжевый  - 250, 110,  20
+# Серый      - 149, 179, 179
+# Графитовый -  77,  77,  77
 
 glob_tim = ObjectProperty(None)
 
@@ -61,10 +64,6 @@ class Manager(ScreenManager):
         glob_tim = Clock.schedule_once(self.my_callback, 120)
 
     def anketa_clear_info(self):
-        # self.ids.anketa1.ids.ank1q1.text = ''
-        # self.ids.anketa1.ids.ank1q2.text = ''
-        # self.ids.anketa1.ids.ank1q3.text = ''
-        # self.ids.anketa1.ids.ank1q4.text = ''
         for v in self.ids.anketa1.ids:
             try:
                 self.ids.anketa1.ids[v].text = ''
@@ -85,12 +84,63 @@ class Manager(ScreenManager):
         self.ids.anketa5.ids.a5q1.text = ''
 
     def anketa_send_info(self):
-        with open('eggs.csv', 'w') as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter=' ',
-                                    quotechar='|', quoting=csv.QUOTE_MINIMAL)
-            spamwriter.writerow(['Spam'] * 5 + ['Baked Beans'])
-            spamwriter.writerow(['Spam', 'Lovely Spam', 'Wonderful Spam'])
+        listing=[]
+        with open('data.csv', newline='') as csvfile:
+            reader = csv.reader(csvfile, delimiter=';')
+            for row in reader:
+                if row:
+                    listing.append(row)
 
+
+        anketa = [self.ids.anketa1.ids.ank1q1.text,self.ids.anketa1.ids.ank1q2.text,self.ids.anketa1.ids.ank1q3.text,self.ids.anketa1.ids.ank1q4.text]
+        anketa.append(self.anketa_product())
+        for i in range(2,9):
+            t = f'q{str(i)}'
+            anketa.append(self.anketa_satisfy(t))
+        for i in range(1,8):
+            t = f'q0{str(i)}'
+            anketa.append(self.anketa_change(t))
+        anketa.append(str(int((self.ids.anketa3.ids.anketa3q8.value)/20)))
+        anketa.append(self.ids.anketa4.ids.a4q1.text)
+        anketa.append(self.ids.anketa5.ids.a5q1.text)
+        listing.append(anketa)
+        # writer.writerow(anketa)
+        print(listing)
+        with open('data.csv', 'w') as csvfile:
+            writer = csv.writer(csvfile,  delimiter=';', lineterminator = '\n')
+            writer.writerows(listing)
+
+    def anketa_product(self):
+        prod = ''
+        if self.ids.anketa2.ids.anketa2q1r1.active:
+            prod += ScreensApp.uni_text('RU','anketa2q1r1') + ', '
+        if self.ids.anketa2.ids.anketa2q1r2.active:
+            prod += ScreensApp.uni_text('RU','anketa2q1r2') + ', '
+        if self.ids.anketa2.ids.anketa2q1r3.active:
+            prod += ScreensApp.uni_text('RU','anketa2q1r3') + ', '
+        if self.ids.anketa2.ids.anketa2q1r4.active:
+            prod += ScreensApp.uni_text('RU','anketa2q1r4') + ', '
+        return prod
+
+    def anketa_satisfy(self,group):
+        prod=''
+        dd = {}
+        for k, v in self.ids.anketa2.ids.items():
+            if k[2:4]==group:
+                if v.active:
+                    name_scores = f'anketa2{k[4:6]}'
+                    prod = ScreensApp.uni_text('RU',name_scores)
+        return prod
+
+    def anketa_change(self,group):
+        prod=''
+        dd = {}
+        for k, v in self.ids.anketa3.ids.items():
+            if k[2:5]==group:
+                if v.active:
+                    name_scores = f'anketa3{k[5:7]}'
+                    prod = ScreensApp.uni_text('RU',name_scores)
+        return prod
 
 class ScreenMenu(Screen):
 

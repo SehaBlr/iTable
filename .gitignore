@@ -105,3 +105,6 @@ ENV/
 
 # video
 *.mp4
+
+*.csv
+screens.ini

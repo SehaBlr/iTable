@@ -68,7 +68,8 @@ class Key(Button,FocusBehavior,EventDispatcher):
             try:
                 if k==self.parent.mem_focus:
                     if keytext not in self.parent.keyaction: #если это обычная клавиша, то плюсуем значение в поле
-                        pos1=v.cursor[0]
+                        pos1=v.cursor_col
+                        row=v.cursor_row
                         if pos1>=len(v.text):
                             aftercursor=''
                         else:
@@ -81,7 +82,7 @@ class Key(Button,FocusBehavior,EventDispatcher):
                         res=beforecursor+keytext+aftercursor
                         v.text=res
                         v.focus = True  # при любом раскладе пытаемся сохранить фокус, если он был
-                        v.cursor=(pos1+1,0)
+                        v.cursor=(pos1+1,row)
                         if self.parent.upper and self.parent.num_keyboard==False:
                             if self.parent.current_lang == 'RU':
                                 for i in self.parent.children:
@@ -105,8 +106,21 @@ class Key(Button,FocusBehavior,EventDispatcher):
                                         if self.focus_by_hint_text(self.parent.tablist[0]):
                                             break
                             else:
+                                pos1=v.cursor[0]
+                                row=v.cursor[1]
+                                if pos1>=len(v.text):
+                                    aftercursor=''
+                                else:
+                                    aftercursor=v.text[pos1:]
+                                if pos1==0:
+                                    beforecursor=''    
+                                else:
+                                    beforecursor=v.text[0:pos1]
+                                # res=v.text+keytext
+                                res=beforecursor+'\n'+aftercursor
+                                v.text=res
                                 v.focus = True  # при любом раскладе пытаемся сохранить фокус, если он был
-
+                                v.cursor=(0,row+1)
                         elif keytext==u'\u0531' and self.parent.num_keyboard==False:
                             # if self.parent.current_lang == 'RU':
                             #     for i in self.parent.children:
