@@ -142,6 +142,7 @@ class Manager(ScreenManager):
                     prod = ScreensApp.uni_text('RU',name_scores)
         return prod
 
+
 class ScreenMenu(Screen):
 
     @staticmethod
@@ -294,6 +295,22 @@ class ScreenAnketa4(Screen):
 
 
 class ScreenAnketa5(Screen):
+    pass
+
+
+class ScreenAnketaThanks(Screen):
+    pass
+
+
+class ScreenReview1(Screen):
+    pass
+
+
+class ScreenReview2(Screen):
+    pass
+
+
+class ScreenReviewThanks(Screen):
     pass
 
 

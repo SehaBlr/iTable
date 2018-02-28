@@ -10,6 +10,10 @@
 #:include kv\anketa3.kv
 #:include kv\anketa4.kv
 #:include kv\anketa5.kv
+#:include kv\anketathanks.kv
+#:include kv\review1.kv
+#:include kv\review2.kv
+#:include kv\reviewthanks.kv
 
 
 
@@ -87,4 +91,24 @@
     ScreenAnketa5:
         id: anketa5
         name: 'Anketa5page'
+        manager: screen_manager
+
+    ScreenAnketaThanks:
+        id: anketathanks
+        name: 'AnketaThanks'
+        manager: screen_manager
+
+    ScreenReview1:
+        id: review1
+        name: 'Review1page'
+        manager: screen_manager
+
+    ScreenReview2:
+        id: review2
+        name: 'Review2page'
+        manager: screen_manager
+
+    ScreenReviewThanks:
+        id: reviewthanks
+        name: 'ReviewThanks'
         manager: screen_manager
