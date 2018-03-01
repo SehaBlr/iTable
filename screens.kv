@@ -14,26 +14,9 @@
 #:include kv\review1.kv
 #:include kv\review2.kv
 #:include kv\reviewthanks.kv
+#:include kv\video.kv
+#:include kv\booklet.kv
 
-
-
-<ScreenBuklet>:
-    BoxLayout:
-        Button:
-            text:u'\u0412\u0438\u0434\u0435\u043E'
-            on_press: root.manager.current='Video';root.manager.start()
-        Button:
-            text:u'\u041D\u0430\u0437\u0430\u0434'
-            on_press: root.manager.current='Menu';root.manager.start()
-
-<ScreenVideo>:
-    BoxLayout:
-        Button:
-            text:u'\u0411\u0443\u043A\u043B\u0435\u0442'
-            on_press: root.manager.current='Booklet';root.manager.start()
-        Button:
-            text:u'\u041D\u0430\u0437\u0430\u0434'
-            on_press: root.manager.current='Menu';root.manager.start()
 
 <Manager>:
     id: screen_manager
@@ -46,16 +29,6 @@
     ScreenMenu:
         id: menu
         name: 'Menu'
-        manager: screen_manager
-
-    ScreenBuklet:
-        id: buklet
-        name: 'Booklet'
-        manager: screen_manager
-
-    ScreenVideo:
-        id: video
-        name: 'Video'
         manager: screen_manager
 
     ScreenWiFiForm:
@@ -111,4 +84,14 @@
     ScreenReviewThanks:
         id: reviewthanks
         name: 'ReviewThanks'
+        manager: screen_manager
+
+    ScreenBooklet:
+        id: booklet
+        name: 'Booklet'
+        manager: screen_manager
+    
+    ScreenVideo:
+        id: video
+        name: 'Video'
         manager: screen_manager

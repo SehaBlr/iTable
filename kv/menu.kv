@@ -57,10 +57,10 @@
                                     font_name:'font\\education-48'
                                     size_hint:None,None
                                     size:200,200
-
                                     font_size:80
                                     background_normal:'img\\btn.png'
                                     background_down:'img\\btn_press.png'
+                                    on_press: root.manager.current='Booklet';root.manager.start()
                                 Label:
                                     text:app.uni_text(app.interface_lang,'acquainted')
                                     font_name:'font\\PT_Sans_Narrow-Bold'

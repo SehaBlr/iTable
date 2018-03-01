@@ -13,6 +13,7 @@ from kivy.atlas import Atlas
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.video import Video
+from kivy.uix.videoplayer import VideoPlayer, VideoPlayerPreview
 from kivy.clock import Clock
 from functools import partial
 import unikeyboard
@@ -155,14 +156,6 @@ class ScreenMenu(Screen):
         manager.ids.wifiform.ids.imya.background_color = [1, 1, 1, 1]
         manager.ids.wifiform.ids.prtn.background_color = [1, 1, 1, 1]
         manager.ids.wifiform.ids.mail.background_color = [1, 1, 1, 1]
-
-
-class ScreenBuklet(Screen):
-    pass
-
-
-class ScreenVideo(Screen):
-    pass
 
 
 class ScreenWiFiForm(Screen):
@@ -313,6 +306,19 @@ class ScreenReview2(Screen):
 class ScreenReviewThanks(Screen):
     pass
 
+
+class ScreenBooklet(Screen):
+    pass
+
+
+class ScreenVideo(Screen):
+    
+
+
+    def exit_video(self):
+        self.ids.vplay.children[0].play = False
+        self.ids.vplay.children[0].state = 'stop'
+        
 
 class ScreensApp(App):
     interface_lang = StringProperty()
