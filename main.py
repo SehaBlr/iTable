@@ -55,14 +55,13 @@ class Manager(ScreenManager):
         else:
             self.current = 'Language selection'
 
-
-    def start(self):
+    def start(self, ret=120):
         global glob_tim
         try:
             glob_tim.cancel()
         except:
-            print('нет таймера')
-        glob_tim = Clock.schedule_once(self.my_callback, 120)
+            pass
+        glob_tim = Clock.schedule_once(self.my_callback, ret)
 
     def anketa_clear_info(self):
         for v in self.ids.anketa1.ids:
@@ -123,24 +122,24 @@ class Manager(ScreenManager):
             prod += ScreensApp.uni_text('RU','anketa2q1r4') + ', '
         return prod
 
-    def anketa_satisfy(self,group):
-        prod=''
+    def anketa_satisfy(self, group):
+        prod = ''
         dd = {}
         for k, v in self.ids.anketa2.ids.items():
-            if k[2:4]==group:
+            if k[2:4] == group:
                 if v.active:
                     name_scores = f'anketa2{k[4:6]}'
-                    prod = ScreensApp.uni_text('RU',name_scores)
+                    prod = ScreensApp.uni_text('RU', name_scores)
         return prod
 
-    def anketa_change(self,group):
-        prod=''
+    def anketa_change(self, group):
+        prod = ''
         dd = {}
         for k, v in self.ids.anketa3.ids.items():
-            if k[2:5]==group:
+            if k[2:5] == group:
                 if v.active:
                     name_scores = f'anketa3{k[5:7]}'
-                    prod = ScreensApp.uni_text('RU',name_scores)
+                    prod = ScreensApp.uni_text('RU', name_scores)
         return prod
 
 
@@ -171,7 +170,8 @@ class ScreenWiFiForm(Screen):
             self.ids.mail.background_color = [1, 1, 1, 1]
             self.ids.mail_error.text = u''
             a = 1
-        else: # TODO Тексты ошибок надо убрать в json и вытягивать значение для определённого языка
+        else:
+            # TODO Тексты ошибок надо убрать в json и вытягивать значение для определённого языка
             self.ids.mail.background_color = [1, .7, .7, 1]
             if len(self.ids.mail.text):
                 self.ids.mail_error.text = u'e-mail заполнен некорректно'
@@ -337,6 +337,10 @@ class ScreensApp(App):
     def log_using(self, current):
         now = dt.now()
         print(f'[{now:%d.%m.%Y %H:%M}] start screen {current}')
+
+    def change_current(self,screen_name):
+        self.root.current = screen_name
+        self.root.start()
 
     def build(self):
         config = self.config

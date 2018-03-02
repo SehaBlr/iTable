@@ -3,7 +3,55 @@
 # 1 page anketa
 <Box@BoxLayout>:
     orientation: 'vertical'
-    padding: [170,0,30,0]
+    padding: [30,0,30,0]
+
+<AnketaLeftSide@BoxLayout>:
+    orientation: 'vertical'
+    size_hint: 0.2,1
+    canvas:
+        Color:
+            rgba: 0.31,0.31,0.31,1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    Image:
+        source:'img\\logo_white_300x72.png'
+        size_hint:1, .25
+    Widget:
+        size_hint:1, .125
+    Button:
+        text:app.uni_text(app.interface_lang,'anketamenu1')
+        size_hint:1, .25
+        halign:'center'
+        font_name:'font\\PT_Sans_Narrow-Bold'
+        font_size:48
+        on_press: app.change_current('Review1page')
+    BoxLayout:
+        orientation:'vertical'
+        size_hint:1, .25
+        Widget:
+            size_hint: 1, 0.4
+        Label:
+            text:app.uni_text(app.interface_lang,'anketamenu2')
+            size_hint: 1, 0.6
+            halign:'center'
+            font_name:'font\\PT_Sans_Narrow-Bold'
+            font_size:48
+        AnchorLayout:
+            anchor_x:'center'
+            anchor_y:'top'
+            size_hint: 1, 0.4
+            Widget:
+                size_hint: None, None
+                size:180, 10
+                canvas:
+                    Color:
+                        rgba: 0.66, 0.66, 0.66, 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+    Widget:
+        size_hint:1, .125
 
 <ScreenAnketa1>:
     GridLayout:
@@ -14,34 +62,7 @@
             Rectangle:
                 pos: self.pos
                 size: self.size
-        BoxLayout:
-            orientation: 'vertical'
-            size_hint: 0.2,1
-            canvas:
-                Color:
-                    rgba: 0.31,0.31,0.31,1
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
-            Image:
-                source:'img\\logo_white_300x72.png'
-            Button:
-                text:app.uni_text(app.interface_lang,'anketamenu1')
-                halign:'center'
-                font_name:'font\\PT_Sans_Narrow-Bold'
-                font_size:42
-                on_press: root.manager.current='Review1page';root.manager.start()
-            Label:
-                text:app.uni_text(app.interface_lang,'anketamenu2')
-                halign:'center'
-                font_name:'font\\PT_Sans_Narrow-Bold'
-                font_size:42
-            Button:
-                text:app.uni_text(app.interface_lang,'anketamenu3')
-                halign:'center'
-                font_name:'font\\PT_Sans_Narrow-Bold'
-                font_size:42
-
+        AnketaLeftSide:
         BoxLayout:
             orientation: 'vertical'
             size_hint: 0.8,1

@@ -25,19 +25,37 @@
                 size_hint:1, .25
             Widget:
                 size_hint:1, .125
-            Label:
-                text:app.uni_text(app.interface_lang,'acquainted1')
+            BoxLayout:
+                orientation:'vertical'
                 size_hint:1, .25
-                halign:'center'
-                font_name:'font\\PT_Sans_Narrow-Bold'
-                font_size:42
+                Widget:
+                    size_hint: 1, 0.4
+                Label:
+                    text:app.uni_text(app.interface_lang,'acquainted1').upper()
+                    size_hint:1, .2
+                    halign:'center'
+                    font_name:'font\\PT_Sans_Narrow-Bold'
+                    font_size:48
+                AnchorLayout:
+                    anchor_x:'center'
+                    anchor_y:'top'
+                    size_hint: 1, 0.4
+                    Widget:
+                        size_hint: None, None
+                        size:150, 10
+                        canvas:
+                            Color:
+                                rgba: 0.66, 0.66, 0.66, 1
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
             Button:
-                text:app.uni_text(app.interface_lang,'acquainted2')
+                text:app.uni_text(app.interface_lang,'acquainted2').upper()
                 size_hint:1, .25
                 halign:'center'
                 font_name:'font\\PT_Sans_Narrow-Bold'
-                font_size:42
-                on_press: root.manager.current='Video';root.manager.start()
+                font_size:48
+                on_press: app.change_current('Video')
             Widget:
                 size_hint:1, .125
             
@@ -45,7 +63,49 @@
             orientation: 'vertical'
             size_hint: 0.8,1
             padding:[40,0,40,0]
-            Widget:
+            AnchorLayout:
+                anchor_x:'center'
+                anchor_y:'center'
+                BoxLayout:
+                    orientation:'vertical'
+                    size_hint:None,None
+                    size:1280,800
+                    Carousel:
+                        size_hint:None,None
+                        size:1280,640
+                        loop: True
+                        id:carousel_booklet
+                        scroll_timeout:200
+                        Image:
+                            source:'img\\buklet\\b01.png'
+                            size_hint:None,None
+                            size:1280,640
+                        Image:
+                            source:'img\\buklet\\b02.png'
+                            size_hint:None,None
+                            size:1280,640
+                    Widget:
+                        size_hint:None,None
+                        size:1280,40
+                    BoxLayout:
+                        orientation: 'horizontal'
+                        size_hint:None,None
+                        size:1280,120
+                        Button:
+                            text:''
+                            background_normal:'img\\prev.png'
+                            background_down:'img\\prev.png'
+                            size_hint:None,None
+                            size:120,120
+                            on_release:carousel_booklet.load_previous()
+                        Widget:
+                        Button:
+                            text:''
+                            background_normal:'img\\next.png'
+                            background_down:'img\\next.png'
+                            size_hint:None,None
+                            size:120,120
+                            on_release:carousel_booklet.load_next()
             BoxLayout:
                 orientation: 'horizontal'
                 size_hint:1,None

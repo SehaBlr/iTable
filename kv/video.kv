@@ -26,18 +26,36 @@
             Widget:
                 size_hint:1, .125
             Button:
-                text:app.uni_text(app.interface_lang,'acquainted1')
+                text:app.uni_text(app.interface_lang,'acquainted1').upper()
                 size_hint:1, .25
                 halign:'center'
                 font_name:'font\\PT_Sans_Narrow-Bold'
-                font_size:42
+                font_size:48
                 on_press: root.manager.current='Booklet';root.manager.start()
-            Label:
-                text:app.uni_text(app.interface_lang,'acquainted2')
+            BoxLayout:
+                orientation:'vertical'
                 size_hint:1, .25
-                halign:'center'
-                font_name:'font\\PT_Sans_Narrow-Bold'
-                font_size:42
+                Widget:
+                    size_hint: 1, 0.4
+                Label:
+                    text:app.uni_text(app.interface_lang,'acquainted2').upper()
+                    size_hint:1, .2
+                    halign:'center'
+                    font_name:'font\\PT_Sans_Narrow-Bold'
+                    font_size:48
+                AnchorLayout:
+                    anchor_x:'center'
+                    anchor_y:'top'
+                    size_hint: 1, 0.4
+                    Widget:
+                        size_hint: None, None
+                        size:135, 10
+                        canvas:
+                            Color:
+                                rgba: 0.66, 0.66, 0.66, 1
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
             Widget:
                 size_hint:1, .125
             
