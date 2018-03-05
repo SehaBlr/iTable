@@ -10,6 +10,7 @@ from kivy.uix.behaviors.cover import CoverBehavior
 from kivy.uix.behaviors.focus import FocusBehavior
 from kivy.uix.button import Button
 from kivy.atlas import Atlas
+from kivy.uix.carousel import Carousel
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.video import Video

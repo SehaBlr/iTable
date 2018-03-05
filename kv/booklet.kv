@@ -63,61 +63,137 @@
             orientation: 'vertical'
             size_hint: 0.8,1
             padding:[40,0,40,0]
+            BoxLayout:
+                orientation:'horizontal'
+                size_hint: 1,None
+                height:170
+                padding: 40
+                Widget:
+                    size_hint: .5, 1
+                BoxLayout:
+                    orientation:'horizontal'
+                    size_hint_x: None
+                    width: 176
+                    Button:
+                        text:''
+                        size_hint:None,None
+                        size: 26, 26
+                        background_normal:'img\\dot.png'
+                        background_down:'img\\dot.png'
+                        on_release:carousel_booklet.load_slide(carousel_booklet.slides[0])
+                    Widget:
+                        size_hint: 1, None
+                        width: 16
+                    Button:
+                        text:''
+                        size_hint:None,None
+                        size: 26, 26
+                        background_normal:'img\\dot_active.png'
+                        background_down:'img\\dot_active.png'
+                        on_release:carousel_booklet.load_slide(carousel_booklet.slides[1])
+                    Widget:
+                        size_hint: 1, None
+                        width: 16
+                    Button:
+                        text:''
+                        size_hint:None,None
+                        size: 26, 26
+                        background_normal:'img\\dot.png'
+                        background_down:'img\\dot.png'
+                        on_release:carousel_booklet.load_slide(carousel_booklet.slides[2])
+                    Widget:
+                        size_hint: 1, None
+                        width: 16
+                    Button:
+                        text:''
+                        size_hint:None,None
+                        size: 26, 26
+                        background_normal:'img\\dot.png'
+                        background_down:'img\\dot.png'
+                        on_release:carousel_booklet.load_slide(carousel_booklet.slides[3])
+                Widget:
+                    size_hint: .5, 1
             AnchorLayout:
                 anchor_x:'center'
                 anchor_y:'center'
+                size_hint: 1, None
+                height: 760
                 BoxLayout:
                     orientation:'vertical'
-                    size_hint:None,None
-                    size:1280,800
+                    # size_hint:None,1
+                    # width:1440
                     Carousel:
                         size_hint:None,None
-                        size:1280,640
+                        size:1440,720
                         loop: True
                         id:carousel_booklet
                         scroll_timeout:200
+                        anim_type: 'in_quart'
                         Image:
                             source:'img\\buklet\\b01.png'
                             size_hint:None,None
-                            size:1280,640
+                            size:1440,720
                         Image:
                             source:'img\\buklet\\b02.png'
                             size_hint:None,None
-                            size:1280,640
+                            size:1440,720
+                        Image:
+                            source:'img\\buklet\\b03.png'
+                            size_hint:None,None
+                            size:1440,720
+                        Image:
+                            source:'img\\buklet\\b04.png'
+                            size_hint:None,None
+                            size:1440,720
                     Widget:
                         size_hint:None,None
-                        size:1280,40
-                    BoxLayout:
-                        orientation: 'horizontal'
-                        size_hint:None,None
-                        size:1280,120
-                        Button:
-                            text:''
-                            background_normal:'img\\prev.png'
-                            background_down:'img\\prev.png'
-                            size_hint:None,None
-                            size:120,120
-                            on_release:carousel_booklet.load_previous()
-                        Widget:
-                        Button:
-                            text:''
-                            background_normal:'img\\next.png'
-                            background_down:'img\\next.png'
-                            size_hint:None,None
-                            size:120,120
-                            on_release:carousel_booklet.load_next()
+                        size:1440,40
+                    # BoxLayout:
+                    #     orientation: 'horizontal'
+                    #     size_hint:None,None
+                    #     size:1440,92
+                        
             BoxLayout:
                 orientation: 'horizontal'
                 size_hint:1,None
                 height:150
                 Widget:
-                    size_hint: .8, 1
-                AnchorLayout:
-                    size_hint: .2, 1
-                    Button:
-                        text:''
-                        size_hint:None,None
-                        size:101,64
-                        background_normal:'img\\back.png'
-                        background_down:'img\\back.png'
-                        on_press: root.manager.current='Menu';root.manager.start()
+                    size_hint: .5, 1
+                BoxLayout:
+                    orientation:'horizontal'
+                    size_hint: None, 1
+                    width: 560
+                    AnchorLayout:
+                        anchor_y:'center'
+                        anchor_x:'center'
+                        Button:
+                            text:''
+                            background_normal:'img\\prev.png'
+                            background_down:'img\\prev.png'
+                            size_hint:None,None
+                            size:92,92
+                            on_release:carousel_booklet.load_previous();root.manager.start()
+                    AnchorLayout:
+                        anchor_y:'center'
+                        anchor_x:'center'
+                        Button:
+                            text:''
+                            background_normal:'img\\next.png'
+                            background_down:'img\\next.png'
+                            size_hint:None,None
+                            size:92,92
+                            on_release:carousel_booklet.load_next();root.manager.start()
+                BoxLayout:
+                    orientation:'horizontal'
+                    size_hint: .5, 1
+                    Widget:
+                    AnchorLayout:
+                        anchor_y:'center'
+                        anchor_x:'center'
+                        Button:
+                            text:''
+                            size_hint:None,None
+                            size:101,64
+                            background_normal:'img\\back.png'
+                            background_down:'img\\back.png'
+                            on_press: root.manager.current='Menu';root.manager.start()

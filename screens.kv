@@ -1,5 +1,11 @@
 #:kivy 1.8.0
 #:import FadeTransition kivy.uix.screenmanager.FadeTransition
+#:import SlideTransition kivy.uix.screenmanager.SlideTransition
+#:import ShaderTransition kivy.uix.screenmanager.ShaderTransition
+#:import WipeTransition kivy.uix.screenmanager.WipeTransition
+#:import FallOutTransition kivy.uix.screenmanager.FallOutTransition
+#:import RiseInTransition kivy.uix.screenmanager.RiseInTransition
+#:import NoTransition kivy.uix.screenmanager.NoTransition
 #:set foc 'empty'
 #:include kv\choice.kv
 #:include kv\menu.kv
@@ -20,7 +26,7 @@
 
 <Manager>:
     id: screen_manager
-    transition: FadeTransition()
+    transition: NoTransition()
     ScreenChoice:
         id: choice
         name: 'Language selection'
