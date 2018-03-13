@@ -1,6 +1,12 @@
 #:kivy 1.10.0
 # video.kv
 # Video
+#:import time time
+
+
+<SliBar>:
+
+<Vid>:
 
 <ScreenVideo>:
     GridLayout:
@@ -31,7 +37,7 @@
                 halign:'center'
                 font_name:'font\\PT_Sans_Narrow-Bold'
                 font_size:48
-                on_press: root.manager.current='Booklet';root.manager.start()
+                on_press: root.manager.current='Booklet';root.manager.start();root.stop_video()
             BoxLayout:
                 orientation:'vertical'
                 size_hint:1, .25
@@ -62,30 +68,133 @@
         BoxLayout:
             orientation: 'vertical'
             size_hint: 0.8,1
-            padding:[40,0,40,0]
             Widget:
+                size_hint: 1,None
+                height:151 
             AnchorLayout:
                 anchor_x:'center'
                 id: vplay
-                VideoPlayer:
+                Vid:
+                    id: vframe
                     size_hint: None, None
-                    size: 1280, 764
-                    source: 'video\\uniflex_presentation_.mp4'
-                    thumbnail:'img\\video_starting slide.png'
-                    # image_overlay_play:'img\\video_starting slide.png'
+                    size: 1280, 720
+                    source: 'video\\uniflex_presentation_ru.mp4'
+                    volume: vvolslider.value
+                    state: 'stop'
+                Button:
+                    id:voverlay
+                    size_hint: None, None
+                    size: 1280, 720
+                    background_normal: 'img\\video_start.png'
+                    on_release:root.play_video()
+            BoxLayout:
+                orientation:'horizontal'
+                size_hint:1,None
+                height:9
+                Widget:
+                SliBar:
+                    video:vframe
+                    size_hint_x:None
+                    width: 1280
+                    canvas:
+                        Color:
+                            rgb: 1, 1, 1
+                        BorderImage:
+                            border: (4, 4, 4, 4)
+                            pos: self.x, self.center_y - 4
+                            size: self.width, 9
+                            source: 'img\\video_player\\line_play.png'
+                        BorderImage:
+                            border: [int(min(self.width * ((vframe.position * 100 / vframe.duration) / float(self.max)) if self.max else 0, 4))] * 4
+                            pos: self.x, self.center_y - 4
+                            size: self.width * ((vframe.position * 100 / vframe.duration) / float(self.max)) if self.max else 0, 9
+                            source: 'img\\video_player\\line.png'
+                    # on_touch_up:print(f'self.value = {self.value}')
+                    # on_touch_up:print(f'self.max = {self.max}')
+                    # on_touch_up:print(f'vframe.volume = {vframe.volume}')
+                    # on_touch_up:print(f'vframe.position / vframe.duration = {vframe.position / vframe.duration}')
+                Widget:
             Widget:
+                size_hint:1,None
+                height:10
             BoxLayout:
                 orientation: 'horizontal'
                 size_hint:1,None
                 height:150
                 Widget:
-                    size_hint: .8, 1
-                AnchorLayout:
-                    size_hint: .2, 1
-                    Button:
-                        text:''
-                        size_hint:None,None
-                        size:101,64
-                        background_normal:'img\\back.png'
-                        background_down:'img\\back.png'
-                        on_press: root.manager.current='Menu';root.manager.start();root.exit_video()
+                    size_hint: .5, 1
+                BoxLayout:
+                    orientation:'horizontal'
+                    size_hint: None, 1
+                    width:600
+                    AnchorLayout:
+                        anchor_y:'center'
+                        anchor_x:'center'
+                        size_hint: None, 1
+                        width:60
+                        Button:
+                            id:vstop
+                            text:''
+                            background_normal:'img\\video_player\\stop.png'
+                            background_down:'img\\video_player\\stop.png'
+                            size_hint:None,None
+                            size:36,36
+                            on_release:root.stop_video();root.manager.start(120)
+                    AnchorLayout:
+                        anchor_y:'center'
+                        anchor_x:'center'
+                        size_hint: None, 1
+                        width:60
+                        Button:
+                            text:''
+                            id:vplaypause
+                            background_normal:'img\\video_player\\play.png'
+                            background_down:'img\\video_player\\play.png'
+                            size_hint:None,None
+                            size:36,36
+                            on_release:root.play_video();root.manager.start(720)
+                    AnchorLayout:
+                        anchor_y:'center'
+                        anchor_x:'center'
+                        size_hint: None, 1
+                        width:60
+                        Button:
+                            text:''
+                            id:vvolbut
+                            background_normal:'img\\video_player\\sound_on.png'
+                            background_down:'img\\video_player\\sound_on.png'
+                            size_hint:None,None
+                            size:36,36
+                            on_release:vframe.volume=0
+                    AnchorLayout:
+                        anchor_y:'center'
+                        anchor_x:'left'
+                        Slider:
+                            id:vvolslider
+                            size_hint_x:None
+                            min: 0
+                            max: 1.0
+                            width:120
+                            value: .7
+                            on_min: print('min')
+                            cursor_image:'img\\video_player\\sound_tumbler.png'
+                    Label:
+                        text: '{} / {}'.format(time.strftime("%M:%S", time.gmtime(vframe.position)), time.strftime("%M:%S", time.gmtime(vframe.duration)))
+                        font_name:'font\\PT_Sans_Narrow-Regular'
+                        font_size:32
+                    Widget:
+                        size_hint_x:.3
+                BoxLayout:
+                    orientation:'horizontal'
+                    size_hint: .5, 1
+                    Widget:
+                    AnchorLayout:
+                        anchor_y:'center'
+                        anchor_x:'center'
+                        Button:
+                            text:''
+                            size_hint:None,None
+                            size:101,64
+                            background_normal:'img\\back.png'
+                            background_down:'img\\back.png'
+                            on_press: root.manager.current='Menu';root.manager.start();root.stop_video()

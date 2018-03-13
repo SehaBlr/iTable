@@ -4,7 +4,7 @@ import kivy
 from kivy.app import App
 
 from kivy.core.window import Window
-from kivy.properties import ObjectProperty,StringProperty,ReferenceListProperty
+from kivy.properties import ObjectProperty,StringProperty,ReferenceListProperty, NumericProperty
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.behaviors.cover import CoverBehavior
 from kivy.uix.behaviors.focus import FocusBehavior
@@ -15,7 +15,10 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.video import Video
 from kivy.uix.videoplayer import VideoPlayer, VideoPlayerPreview
+from kivy.uix.progressbar import ProgressBar
 from kivy.clock import Clock
+from kivy.factory import Factory
+from kivy.animation import Animation
 from functools import partial
 import unikeyboard
 import re
@@ -26,10 +29,12 @@ import os
 import codecs
 import csv
 import timer
+import time
 import win32net
-from datetime import datetime as dt
+from datetime import datetime as dt, timedelta
 from email.mime.text import MIMEText
 from email.header    import Header
+from kivy.uix.slider import Slider
 
 # TODO: ADD: Клавиатура к форме выыдачи доступа к WiFi
 # TODO: ADD: Форма анкеты на выдачу доступа к WiWi: кнопка отправить
@@ -62,6 +67,9 @@ class Manager(ScreenManager):
             glob_tim.cancel()
         except:
             pass
+        now = dt.now()
+        minute = int(ret//60)
+        print(f'[{now:%d.%m.%Y %H:%M}] таймер сброшен на {minute} минуты')
         glob_tim = Clock.schedule_once(self.my_callback, ret)
 
     def anketa_clear_info(self):
@@ -83,6 +91,14 @@ class Manager(ScreenManager):
         self.ids.anketa3.ids.anketa3q8.value = 0
         self.ids.anketa4.ids.a4q1.text = ''
         self.ids.anketa5.ids.a5q1.text = ''
+
+    def review_clear_info(self):
+        for v in self.ids.review1.ids:
+            try:
+                self.ids.review1.ids[v].text = ''
+            except:
+                pass
+        self.ids.review2.ids.a4q1.text = ''
 
     def anketa_send_info(self):
         listing=[]
@@ -142,6 +158,23 @@ class Manager(ScreenManager):
                     name_scores = f'anketa3{k[5:7]}'
                     prod = ScreensApp.uni_text('RU', name_scores)
         return prod
+
+    def review_send_info(self):
+        listing=[]
+        with open('review.csv', newline='') as csvfile:
+            reader = csv.reader(csvfile, delimiter=';')
+            for row in reader:
+                if row:
+                    listing.append(row)
+
+
+        review = [self.ids.review1.ids.ank1q1.text,self.ids.review1.ids.ank1q2.text,self.ids.review1.ids.ank1q3.text,self.ids.review1.ids.ank1q4.text]
+        review.append(self.ids.review2.ids.a4q1.text)
+        listing.append(review)
+        print(listing)
+        with open('review.csv', 'w') as csvfile:
+            writer = csv.writer(csvfile,  delimiter=';', lineterminator = '\n')
+            writer.writerows(listing)
 
 
 class ScreenMenu(Screen):
@@ -309,17 +342,189 @@ class ScreenReviewThanks(Screen):
 
 
 class ScreenBooklet(Screen):
-    pass
+    
+    def change_slide(self,index):
+        for k, v in self.ids.items():
+            if k[0:5] == 'slide':
+                try:
+                    num_slider = int(k[5:]) #определяем номер 
+                except:
+                    print('неудалось преобразовать часть id в число')
+                    num_slider = -1
+                if num_slider == index:
+                    v.background_normal = 'img\\dot_active.png'
+                    v.background_down = 'img\\dot_active.png'
+                else:
+                    v.background_normal = 'img\\dot.png'
+                    v.background_down = 'img\\dot.png'
+
+
+
+class ScreenSolution(Screen):
+
+    def change_slide(self,index):
+        for k, v in self.ids.items():
+            if k[0:5] == 'prez_':
+                try:
+                    num_slider = int(k[5:]) #определяем номер 
+                except:
+                    print('неудалось преобразовать часть id в число')
+                    num_slider = -1
+                if num_slider == index:
+                    v.background_normal = 'img\\dot_active.png'
+                    v.background_down = 'img\\dot_active.png'
+                else:
+                    v.background_normal = 'img\\dot.png'
+                    v.background_down = 'img\\dot.png'
 
 
 class ScreenVideo(Screen):
     
 
-
     def exit_video(self):
         self.ids.vplay.children[0].play = False
         self.ids.vplay.children[0].state = 'stop'
-        
+    
+    # def callback(self,dt):
+    #     # print(self.event)
+    #     print(time.strftime("%M:%S", time.gmtime(self.ids.vframe.position)))
+
+    def rewind_video(self):
+        st = self.ids.vframe.state
+        print (st)
+        if self.ids.vframe.state != 'stop':
+            pr = round(self.ids.vscale.get_norm_value(),3)
+            self.ids.vframe.seek(pr)
+            # self.ids.vframe.state= 'pause'
+            # self.ids.vframe.position = (self.ids.vscale.get_norm_value()) * (self.ids.vframe.duration)
+            # self.ids.vframe.state = st
+    def rewind_video_down(self):
+        print(self)
+
+
+    def play_video(self):
+        if self.ids.vframe.state == 'play':
+            self.ids.vframe.state = 'pause'
+            # print(time.strftime("%M:%S", time.gmtime(self.ids.vframe.position)))
+            # print(time.strftime("%M:%S", time.gmtime(self.ids.vframe.duration)))
+            # print(self.ids.vframe.loaded)
+            self.ids.voverlay.background_normal = 'img\\video_pause.png'
+            self.ids.voverlay.background_down = 'img\\video_pause.png'
+            self.ids.vplaypause.background_normal = 'img\\video_player\\play.png'
+            self.ids.vplaypause.background_down = 'img\\video_player\\play.png'
+        else:
+            self.ids.vframe.state = 'play'
+            # print(self.ids.vframe.duration)
+            # print(self.ids.vframe.position)
+            self.ids.voverlay.background_normal = 'img\\px.png'
+            self.ids.voverlay.background_down = 'img\\px.png'
+            self.ids.vplaypause.background_normal = 'img\\video_player\\pause.png'
+            self.ids.vplaypause.background_down = 'img\\video_player\\pause.png'
+
+    def stop_video(self):
+        if self.ids.vframe.state != 'stop':
+            self.ids.vframe.state = 'stop'
+            self.ids.vframe.posotion = 0
+            self.ids.vframe.loaded = False
+            self.ids.vplaypause.background_normal = 'img\\video_player\\play.png'
+            self.ids.vplaypause.background_down = 'img\\video_player\\play.png'
+            self.ids.voverlay.background_normal = 'img\\video_start.png'
+            self.ids.voverlay.background_down = 'img\\video_start.png'
+
+
+class SliBar(ProgressBar):
+    video = ObjectProperty(None)
+    seek = NumericProperty(None, allownone=True)
+    alpha = NumericProperty(1.)
+
+    def __init__(self, **kwargs):
+        super(SliBar, self).__init__(**kwargs)
+        self.bubble = Factory.Bubble(size=(50, 44))
+        self.bubble_label = Factory.Label(text='0:00')
+        self.bubble.add_widget(self.bubble_label)
+        self.add_widget(self.bubble)
+
+        update = self._update_bubble
+        fbind = self.fbind
+        fbind('pos', update)
+        fbind('size', update)
+        fbind('seek', update)
+
+    def on_video(self, instance, value):
+        self.video.bind(position=self._update_bubble,
+                        state=self._showhide_bubble)
+
+    def on_touch_down(self, touch):
+        if not self.collide_point(*touch.pos):
+            return
+        self._show_bubble()
+        touch.grab(self)
+        self._update_seek(touch.x)
+        return True
+
+    def on_touch_move(self, touch):
+        if touch.grab_current is not self:
+            return
+        self._update_seek(touch.x)
+        return True
+
+    def on_touch_up(self, touch):
+        if touch.grab_current is not self:
+            return
+        touch.ungrab(self)
+        if self.seek:
+            self.video.seek(self.seek)
+        self.seek = None
+        self._hide_bubble()
+        return True
+
+    def _update_seek(self, x):
+        if self.width == 0:
+            return
+        x = max(self.x, min(self.right, x)) - self.x
+        self.seek = x / float(self.width)
+
+    def _show_bubble(self):
+        self.alpha = 1
+        Animation.stop_all(self, 'alpha')
+
+    def _hide_bubble(self):
+        self.alpha = 1.
+        Animation(alpha=0, d=4, t='in_out_expo').start(self)
+
+    def on_alpha(self, instance, value):
+        self.bubble.background_color = (1, 1, 1, value)
+        self.bubble_label.color = (1, 1, 1, value)
+
+    def _update_bubble(self, *l):
+        seek = self.seek
+        if self.seek is None:
+            if self.video.duration == 0:
+                seek = 0
+            else:
+                seek = self.video.position / self.video.duration
+        # convert to minutes:seconds
+        d = self.video.duration * seek
+        minutes = int(d / 60)
+        seconds = int(d - (minutes * 60))
+        # fix bubble label & position
+        self.bubble_label.text = '%d:%02d' % (minutes, seconds)
+        self.bubble.center_x = self.x + seek * self.width
+        self.bubble.y = self.top
+
+    def _showhide_bubble(self, instance, value):
+        if value == 'play':
+            self._hide_bubble()
+        else:
+            self._show_bubble()
+
+
+
+class Vid(Video):
+
+    def __init__(self, **kwargs):
+        super(Vid, self).__init__(**kwargs)
+
 
 class ScreensApp(App):
     interface_lang = StringProperty()

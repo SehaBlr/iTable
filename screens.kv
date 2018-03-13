@@ -22,6 +22,7 @@
 #:include kv\reviewthanks.kv
 #:include kv\video.kv
 #:include kv\booklet.kv
+#:include kv\solution.kv
 
 
 <Manager>:
@@ -100,4 +101,9 @@
     ScreenVideo:
         id: video
         name: 'Video'
+        manager: screen_manager
+    
+    ScreenSolution:
+        id: solution
+        name: 'Solution'
         manager: screen_manager

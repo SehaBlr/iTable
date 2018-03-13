@@ -89,7 +89,7 @@
                             font_size:32
                             background_normal:'img\\btn_k.png'
                             background_down:'img\\btn_k_press.png'
-                            on_press: root.manager.current='ReviewThanks';root.manager.start()
+                            on_press: root.manager.current='ReviewThanks';root.manager.review_send_info();root.manager.start()
                 BoxLayout:
                     orientation:'horizontal'
                     size_hint: .5, 1
