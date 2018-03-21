@@ -37,7 +37,7 @@
                 halign:'center'
                 font_name:'font\\PT_Sans_Narrow-Bold'
                 font_size:48
-                on_press: root.manager.current='Booklet';root.manager.start();root.stop_video()
+                on_press: root.manager.current='Booklet';root.manager.start();vframe.position=0;root.stop_video()
             BoxLayout:
                 orientation:'vertical'
                 size_hint:1, .25
@@ -102,17 +102,14 @@
                         BorderImage:
                             border: (4, 4, 4, 4)
                             pos: self.x, self.center_y - 4
-                            size: self.width, 9
+                            size: self.width, 14
                             source: 'img\\video_player\\line_play.png'
                         BorderImage:
+                            id:line_play
                             border: [int(min(self.width * ((vframe.position * 100 / vframe.duration) / float(self.max)) if self.max else 0, 4))] * 4
                             pos: self.x, self.center_y - 4
-                            size: self.width * ((vframe.position * 100 / vframe.duration) / float(self.max)) if self.max else 0, 9
+                            size: self.width * ((vframe.position * 100 / vframe.duration) / float(self.max)) if self.max else 0, 14
                             source: 'img\\video_player\\line.png'
-                    # on_touch_up:print(f'self.value = {self.value}')
-                    # on_touch_up:print(f'self.max = {self.max}')
-                    # on_touch_up:print(f'vframe.volume = {vframe.volume}')
-                    # on_touch_up:print(f'vframe.position / vframe.duration = {vframe.position / vframe.duration}')
                 Widget:
             Widget:
                 size_hint:1,None
@@ -139,7 +136,7 @@
                             background_down:'img\\video_player\\stop.png'
                             size_hint:None,None
                             size:36,36
-                            on_release:root.stop_video();root.manager.start(120)
+                            on_release:root.stop_video();vframe.position=0;root.manager.start(120)
                     AnchorLayout:
                         anchor_y:'center'
                         anchor_x:'center'
@@ -165,7 +162,10 @@
                             background_down:'img\\video_player\\sound_on.png'
                             size_hint:None,None
                             size:36,36
-                            on_release:vframe.volume=0
+                            # временно кнопка не несёт никакой функцинальности
+                            # позже по нажатию будетотключаться звук и возвращаться в иходный уровень
+                            # так же при громкости на 0, менять отрисовку
+                            # on_release:vframe.volume=0
                     AnchorLayout:
                         anchor_y:'center'
                         anchor_x:'left'
@@ -197,4 +197,4 @@
                             size:101,64
                             background_normal:'img\\back.png'
                             background_down:'img\\back.png'
-                            on_press: root.manager.current='Menu';root.manager.start();root.stop_video()
+                            on_press: root.manager.current='Menu';vframe.position=0;root.manager.start();root.stop_video();root.manager.ids.booklet.ids.prez_booklet.sl_carousel.load_slide(root.manager.ids.booklet.ids.prez_booklet.sl_carousel.slides[0]);root.manager.ids.digital.ids.prez_digital.sl_carousel.load_slide(root.manager.ids.digital.ids.prez_digital.sl_carousel.slides[0])

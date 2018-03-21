@@ -22,289 +22,305 @@
         BoxLayout:
             orientation: 'vertical'
             size_hint: 0.8,1
-            padding: [80,0,80,0]
             BoxLayout:
                 orientation:'vertical'
                 size_hint: 1, 0.4
                 padding: [0,40,0,10]
-                Label:
-                    text: app.uni_text(app.interface_lang,'anketa2q1')
-                    font_name:'font\\PT_Sans_Narrow-Regular'
-                    text_size: self.size
-                    halign: 'left'
-                    valign: 'middle'
-                    font_size:32
-                    halign:'left'
-                    size_hint: 1, None
-                    height: 55
-                GridLayout:
-                    cols: 2
-                    Check:
-                        id: anketa2q1r1
-                        size_hint: None, 1
-                        width: 100
-                    Label:
-                        text: app.uni_text(app.interface_lang,'anketa2q1r1')
-                        text_size: self.size
-                        halign: 'left'
-                        valign: 'middle'
-                        font_name:'font\\PT_Sans_Narrow-Regular'
-                        font_size:28
-                    Check:
-                        id: anketa2q1r2
-                        size_hint: None, 1
-                        width: 100
-                    Label:
-                        text: app.uni_text(app.interface_lang,'anketa2q1r2')
-                        text_size: self.size
-                        halign: 'left'
-                        valign: 'middle'
-                        font_name:'font\\PT_Sans_Narrow-Regular'
-                        font_size:28
-                    Check:
-                        id: anketa2q1r3
-                        size_hint: None, 1
-                        width: 100
-                    Label:
-                        text: app.uni_text(app.interface_lang,'anketa2q1r3')
-                        text_size: self.size
-                        halign: 'left'
-                        valign: 'middle'
-                        font_name:'font\\PT_Sans_Narrow-Regular'
-                        font_size:28
-                    Check:
-                        id: anketa2q1r4
-                        size_hint: None, 1
-                        width: 100
-                    Label:
-                        text: app.uni_text(app.interface_lang,'anketa2q1r4')
-                        text_size: self.size
-                        halign: 'left'
-                        valign: 'middle'
-                        font_name:'font\\PT_Sans_Narrow-Regular'
-                        font_size:28
-
-
-
-            BoxLayout:
-                orientation:'vertical'
-                size_hint: 1, 0.6
-                Label:
-                    text: app.uni_text(app.interface_lang,'anketa2intro')
-                    font_name:'font\\PT_Sans_Narrow-Bold'
-                    text_size: self.size
-                    size_hint_y: None
-                    height: 60
-                    halign: 'left'
-                    valign: 'middle'
-                    font_size:32
-                    halign:'left'
-                GridLayout:
-                    cols: 5
+                BoxLayout:
+                    orientation:'horizontal'
+                    size_hint_y: .4
                     Widget:
                         size_hint_x: None
-                        width: 500
+                        width: 120
+                    BoxLayout:
+                        orientation:'vertical'
+                        Label:
+                            text: app.uni_text(app.interface_lang,'anketa2q1')
+                            font_name:'font\\PT_Sans_Narrow-Bold'
+                            text_size: self.size
+                            halign: 'left'
+                            valign: 'middle'
+                            font_size:32
+                            halign:'left'
+                            size_hint: 1, None
+                            height: 55
+                        GridLayout:
+                            cols: 2
+                            Check:
+                                id: anketa2q1r1
+                                size_hint: None, 1
+                                width: 100
+                            Label:
+                                text: app.uni_text(app.interface_lang,'anketa2q1r1')
+                                text_size: self.size
+                                halign: 'left'
+                                valign: 'middle'
+                                font_name:'font\\PT_Sans_Narrow-Regular'
+                                font_size:28
+                            Check:
+                                id: anketa2q1r2
+                                size_hint: None, 1
+                                width: 100
+                            Label:
+                                text: app.uni_text(app.interface_lang,'anketa2q1r2')
+                                text_size: self.size
+                                halign: 'left'
+                                valign: 'middle'
+                                font_name:'font\\PT_Sans_Narrow-Regular'
+                                font_size:28
+                            Check:
+                                id: anketa2q1r3
+                                size_hint: None, 1
+                                width: 100
+                            Label:
+                                text: app.uni_text(app.interface_lang,'anketa2q1r3')
+                                text_size: self.size
+                                halign: 'left'
+                                valign: 'middle'
+                                font_name:'font\\PT_Sans_Narrow-Regular'
+                                font_size:28
+                            Check:
+                                id: anketa2q1r4
+                                size_hint: None, 1
+                                width: 100
+                            Label:
+                                text: app.uni_text(app.interface_lang,'anketa2q1r4')
+                                text_size: self.size
+                                halign: 'left'
+                                valign: 'middle'
+                                font_name:'font\\PT_Sans_Narrow-Regular'
+                                font_size:28
+                        Widget:
+                            size_hint_y: None
+                            height: 15
+            BoxLayout:
+                orientation:'horizontal'
+                size_hint_y: .6
+                Widget:
+                    size_hint_x: None
+                    width: 120
+                BoxLayout:
+                    orientation:'vertical'
                     Label:
-                        text:app.uni_text(app.interface_lang,'anketa2v1')
-                        halign:'center'
-                        font_name:'font\\PT_Sans_Narrow-Regular'
-                        font_size:28
-                    Label:
-                        text:app.uni_text(app.interface_lang,'anketa2v2')
-                        halign:'center'
-                        font_name:'font\\PT_Sans_Narrow-Regular'
-                        font_size:28
-                    Label:
-                        text:app.uni_text(app.interface_lang,'anketa2v3')
-                        halign:'center'
-                        font_name:'font\\PT_Sans_Narrow-Regular'
-                        font_size:28
-                    Label:
-                        text:app.uni_text(app.interface_lang,'anketa2v4')
-                        halign:'center'
-                        font_name:'font\\PT_Sans_Narrow-Regular'
-                        font_size:28
-                    Label:
-                        text:app.uni_text(app.interface_lang,'anketa2q2')
-                        size_hint_x: None
+                        text: app.uni_text(app.interface_lang,'anketa2intro')
+                        font_name:'font\\PT_Sans_Narrow-Bold'
                         text_size: self.size
-                        width: 500
+                        size_hint_y: None
+                        height: 60
+                        halign: 'left'
+                        valign: 'middle'
+                        font_size:32
                         halign:'left'
-                        font_name:'font\\PT_Sans_Narrow-Regular'
-                        font_size:28
-                    Radio:
-                        id: a2q2v1
-                        group: 'q2'
-                    Radio:
-                        id: a2q2v2
-                        group: 'q2'
-                    Radio:
-                        id: a2q2v3
-                        group: 'q2'
-                    Radio:
-                        id: a2q2v4
-                        group: 'q2'
-                    Label:
-                        text:app.uni_text(app.interface_lang,'anketa2q3')
-                        size_hint_x: None
-                        text_size: self.size
-                        width: 500
-                        halign:'left'
-                        font_name:'font\\PT_Sans_Narrow-Regular'
-                        font_size:28
-                    Radio:
-                        id: a2q3v1
-                        group: 'q3'
-                    Radio:
-                        id: a2q3v2
-                        group: 'q3'
-                    Radio:
-                        id: a2q3v3
-                        group: 'q3'
-                    Radio:
-                        id: a2q3v4
-                        group: 'q3'
-                    Label:
-                        text:app.uni_text(app.interface_lang,'anketa2q4')
-                        size_hint_x: None
-                        text_size: self.size
-                        width: 500
-                        halign:'left'
-                        font_name:'font\\PT_Sans_Narrow-Regular'
-                        font_size:28
-                    Radio:
-                        id: a2q4v1
-                        group: 'q4'
-                    Radio:
-                        id: a2q4v2
-                        group: 'q4'
-                    Radio:
-                        id: a2q4v3
-                        group: 'q4'
-                    Radio:
-                        id: a2q4v4
-                        group: 'q4'
-                    Label:
-                        text:app.uni_text(app.interface_lang,'anketa2q5')
-                        size_hint_x: None
-                        text_size: self.size
-                        width: 500
-                        halign:'left'
-                        font_name:'font\\PT_Sans_Narrow-Regular'
-                        font_size:28
-                    Radio:
-                        id: a2q5v1
-                        group: 'q5'
-                    Radio:
-                        id: a2q5v2
-                        group: 'q5'
-                    Radio:
-                        id: a2q5v3
-                        group: 'q5'
-                    Radio:
-                        id: a2q5v4
-                        group: 'q5'
-                    Label:
-                        text:app.uni_text(app.interface_lang,'anketa2q6')
-                        size_hint_x: None
-                        text_size: self.size
-                        width: 500
-                        halign:'left'
-                        font_name:'font\\PT_Sans_Narrow-Regular'
-                        font_size:28
-                    Radio:
-                        id: a2q6v1
-                        group: 'q6'
-                    Radio:
-                        id: a2q6v2
-                        group: 'q6'
-                    Radio:
-                        id: a2q6v3
-                        group: 'q6'
-                    Radio:
-                        id: a2q6v4
-                        group: 'q6'
-                    Label:
-                        text:app.uni_text(app.interface_lang,'anketa2q7')
-                        size_hint_x: None
-                        text_size: self.size
-                        width: 500
-                        halign:'left'
-                        font_name:'font\\PT_Sans_Narrow-Regular'
-                        font_size:28
-                    Radio:
-                        id: a2q7v1
-                        group: 'q7'
-                    Radio:
-                        id: a2q7v2
-                        group: 'q7'
-                    Radio:
-                        id: a2q7v3
-                        group: 'q7'
-                    Radio:
-                        id: a2q7v4
-                        group: 'q7'
-                    Label:
-                        text:app.uni_text(app.interface_lang,'anketa2q8')
-                        size_hint_x: None
-                        text_size: self.size
-                        width: 500
-                        halign:'left'
-                        font_name:'font\\PT_Sans_Narrow-Regular'
-                        font_size:28
-                    Radio:
-                        id: a2q8v1
-                        group: 'q8'
-                    Radio:
-                        id: a2q8v2
-                        group: 'q8'
-                    Radio:
-                        id: a2q8v3
-                        group: 'q8'
-                    Radio:
-                        id: a2q8v4
-                        group: 'q8'
+                    GridLayout:
+                        cols: 5
+                        Widget:
+                            size_hint_x: None
+                            width: 500
+                        Label:
+                            text:app.uni_text(app.interface_lang,'anketa2v1')
+                            halign:'center'
+                            font_name:'font\\PT_Sans_Narrow-Regular'
+                            font_size:28
+                        Label:
+                            text:app.uni_text(app.interface_lang,'anketa2v2')
+                            halign:'center'
+                            font_name:'font\\PT_Sans_Narrow-Regular'
+                            font_size:28
+                        Label:
+                            text:app.uni_text(app.interface_lang,'anketa2v3')
+                            halign:'center'
+                            font_name:'font\\PT_Sans_Narrow-Regular'
+                            font_size:28
+                        Label:
+                            text:app.uni_text(app.interface_lang,'anketa2v4')
+                            halign:'center'
+                            font_name:'font\\PT_Sans_Narrow-Regular'
+                            font_size:28
+                        Label:
+                            text:app.uni_text(app.interface_lang,'anketa2q2')
+                            size_hint_x: None
+                            text_size: self.size
+                            width: 500
+                            halign:'left'
+                            font_name:'font\\PT_Sans_Narrow-Regular'
+                            font_size:28
+                        Radio:
+                            id: a2q2v1
+                            group: 'q2'
+                        Radio:
+                            id: a2q2v2
+                            group: 'q2'
+                        Radio:
+                            id: a2q2v3
+                            group: 'q2'
+                        Radio:
+                            id: a2q2v4
+                            group: 'q2'
+                        Label:
+                            text:app.uni_text(app.interface_lang,'anketa2q3')
+                            size_hint_x: None
+                            text_size: self.size
+                            width: 500
+                            halign:'left'
+                            font_name:'font\\PT_Sans_Narrow-Regular'
+                            font_size:28
+                        Radio:
+                            id: a2q3v1
+                            group: 'q3'
+                        Radio:
+                            id: a2q3v2
+                            group: 'q3'
+                        Radio:
+                            id: a2q3v3
+                            group: 'q3'
+                        Radio:
+                            id: a2q3v4
+                            group: 'q3'
+                        Label:
+                            text:app.uni_text(app.interface_lang,'anketa2q4')
+                            size_hint_x: None
+                            text_size: self.size
+                            width: 500
+                            halign:'left'
+                            font_name:'font\\PT_Sans_Narrow-Regular'
+                            font_size:28
+                        Radio:
+                            id: a2q4v1
+                            group: 'q4'
+                        Radio:
+                            id: a2q4v2
+                            group: 'q4'
+                        Radio:
+                            id: a2q4v3
+                            group: 'q4'
+                        Radio:
+                            id: a2q4v4
+                            group: 'q4'
+                        Label:
+                            text:app.uni_text(app.interface_lang,'anketa2q5')
+                            size_hint_x: None
+                            text_size: self.size
+                            width: 500
+                            halign:'left'
+                            font_name:'font\\PT_Sans_Narrow-Regular'
+                            font_size:28
+                        Radio:
+                            id: a2q5v1
+                            group: 'q5'
+                        Radio:
+                            id: a2q5v2
+                            group: 'q5'
+                        Radio:
+                            id: a2q5v3
+                            group: 'q5'
+                        Radio:
+                            id: a2q5v4
+                            group: 'q5'
+                        Label:
+                            text:app.uni_text(app.interface_lang,'anketa2q6')
+                            size_hint_x: None
+                            text_size: self.size
+                            width: 500
+                            halign:'left'
+                            font_name:'font\\PT_Sans_Narrow-Regular'
+                            font_size:28
+                        Radio:
+                            id: a2q6v1
+                            group: 'q6'
+                        Radio:
+                            id: a2q6v2
+                            group: 'q6'
+                        Radio:
+                            id: a2q6v3
+                            group: 'q6'
+                        Radio:
+                            id: a2q6v4
+                            group: 'q6'
+                        Label:
+                            text:app.uni_text(app.interface_lang,'anketa2q7')
+                            size_hint_x: None
+                            text_size: self.size
+                            width: 500
+                            halign:'left'
+                            font_name:'font\\PT_Sans_Narrow-Regular'
+                            font_size:28
+                        Radio:
+                            id: a2q7v1
+                            group: 'q7'
+                        Radio:
+                            id: a2q7v2
+                            group: 'q7'
+                        Radio:
+                            id: a2q7v3
+                            group: 'q7'
+                        Radio:
+                            id: a2q7v4
+                            group: 'q7'
+                        Label:
+                            text:app.uni_text(app.interface_lang,'anketa2q8')
+                            size_hint_x: None
+                            text_size: self.size
+                            width: 500
+                            halign:'left'
+                            font_name:'font\\PT_Sans_Narrow-Regular'
+                            font_size:28
+                        Radio:
+                            id: a2q8v1
+                            group: 'q8'
+                        Radio:
+                            id: a2q8v2
+                            group: 'q8'
+                        Radio:
+                            id: a2q8v3
+                            group: 'q8'
+                        Radio:
+                            id: a2q8v4
+                            group: 'q8'
             BoxLayout:
                 orientation: 'horizontal'
                 size_hint:1,None
                 height:150
                 Widget:
-                    size_hint: .3, 1
-                    width: 650
-                AnchorLayout:
-                    size_hint: .2, 1
-                    width: 200
-                    Button:
-                        text: app.uni_text(app.interface_lang,'back').upper()
-                        size_hint:None,None
-                        size:193,66
-                        font_name:'font\\PT_Sans_Narrow-Regular'
-                        font_size:32
-                        background_normal:'img\\btn_k.png'
-                        background_down:'img\\btn_k_press.png'
-                        on_press: root.manager.current='Anketa1page';root.manager.start()
-                AnchorLayout:
-                    size_hint: .2, 1
-                    width: 200
-                    Button:
-                        text: app.uni_text(app.interface_lang,'forward').upper()
-                        size_hint:None,None
-                        size:193,66
-                        font_name:'font\\PT_Sans_Narrow-Regular'
-                        font_size:32
-                        background_normal:'img\\btn_k.png'
-                        background_down:'img\\btn_k_press.png'
-                        on_press: root.manager.current='Anketa3page';root.manager.start()
-                Widget:
-                    size_hint: .1, 1
-                    width: 650
-                AnchorLayout:
-                    size_hint: .2, 1
-                    width: 200
-                    Button:
-                        text:''
-                        size_hint:None,None
-                        size:101,64
-                        background_normal:'img\\back.png'
-                        background_down:'img\\back.png'
-                        on_press: root.manager.current='Menu';root.manager.start()
+                    size_hint: .5, 1
+                BoxLayout:
+                    orientation:'horizontal'
+                    size_hint: None, 1
+                    width: 600
+                    AnchorLayout:
+                        anchor_y:'center'
+                        anchor_x:'center'
+                        Button:
+                            text: app.uni_text(app.interface_lang,'back').upper()
+                            size_hint:None,None
+                            size:193,66
+                            font_name:'font\\PT_Sans_Narrow-Regular'
+                            font_size:32
+                            background_normal:'img\\btn_k.png'
+                            background_down:'img\\btn_k_press.png'
+                            on_press: root.manager.current='Anketa1page';root.manager.start()
+                    AnchorLayout:
+                        anchor_y:'center'
+                        anchor_x:'center'
+                        Button:
+                            text: app.uni_text(app.interface_lang,'forward').upper()
+                            size_hint:None,None
+                            size:193,66
+                            font_name:'font\\PT_Sans_Narrow-Regular'
+                            font_size:32
+                            background_normal:'img\\btn_k.png'
+                            background_down:'img\\btn_k_press.png'
+                            on_press: root.manager.current='Anketa3page';root.manager.start()
+                BoxLayout:
+                    orientation:'horizontal'
+                    size_hint: .5, 1
+                    Widget:
+                    AnchorLayout:
+                        anchor_y:'center'
+                        anchor_x:'center'
+                        Button:
+                            text:''
+                            size_hint:None,None
+                            size:101,64
+                            background_normal:'img\\back.png'
+                            background_down:'img\\back.png'
+                            on_press: root.manager.current='Menu';root.manager.start()

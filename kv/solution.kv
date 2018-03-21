@@ -2,6 +2,29 @@
 # solution.kv
 # Solution
 
+<Prez>:
+    orientation:'vertical'
+
+
+<PrezDot>:
+    text:''
+    size_hint:None,None
+    size: 26, 26
+    background_normal:'img\\dot.png'
+    background_down:'img\\dot.png'
+
+<PrezDotLine>:
+    orientation:'horizontal'
+    size_hint_x: None
+
+<PrezDotLineWrap>:
+    orientation:'horizontal'
+    size_hint: 1,None
+    height:120
+    padding: 40
+
+
+
 <ScreenSolution>:
     GridLayout:
         cols: 2
@@ -23,15 +46,20 @@
             Image:
                 source:'img\\logo_white_300x72.png'
                 size_hint:1, .25
-            Widget:
+            Button:
+                text:app.uni_text(app.interface_lang,'solution1').upper()
                 size_hint:1, .25
+                halign:'center'
+                font_name:'font\\PT_Sans_Narrow-Bold'
+                font_size:48
+                on_press: app.change_current('NewProduct')
             BoxLayout:
                 orientation:'vertical'
                 size_hint:1, .25
                 Widget:
                     size_hint: 1, 0.3
                 Label:
-                    text:app.uni_text(app.interface_lang,'solution1').upper()
+                    text:app.uni_text(app.interface_lang,'solution2').upper()
                     size_hint:1, .38
                     halign:'center'
                     font_name:'font\\PT_Sans_Narrow-Bold'
@@ -49,93 +77,20 @@
                             Rectangle:
                                 pos: self.pos
                                 size: self.size
-            Widget:
+            Button:
+                text:app.uni_text(app.interface_lang,'solution3').upper()
                 size_hint:1, .25
+                halign:'center'
+                font_name:'font\\PT_Sans_Narrow-Bold'
+                font_size:48
+                on_press: app.change_current('Digital')
             
         BoxLayout:
             orientation: 'vertical'
             size_hint: 0.8,1
-            padding:[40,0,40,0]
-            BoxLayout:
-                orientation:'horizontal'
-                size_hint: 1,None
-                height:120
-                padding: 40
-                Widget:
-                    size_hint: .5, 1
-                BoxLayout:
-                    orientation:'horizontal'
-                    size_hint_x: None
-                    width: 176
-                    Button:
-                        text:''
-                        id:prez_0
-                        size_hint:None,None
-                        size: 26, 26
-                        background_normal:'img\\dot_active.png'
-                        background_down:'img\\dot_active.png'
-                        on_release:carousel_solution.load_slide(carousel_solution.slides[0]);root.manager.start()
-                    Widget:
-                        size_hint: 1, None
-                        width: 16
-                    Button:
-                        text:''
-                        id:prez_1
-                        size_hint:None,None
-                        size: 26, 26
-                        background_normal:'img\\dot.png'
-                        background_down:'img\\dot.png'
-                        on_release:carousel_solution.load_slide(carousel_solution.slides[1]);root.manager.start()
-                    Widget:
-                        size_hint: 1, None
-                        width: 16
-                    Button:
-                        text:''
-                        id:prez_2
-                        size_hint:None,None
-                        size: 26, 26
-                        background_normal:'img\\dot.png'
-                        background_down:'img\\dot.png'
-                        on_release:carousel_solution.load_slide(carousel_solution.slides[2]);root.manager.start()
-                Widget:
-                    size_hint: .5, 1
-            AnchorLayout:
-                anchor_x:'center'
-                anchor_y:'center'
-                size_hint: 1, None
-                height: 810
-                BoxLayout:
-                    orientation:'vertical'
-
-                    BoxLayout:
-                        orientation:'horizontal'
-                        Widget:
-                        Carousel:
-                            size_hint:None,None
-                            size:1156,800
-                            loop: True
-                            id:carousel_solution
-                            scroll_timeout:200
-                            anim_type: 'in_quart'
-                            on_index:root.change_slide(carousel_solution.index)
-                            Image:
-                                source:'img\\prez_800\\prez_1.png'
-                                size_hint:None,None
-                                size:1156,800
-                            Image:
-                                source:'img\\prez_800\\prez_2.png'
-                                size_hint:None,None
-                                size:1156,800
-                            Image:
-                                source:'img\\prez_800\\prez_3.png'
-                                size_hint:None,None
-                                size:1156,800
-                        Widget:
-                    Widget:
-                        size_hint:None,None
-                        size:1156,10
-
-                        
+            Prez:
+                id: prez_flex
+                itable_manager: root.manager
             BoxLayout:
                 orientation: 'horizontal'
                 size_hint:1,None
@@ -147,25 +102,35 @@
                     size_hint: None, 1
                     width: 560
                     AnchorLayout:
-                        anchor_y:'center'
+                        anchor_y:'top'
                         anchor_x:'center'
-                        Button:
-                            text:''
-                            background_normal:'img\\prev.png'
-                            background_down:'img\\prev.png'
-                            size_hint:None,None
-                            size:92,92
-                            on_release:carousel_solution.load_previous();root.manager.start()
+                        BoxLayout:
+                            orientation:'vertical'
+                            size_hint: None, None
+                            size: 92,104
+                            Widget:
+                            Button:
+                                text:''
+                                background_normal:'img\\prev.png'
+                                background_down:'img\\prev.png'
+                                size_hint:None,None
+                                size:92,92
+                                on_release:prez_flex.load_prev();root.manager.start()
                     AnchorLayout:
-                        anchor_y:'center'
+                        anchor_y:'top'
                         anchor_x:'center'
-                        Button:
-                            text:''
-                            background_normal:'img\\next.png'
-                            background_down:'img\\next.png'
-                            size_hint:None,None
-                            size:92,92
-                            on_release:carousel_solution.load_next();root.manager.start()
+                        BoxLayout:
+                            orientation:'vertical'
+                            size_hint: None, None
+                            size: 92,104
+                            Widget:
+                            Button:
+                                text:''
+                                background_normal:'img\\next.png'
+                                background_down:'img\\next.png'
+                                size_hint:None,None
+                                size:92,92
+                                on_release:prez_flex.load_next();root.manager.start()
                 BoxLayout:
                     orientation:'horizontal'
                     size_hint: .5, 1
@@ -179,4 +144,4 @@
                             size:101,64
                             background_normal:'img\\back.png'
                             background_down:'img\\back.png'
-                            on_press: root.manager.current='Menu';root.manager.start()
+                            on_press: root.manager.current='Menu';root.manager.start();root.manager.start();root.manager.ids.newproduct.ids.prez_new.sl_carousel.load_slide(root.manager.ids.newproduct.ids.prez_new.sl_carousel.slides[0]);root.manager.ids.solution.ids.prez_flex.sl_carousel.load_slide(root.manager.ids.solution.ids.prez_flex.sl_carousel.slides[0]);root.manager.ids.digital.ids.prez_digital.sl_carousel.load_slide(root.manager.ids.digital.ids.prez_digital.sl_carousel.slides[0])

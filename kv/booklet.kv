@@ -2,6 +2,9 @@
 # booklet.kv
 # Booklet
 
+<Booklet>:
+    orientation:'vertical'
+
 <ScreenBooklet>:
     GridLayout:
         cols: 2
@@ -63,175 +66,183 @@
             orientation: 'vertical'
             size_hint: 0.8,1
             # padding:[40,0,40,0]
-            BoxLayout:
-                orientation:'horizontal'
-                size_hint: 1,None
-                height:170
-                padding: 40
-                Widget:
-                    size_hint: .5, 1
-                BoxLayout:
-                    orientation:'horizontal'
-                    size_hint_x: None
-                    width: 362
-                    Button:
-                        text:''
-                        id:slide0
-                        size_hint:None,None
-                        size: 26, 26
-                        background_normal:'img\\dot_active.png'
-                        background_down:'img\\dot_active.png'
-                        on_release:carousel_booklet.load_slide(carousel_booklet.slides[0]);root.manager.start()
-                    Widget:
-                        size_hint: 1, None
-                        width: 16
-                    Button:
-                        text:''
-                        id:slide1
-                        size_hint:None,None
-                        size: 26, 26
-                        background_normal:'img\\dot.png'
-                        background_down:'img\\dot.png'
-                        on_release:carousel_booklet.load_slide(carousel_booklet.slides[1]);root.manager.start()
-                    Widget:
-                        size_hint: 1, None
-                        width: 16
-                    Button:
-                        text:''
-                        id:slide2
-                        size_hint:None,None
-                        size: 26, 26
-                        background_normal:'img\\dot.png'
-                        background_down:'img\\dot.png'
-                        on_release:carousel_booklet.load_slide(carousel_booklet.slides[2]);root.manager.start()
-                    Widget:
-                        size_hint: 1, None
-                        width: 16
-                    Button:
-                        text:''
-                        id:slide3
-                        size_hint:None,None
-                        size: 26, 26
-                        background_normal:'img\\dot.png'
-                        background_down:'img\\dot.png'
-                        on_release:carousel_booklet.load_slide(carousel_booklet.slides[3]);root.manager.start()
-                    Widget:
-                        size_hint: 1, None
-                        width: 16
-                    Button:
-                        text:''
-                        id:slide4
-                        size_hint:None,None
-                        size: 26, 26
-                        background_normal:'img\\dot.png'
-                        background_down:'img\\dot.png'
-                        on_release:carousel_booklet.load_slide(carousel_booklet.slides[4]);root.manager.start()
-                    Widget:
-                        size_hint: 1, None
-                        width: 16
-                    Button:
-                        text:''
-                        id:slide5
-                        size_hint:None,None
-                        size: 26, 26
-                        background_normal:'img\\dot.png'
-                        background_down:'img\\dot.png'
-                        on_release:carousel_booklet.load_slide(carousel_booklet.slides[5]);root.manager.start()
-                    Widget:
-                        size_hint: 1, None
-                        width: 16
-                    Button:
-                        text:''
-                        id:slide6
-                        size_hint:None,None
-                        size: 26, 26
-                        background_normal:'img\\dot.png'
-                        background_down:'img\\dot.png'
-                        on_release:carousel_booklet.load_slide(carousel_booklet.slides[6]);root.manager.start()
-                    Widget:
-                        size_hint: 1, None
-                        width: 16
-                    Button:
-                        text:''
-                        id:slide7
-                        size_hint:None,None
-                        size: 26, 26
-                        background_normal:'img\\dot.png'
-                        background_down:'img\\dot.png'
-                        on_release:carousel_booklet.load_slide(carousel_booklet.slides[7]);root.manager.start()
-                    Widget:
-                        size_hint: 1, None
-                        width: 16
-                    Button:
-                        text:''
-                        id:slide8
-                        size_hint:None,None
-                        size: 26, 26
-                        background_normal:'img\\dot.png'
-                        background_down:'img\\dot.png'
-                        on_release:carousel_booklet.load_slide(carousel_booklet.slides[8]);root.manager.start()
-                Widget:
-                    size_hint: .5, 1
-            AnchorLayout:
-                anchor_x:'center'
-                anchor_y:'center'
-                size_hint: 1, None
-                height: 760
-                BoxLayout:
-                    orientation:'vertical'
-                    # size_hint:None,1
-                    # width:1440
-                    BoxLayout:
-                        orientation:'horizontal'
-                        Widget:
-                        Carousel:
-                            size_hint:None,None
-                            size:1440,720
-                            loop: True
-                            id:carousel_booklet
-                            scroll_timeout:200
-                            anim_type: 'in_quart'
-                            on_index:root.change_slide(carousel_booklet.index)
-                            Image:
-                                source:'img\\buklet\\b01.png'
-                                size_hint:None,None
-                                size:1440,720
-                            Image:
-                                source:'img\\buklet\\b02.png'
-                                size_hint:None,None
-                                size:1440,720
-                            Image:
-                                source:'img\\buklet\\b03.png'
-                                size_hint:None,None
-                                size:1440,720
-                            Image:
-                                source:'img\\buklet\\b04.png'
-                                size_hint:None,None
-                                size:1440,720
-                            Image:
-                                source:'img\\buklet\\b05.png'
-                                size_hint:None,None
-                                size:1440,720
-                            Image:
-                                source:'img\\buklet\\b06.png'
-                                size_hint:None,None
-                                size:1440,720
-                            Image:
-                                source:'img\\buklet\\b07.png'
-                                size_hint:None,None
-                                size:1440,720
-                            Image:
-                                source:'img\\buklet\\b08.png'
-                                size_hint:None,None
-                                size:1440,720
-                            Image:
-                                source:'img\\buklet\\b09.png'
-                                size_hint:None,None
-                                size:1440,720
-                        Widget:
-                    Widget:
-                        size_hint:None,None
-                        size:1440,40
+            Widget:
+                size_hint_y: None
+                height:50
+            Booklet:
+                id:prez_booklet
+                itable_manager: root.manager
+
+
+            # BoxLayout:
+            #     orientation:'horizontal'
+            #     size_hint: 1,None
+            #     height:170
+            #     padding: 40
+            #     Widget:
+            #         size_hint: .5, 1
+            #     BoxLayout:
+            #         orientation:'horizontal'
+            #         size_hint_x: None
+            #         width: 362
+            #         Button:
+            #             text:''
+            #             id:slide0
+            #             size_hint:None,None
+            #             size: 26, 26
+            #             background_normal:'img\\dot_active.png'
+            #             background_down:'img\\dot_active.png'
+            #             on_release:carousel_booklet.load_slide(carousel_booklet.slides[0]);root.manager.start()
+            #         Widget:
+            #             size_hint: 1, None
+            #             width: 16
+            #         Button:
+            #             text:''
+            #             id:slide1
+            #             size_hint:None,None
+            #             size: 26, 26
+            #             background_normal:'img\\dot.png'
+            #             background_down:'img\\dot.png'
+            #             on_release:carousel_booklet.load_slide(carousel_booklet.slides[1]);root.manager.start()
+            #         Widget:
+            #             size_hint: 1, None
+            #             width: 16
+            #         Button:
+            #             text:''
+            #             id:slide2
+            #             size_hint:None,None
+            #             size: 26, 26
+            #             background_normal:'img\\dot.png'
+            #             background_down:'img\\dot.png'
+            #             on_release:carousel_booklet.load_slide(carousel_booklet.slides[2]);root.manager.start()
+            #         Widget:
+            #             size_hint: 1, None
+            #             width: 16
+            #         Button:
+            #             text:''
+            #             id:slide3
+            #             size_hint:None,None
+            #             size: 26, 26
+            #             background_normal:'img\\dot.png'
+            #             background_down:'img\\dot.png'
+            #             on_release:carousel_booklet.load_slide(carousel_booklet.slides[3]);root.manager.start()
+            #         Widget:
+            #             size_hint: 1, None
+            #             width: 16
+            #         Button:
+            #             text:''
+            #             id:slide4
+            #             size_hint:None,None
+            #             size: 26, 26
+            #             background_normal:'img\\dot.png'
+            #             background_down:'img\\dot.png'
+            #             on_release:carousel_booklet.load_slide(carousel_booklet.slides[4]);root.manager.start()
+            #         Widget:
+            #             size_hint: 1, None
+            #             width: 16
+            #         Button:
+            #             text:''
+            #             id:slide5
+            #             size_hint:None,None
+            #             size: 26, 26
+            #             background_normal:'img\\dot.png'
+            #             background_down:'img\\dot.png'
+            #             on_release:carousel_booklet.load_slide(carousel_booklet.slides[5]);root.manager.start()
+            #         Widget:
+            #             size_hint: 1, None
+            #             width: 16
+            #         Button:
+            #             text:''
+            #             id:slide6
+            #             size_hint:None,None
+            #             size: 26, 26
+            #             background_normal:'img\\dot.png'
+            #             background_down:'img\\dot.png'
+            #             on_release:carousel_booklet.load_slide(carousel_booklet.slides[6]);root.manager.start()
+            #         Widget:
+            #             size_hint: 1, None
+            #             width: 16
+            #         Button:
+            #             text:''
+            #             id:slide7
+            #             size_hint:None,None
+            #             size: 26, 26
+            #             background_normal:'img\\dot.png'
+            #             background_down:'img\\dot.png'
+            #             on_release:carousel_booklet.load_slide(carousel_booklet.slides[7]);root.manager.start()
+            #         Widget:
+            #             size_hint: 1, None
+            #             width: 16
+            #         Button:
+            #             text:''
+            #             id:slide8
+            #             size_hint:None,None
+            #             size: 26, 26
+            #             background_normal:'img\\dot.png'
+            #             background_down:'img\\dot.png'
+            #             on_release:carousel_booklet.load_slide(carousel_booklet.slides[8]);root.manager.start()
+            #     Widget:
+            #         size_hint: .5, 1
+            # AnchorLayout:
+            #     anchor_x:'center'
+            #     anchor_y:'center'
+            #     size_hint: 1, None
+            #     height: 760
+            #     BoxLayout:
+            #         orientation:'vertical'
+            #         # size_hint:None,1
+            #         # width:1440
+            #         BoxLayout:
+            #             orientation:'horizontal'
+            #             Widget:
+            #             Carousel:
+            #                 size_hint:None,None
+            #                 size:1440,720
+            #                 loop: True
+            #                 id:carousel_booklet
+            #                 scroll_timeout:200
+            #                 anim_type: 'in_quart'
+            #                 on_index:root.change_slide(carousel_booklet.index)
+            #                 Image:
+            #                     source:'img\\buklet\\b01.png'
+            #                     size_hint:None,None
+            #                     size:1440,720
+            #                 Image:
+            #                     source:'img\\buklet\\b02.png'
+            #                     size_hint:None,None
+            #                     size:1440,720
+            #                 Image:
+            #                     source:'img\\buklet\\b03.png'
+            #                     size_hint:None,None
+            #                     size:1440,720
+            #                 Image:
+            #                     source:'img\\buklet\\b04.png'
+            #                     size_hint:None,None
+            #                     size:1440,720
+            #                 Image:
+            #                     source:'img\\buklet\\b05.png'
+            #                     size_hint:None,None
+            #                     size:1440,720
+            #                 Image:
+            #                     source:'img\\buklet\\b06.png'
+            #                     size_hint:None,None
+            #                     size:1440,720
+            #                 Image:
+            #                     source:'img\\buklet\\b07.png'
+            #                     size_hint:None,None
+            #                     size:1440,720
+            #                 Image:
+            #                     source:'img\\buklet\\b08.png'
+            #                     size_hint:None,None
+            #                     size:1440,720
+            #                 Image:
+            #                     source:'img\\buklet\\b09.png'
+            #                     size_hint:None,None
+            #                     size:1440,720
+            #             Widget:
+            #         Widget:
+            #             size_hint:None,None
+            #             size:1440,40
 
                         
             BoxLayout:
@@ -245,25 +256,35 @@
                     size_hint: None, 1
                     width: 600
                     AnchorLayout:
-                        anchor_y:'center'
+                        anchor_y:'top'
                         anchor_x:'center'
-                        Button:
-                            text:''
-                            background_normal:'img\\prev.png'
-                            background_down:'img\\prev.png'
-                            size_hint:None,None
-                            size:92,92
-                            on_release:carousel_booklet.load_previous();root.manager.start()
+                        BoxLayout:
+                            orientation:'vertical'
+                            size_hint: None, None
+                            size: 92,104
+                            Widget:
+                            Button:
+                                text:''
+                                background_normal:'img\\prev.png'
+                                background_down:'img\\prev.png'
+                                size_hint:None,None
+                                size:92,92
+                                on_release:prez_booklet.sl_carousel.load_previous()
                     AnchorLayout:
-                        anchor_y:'center'
+                        anchor_y:'top'
                         anchor_x:'center'
-                        Button:
-                            text:''
-                            background_normal:'img\\next.png'
-                            background_down:'img\\next.png'
-                            size_hint:None,None
-                            size:92,92
-                            on_release:carousel_booklet.load_next();root.manager.start()
+                        BoxLayout:
+                            orientation:'vertical'
+                            size_hint: None, None
+                            size: 92,104
+                            Widget:
+                            Button:
+                                text:''
+                                background_normal:'img\\next.png'
+                                background_down:'img\\next.png'
+                                size_hint:None,None
+                                size:92,92
+                                on_release:prez_booklet.sl_carousel.load_next()
                 BoxLayout:
                     orientation:'horizontal'
                     size_hint: .5, 1
@@ -277,4 +298,4 @@
                             size:101,64
                             background_normal:'img\\back.png'
                             background_down:'img\\back.png'
-                            on_press: root.manager.current='Menu';root.manager.start()
+                            on_press: root.manager.current='Menu';root.manager.start();root.manager.ids.booklet.ids.prez_booklet.sl_carousel.load_slide(root.manager.ids.booklet.ids.prez_booklet.sl_carousel.slides[0]);root.manager.ids.digital.ids.prez_digital.sl_carousel.load_slide(root.manager.ids.digital.ids.prez_digital.sl_carousel.slides[0])

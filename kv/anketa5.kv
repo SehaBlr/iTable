@@ -15,71 +15,92 @@
         BoxLayout:
             orientation: 'vertical'
             size_hint: 0.8,1
-            padding:[40,0,40,0]
-            Label:
-                text: app.uni_text(app.interface_lang,'anketa5intro')
-                font_name:'font\\PT_Sans_Narrow-Bold'
-                text_size: self.size
+            BoxLayout:
+                orientation:'horizontal'
                 size_hint_y: None
                 height: 120
-                halign: 'left'
-                valign: 'middle'
-                font_size:32
-                halign:'left'
-            TextInput:
-                id: a5q1
-                font_name:'font\\PT_Sans_Narrow-Regular'
-                foreground_color:[0, 0, 0, 1]
-                background_color: [1, 1, 1, 1]
-                font_size:42
-                multiline: True
-            UniKeyboard:
-                size_hint: None, None
-                size: 1450, 400  #  1450 - ширина клавиатуры
-                id: keyborda
-                tablist: []
-                idslist:root.ids.items()
+                padding: [0, 40, 0, 0]
+                Widget:
+                Label:
+                    text: app.uni_text(app.interface_lang,'anketa5intro')
+                    size_hint_x: None
+                    width: 1350
+                    font_name:'font\\PT_Sans_Narrow-Bold'
+                    text_size: self.size
+                    halign: 'left'
+                    valign: 'middle'
+                    font_size:32
+                    halign:'left'
+                Widget:
+            BoxLayout:
+                orientation:'horizontal'
+                padding: [0, 40, 0, 40]
+                Widget:
+                TextInput:
+                    id: a5q1
+                    size_hint: None, 1
+                    width: 1450
+                    font_name:'font\\PT_Sans_Narrow-Regular'
+                    foreground_color:[0, 0, 0, 1]
+                    background_color: [1, 1, 1, 1]
+                    font_size:42
+                    multiline: True
+                Widget:
+            BoxLayout:
+                orientation:'horizontal'
+                Widget:
+                UniKeyboard:
+                    size_hint: None, None
+                    size: 1450, 400  #  1450 - ширина клавиатуры
+                    id: keyborda
+                    tablist: []
+                    idslist:root.ids.items()
+                Widget:
             BoxLayout:
                 orientation: 'horizontal'
                 size_hint:1,None
                 height:150
                 Widget:
-                    size_hint: .3, 1
-                    width: 650
-                AnchorLayout:
-                    size_hint: .2, 1
-                    width: 200
-                    Button:
-                        text: app.uni_text(app.interface_lang,'back').upper()
-                        size_hint:None,None
-                        size:193,66
-                        font_name:'font\\PT_Sans_Narrow-Regular'
-                        font_size:32
-                        background_normal:'img\\btn_k.png'
-                        background_down:'img\\btn_k_press.png'
-                        on_press: root.manager.current='Anketa4page';root.manager.start()
-                AnchorLayout:
-                    size_hint: .2, 1
-                    width: 200
-                    Button:
-                        text: app.uni_text(app.interface_lang,'send').upper()
-                        size_hint:None,None
-                        size:193,66
-                        font_name:'font\\PT_Sans_Narrow-Regular'
-                        font_size:32
-                        background_normal:'img\\btn_k.png'
-                        background_down:'img\\btn_k_press.png'
-                        on_press: root.manager.current='AnketaThanks';root.manager.anketa_send_info()
-                Widget:
-                    size_hint: .2, 1
-                    width: 650
-                AnchorLayout:
-                    size_hint: .2, 1
-                    width: 200
-                    Button:
-                        text:''
-                        size_hint:None,None
-                        size:101,64
-                        background_normal:'img\\back.png'
-                        background_down:'img\\back.png'
-                        on_press: root.manager.current='Menu';root.manager.start()
+                    size_hint: .5, 1
+                BoxLayout:
+                    orientation:'horizontal'
+                    size_hint: None, 1
+                    width: 600
+                    AnchorLayout:
+                        anchor_y:'center'
+                        anchor_x:'center'
+                        Button:
+                            text: app.uni_text(app.interface_lang,'back').upper()
+                            size_hint:None,None
+                            size:193,66
+                            font_name:'font\\PT_Sans_Narrow-Regular'
+                            font_size:32
+                            background_normal:'img\\btn_k.png'
+                            background_down:'img\\btn_k_press.png'
+                            on_press: root.manager.current='Anketa4page';root.manager.start()
+                    AnchorLayout:
+                        anchor_y:'center'
+                        anchor_x:'center'
+                        Button:
+                            text: app.uni_text(app.interface_lang,'send').upper()
+                            size_hint:None,None
+                            size:193,66
+                            font_name:'font\\PT_Sans_Narrow-Regular'
+                            font_size:32
+                            background_normal:'img\\btn_k.png'
+                            background_down:'img\\btn_k_press.png'
+                            on_press: root.manager.current='AnketaThanks';root.manager.anketa_send_info()
+                BoxLayout:
+                    orientation:'horizontal'
+                    size_hint: .5, 1
+                    Widget:
+                    AnchorLayout:
+                        anchor_y:'center'
+                        anchor_x:'center'
+                        Button:
+                            text:''
+                            size_hint:None,None
+                            size:101,64
+                            background_normal:'img\\back.png'
+                            background_down:'img\\back.png'
+                            on_press: root.manager.current='Menu';root.manager.start()

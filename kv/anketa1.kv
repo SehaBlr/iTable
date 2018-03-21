@@ -72,58 +72,50 @@
                 font_name:'font\\PT_Sans_Narrow-Regular'
                 font_size:34
                 halign:'center'
-            GridLayout:
-                padding: [0,50,0,50]
-                cols: 2
-                rows: 2
-                Box:
-                    Label:
-                        text: app.uni_text(app.interface_lang,'anketa1q1')
-                    TextInput:
-                        id:ank1q1
-                        font_name:'font\\PT_Sans_Narrow-Regular'
-                        foreground_color:[0, 0, 0, 1]
-                        background_color: [1, 1, 1, 1]
-                        font_size:42
-                        multiline: False
-                        padding_x:23
-                        padding_y:12
-                Box:
-                    Label:
-                        text: app.uni_text(app.interface_lang,'anketa1q2')
-                    TextInput:
-                        id:ank1q2
-                        font_name:'font\\PT_Sans_Narrow-Regular'
-                        foreground_color:[0, 0, 0, 1]
-                        background_color: [1, 1, 1, 1]
-                        font_size:42
-                        multiline: False
-                        padding_x:23
-                        padding_y:12
-                Box:
-                    Label:
-                        text: app.uni_text(app.interface_lang,'anketa1q3')
-                    TextInput:
-                        id:ank1q3
-                        font_name:'font\\PT_Sans_Narrow-Regular'
-                        foreground_color:[0, 0, 0, 1]
-                        background_color: [1, 1, 1, 1]
-                        font_size:42
-                        multiline: False
-                        padding_x:23
-                        padding_y:12
-                Box:
-                    Label:
-                        text: app.uni_text(app.interface_lang,'anketa1q4')
-                    TextInput:
-                        id:ank1q4
-                        font_name:'font\\PT_Sans_Narrow-Regular'
-                        foreground_color:[0, 0, 0, 1]
-                        background_color: [1, 1, 1, 1]
-                        font_size:42
-                        multiline: False
-                        padding_x:23
-                        padding_y:12
+            AnchorLayout:
+                anchor_x:'center'
+                anchor_y:'center'
+                GridLayout:
+                    size_hint: None, None
+                    size: 1400, 300
+                    cols: 2
+                    rows: 2
+                    Box:
+                        AnchorLayout:
+                            anchor_x:'center'
+                            RevLbl:
+                                text: app.uni_text(app.interface_lang,'anketa1q1')
+                        AnchorLayout:
+                            anchor_x:'center'
+                            RevText:
+                                id:ank1q1
+                    Box:
+                        AnchorLayout:
+                            anchor_x:'center'
+                            RevLbl:
+                                text: app.uni_text(app.interface_lang,'anketa1q2')
+                        AnchorLayout:
+                            anchor_x:'center'
+                            RevText:
+                                id:ank1q2
+                    Box:
+                        AnchorLayout:
+                            anchor_x:'center'
+                            RevLbl:
+                                text: app.uni_text(app.interface_lang,'anketa1q3')
+                        AnchorLayout:
+                            anchor_x:'center'
+                            RevText:
+                                id:ank1q3
+                    Box:
+                        AnchorLayout:
+                            anchor_x:'center'
+                            RevLbl:
+                                text: app.uni_text(app.interface_lang,'anketa1q4')
+                        AnchorLayout:
+                            anchor_x:'center'
+                            RevText:
+                                id:ank1q4
             AnchorLayout:
                 size_hint:1,None
                 height: 400
@@ -138,30 +130,34 @@
                 size_hint:1,None
                 height:150
                 Widget:
-                    size_hint: .4, 1
-                    width: 650
-                AnchorLayout:
-                    size_hint: .2, 1
-                    width: 200
-                    Button:
-                        text: app.uni_text(app.interface_lang,'forward').upper()
-                        size_hint:None,None
-                        size:193,66
-                        font_name:'font\\PT_Sans_Narrow-Regular'
-                        font_size:32
-                        background_normal:'img\\btn_k.png'
-                        background_down:'img\\btn_k_press.png'
-                        on_press: root.manager.current='Anketa2page';root.manager.start()
-                Widget:
-                    size_hint: .2, 1
-                    width: 650
-                AnchorLayout:
-                    size_hint: .2, 1
-                    width: 200
-                    Button:
-                        text:''
-                        size_hint:None,None
-                        size:101,64
-                        background_normal:'img\\back.png'
-                        background_down:'img\\back.png'
-                        on_press: root.manager.current='Menu';root.manager.start()
+                    size_hint: .5, 1
+                BoxLayout:
+                    orientation:'horizontal'
+                    size_hint: None, 1
+                    width: 600
+                    AnchorLayout:
+                        size_hint: .2, 1
+                        width: 200
+                        Button:
+                            text: app.uni_text(app.interface_lang,'forward').upper()
+                            size_hint:None,None
+                            size:193,66
+                            font_name:'font\\PT_Sans_Narrow-Regular'
+                            font_size:32
+                            background_normal:'img\\btn_k.png'
+                            background_down:'img\\btn_k_press.png'
+                            on_press: root.manager.current='Anketa2page';root.manager.start()
+                BoxLayout:
+                    orientation:'horizontal'
+                    size_hint: .5, 1
+                    Widget:
+                    AnchorLayout:
+                        anchor_y:'center'
+                        anchor_x:'center'
+                        Button:
+                            text:''
+                            size_hint:None,None
+                            size:101,64
+                            background_normal:'img\\back.png'
+                            background_down:'img\\back.png'
+                            on_press: root.manager.current='Menu';root.manager.start()

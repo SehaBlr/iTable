@@ -4,21 +4,25 @@ import kivy
 from kivy.app import App
 
 from kivy.core.window import Window
-from kivy.properties import ObjectProperty,StringProperty,ReferenceListProperty, NumericProperty
+from kivy.properties import ObjectProperty, StringProperty, ReferenceListProperty, NumericProperty, ListProperty
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.behaviors.cover import CoverBehavior
 from kivy.uix.behaviors.focus import FocusBehavior
 from kivy.uix.button import Button
 from kivy.atlas import Atlas
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.carousel import Carousel
+from kivy.uix.image import AsyncImage
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.video import Video
 from kivy.uix.videoplayer import VideoPlayer, VideoPlayerPreview
+from kivy.uix.widget import Widget
 from kivy.uix.progressbar import ProgressBar
 from kivy.clock import Clock
 from kivy.factory import Factory
 from kivy.animation import Animation
+from kivy.event import EventDispatcher
 from functools import partial
 import unikeyboard
 import re
@@ -189,6 +193,25 @@ class ScreenMenu(Screen):
         manager.ids.wifiform.ids.imya.background_color = [1, 1, 1, 1]
         manager.ids.wifiform.ids.prtn.background_color = [1, 1, 1, 1]
         manager.ids.wifiform.ids.mail.background_color = [1, 1, 1, 1]
+        manager.ids.wifiform.ids.imya_error.text = ''
+        manager.ids.wifiform.ids.prtn_error.text = ''
+        manager.ids.wifiform.ids.mail_error.text = ''
+
+
+    def change_slide(self,index):
+        for k, v in self.ids.items():
+            if k[0:6] == 'slide_':
+                try:
+                    num_slider = int(k[6:]) #определяем номер 
+                except:
+                    print('неудалось преобразовать часть id в число')
+                    num_slider = -1
+                if num_slider == index:
+                    v.background_normal = 'img\\dot_active.png'
+                    v.background_down = 'img\\dot_active.png'
+                else:
+                    v.background_normal = 'img\\dot.png'
+                    v.background_down = 'img\\dot.png'
 
 
 class ScreenWiFiForm(Screen):
@@ -359,45 +382,210 @@ class ScreenBooklet(Screen):
                     v.background_down = 'img\\dot.png'
 
 
-
 class ScreenSolution(Screen):
+    pass
+
+
+class ScreenNewProduct(Screen):
+    pass
+
+
+class ScreenDigital(Screen):
+    pass
+
+
+class PrezDot(Button):
+    sl = ObjectProperty()
+    def __init__(self, **kwargs):
+        super(PrezDot, self).__init__(**kwargs)
+
+
+class PrezDotLine(BoxLayout):
+
+    def __init__(self, **kwargs):
+        super(PrezDotLine, self).__init__(**kwargs)
+        
+
+class PrezDotLineWrap(BoxLayout):
+    
+    def __init__(self, **kwargs):
+        super(PrezDotLineWrap, self).__init__(**kwargs)
+
+
+class PrezCarousel(Carousel):
+
+    def on_index(self, *args):
+        super(PrezCarousel, self).on_index(*args)
+        print(self.index)
+        main_layout=self.parent.parent
+        Prez.change_slide(main_layout, self.index)
+        main_layout.itable_manager.start()
+
+
+class Prez(BoxLayout):
+    folder = StringProperty()
+    list_dots = ListProperty([])
+    sl_carousel = ObjectProperty()
+    short_name_for_id = StringProperty()
+    itable_manager = ObjectProperty()
+
+    def __init__(self, **kwargs):
+        super(Prez, self).__init__(**kwargs)
+        list_widgets = self.constructor('img\\prez_flexo\\', 'prez_', 1156, 750)
+        for i in list_widgets:
+            self.add_widget(i)
+
+    def constructor(self, folder, short_name_for_id, width_slide, height_slide):
+        dline = PrezDotLine()
+        dwrap = PrezDotLineWrap()
+        self.folder = folder
+        self.short_name_for_id = short_name_for_id
+        self.list_dots = []
+        l = []
+        for i in os.listdir(folder):
+            if (i[-3:]) == 'jpg' or (i[-3:]) == 'png' or (i[-3:]) == 'gif':
+                l.append(i)
+        space = (width_slide - 26 * len(l)) // (len(l) - 1)
+        if space > 16:
+            space = 16
+        if space < 0:
+            space = 1
+        dline.width = len(l) * 26 + len(l) * space
+        slider = PrezCarousel()
+        slider.size_hint = (None, None)
+        slider.size = (width_slide, height_slide)
+        slider.loop = True
+        for i in os.listdir(folder):
+            if (i[-3:]) == 'jpg' or (i[-3:]) == 'png' or (i[-3:]) == 'gif':
+                src = f'{folder}{i}'
+                image = AsyncImage(source=src, allow_stretch=True)
+                slider.add_widget(image)
+        self.sl_carousel = slider
+        for i, item in enumerate(l):
+            pd = PrezDot()
+            txt = f'{short_name_for_id}{str(i)}'
+            pd.id = txt
+            pd.sl = slider
+            if i == 0:
+                pd.background_normal = 'img\\dot_active.png'
+                pd.background_down = 'img\\dot_active.png'
+            if i != 0:
+                wd = Widget()
+                wd.size_hint = (1, None)
+                wd.width = space
+                dline.add_widget(wd)
+            pd.bind(on_release=self.change_sl)
+            self.list_dots.append(pd)
+            dline.add_widget(pd)
+        dwrap.add_widget(Widget())
+        dwrap.add_widget(dline)
+        dwrap.add_widget(Widget())
+
+        pcarouselwrap = BoxLayout(orientation = 'horizontal')
+        pcarouselwrap.add_widget(Widget())
+        pcarouselwrap.add_widget(slider)
+        pcarouselwrap.add_widget(Widget())
+        space = Widget(size_hint_y=None, height=60)
+        result = [dwrap, pcarouselwrap, space]
+        return result
+
+    def change_sl(self,instance):
+        len_name = len(self.short_name_for_id)
+        num_slider = int(instance.id[len_name:])
+        instance.sl.load_slide(instance.sl.slides[num_slider])
 
     def change_slide(self,index):
-        for k, v in self.ids.items():
-            if k[0:5] == 'prez_':
-                try:
-                    num_slider = int(k[5:]) #определяем номер 
-                except:
-                    print('неудалось преобразовать часть id в число')
-                    num_slider = -1
-                if num_slider == index:
-                    v.background_normal = 'img\\dot_active.png'
-                    v.background_down = 'img\\dot_active.png'
-                else:
-                    v.background_normal = 'img\\dot.png'
-                    v.background_down = 'img\\dot.png'
+        for i, v in enumerate(self.list_dots):
+            if index == i:
+                v.background_normal = 'img\\dot_active.png'
+                v.background_down = 'img\\dot_active.png'
+            else:
+                v.background_normal = 'img\\dot.png'
+                v.background_down = 'img\\dot.png'
+
+    def load_prev(self):
+        self.sl_carousel.load_previous()
+
+    def load_next(self):
+        self.sl_carousel.load_next()
+
+
+class PrezNewProduct(BoxLayout):
+
+    def __init__(self, **kwargs):
+        super(PrezNewProduct, self).__init__(**kwargs)
+        list_widgets = Prez.constructor(self,'img\\prez_new\\', 'preznew_', 1156, 750)
+        for i in list_widgets:
+            self.add_widget(i)
+
+    def change_sl(self, instance):
+        len_name = len(self.short_name_for_id)
+        num_slider = int(instance.id[len_name:])
+        instance.sl.load_slide(instance.sl.slides[num_slider])
+
+
+class PrezDigital(BoxLayout):
+
+    def __init__(self, **kwargs):
+        super(PrezDigital, self).__init__(**kwargs)
+        list_widgets = Prez.constructor(
+            self, 'img\\prez_digital\\', 'prez_d_', 1156, 750)
+        for i in list_widgets:
+            self.add_widget(i)
+
+    def change_sl(self, instance):
+        len_name = len(self.short_name_for_id)
+        num_slider = int(instance.id[len_name:])
+        instance.sl.load_slide(instance.sl.slides[num_slider])
+
+
+class PrezMain(BoxLayout):
+
+    def __init__(self, **kwargs):
+        super(PrezMain, self).__init__(**kwargs)
+        list_widgets = Prez.constructor(
+            self, 'img\\prez_main\\', 'prez_m_', 1200, 410)
+        self.add_widget(list_widgets[0])
+        self.add_widget(list_widgets[1])
+        wd = list_widgets[2]
+        wd.height = 99
+        self.add_widget(wd)
+
+    def change_sl(self, instance):
+        len_name = len(self.short_name_for_id)
+        num_slider = int(instance.id[len_name:])
+        instance.sl.load_slide(instance.sl.slides[num_slider])
+
+
+class Booklet(BoxLayout):
+    def __init__(self, **kwargs):
+        super(Booklet, self).__init__(**kwargs)
+        list_widgets = Prez.constructor(
+            self, 'img\\buklet\\', 'b_', 1440, 720)
+        self.add_widget(list_widgets[0])
+        self.add_widget(list_widgets[1])
+        wd = list_widgets[2]
+        wd.height = 40
+        self.add_widget(wd)
+
+    def change_sl(self, instance):
+        len_name = len(self.short_name_for_id)
+        num_slider = int(instance.id[len_name:])
+        instance.sl.load_slide(instance.sl.slides[num_slider])
 
 
 class ScreenVideo(Screen):
     
-
     def exit_video(self):
         self.ids.vplay.children[0].play = False
         self.ids.vplay.children[0].state = 'stop'
     
-    # def callback(self,dt):
-    #     # print(self.event)
-    #     print(time.strftime("%M:%S", time.gmtime(self.ids.vframe.position)))
-
     def rewind_video(self):
         st = self.ids.vframe.state
         print (st)
         if self.ids.vframe.state != 'stop':
             pr = round(self.ids.vscale.get_norm_value(),3)
             self.ids.vframe.seek(pr)
-            # self.ids.vframe.state= 'pause'
-            # self.ids.vframe.position = (self.ids.vscale.get_norm_value()) * (self.ids.vframe.duration)
-            # self.ids.vframe.state = st
     def rewind_video_down(self):
         print(self)
 
@@ -405,17 +593,12 @@ class ScreenVideo(Screen):
     def play_video(self):
         if self.ids.vframe.state == 'play':
             self.ids.vframe.state = 'pause'
-            # print(time.strftime("%M:%S", time.gmtime(self.ids.vframe.position)))
-            # print(time.strftime("%M:%S", time.gmtime(self.ids.vframe.duration)))
-            # print(self.ids.vframe.loaded)
             self.ids.voverlay.background_normal = 'img\\video_pause.png'
             self.ids.voverlay.background_down = 'img\\video_pause.png'
             self.ids.vplaypause.background_normal = 'img\\video_player\\play.png'
             self.ids.vplaypause.background_down = 'img\\video_player\\play.png'
         else:
             self.ids.vframe.state = 'play'
-            # print(self.ids.vframe.duration)
-            # print(self.ids.vframe.position)
             self.ids.voverlay.background_normal = 'img\\px.png'
             self.ids.voverlay.background_down = 'img\\px.png'
             self.ids.vplaypause.background_normal = 'img\\video_player\\pause.png'
@@ -501,6 +684,7 @@ class SliBar(ProgressBar):
         if self.seek is None:
             if self.video.duration == 0:
                 seek = 0
+                self.video.duration = 511
             else:
                 seek = self.video.position / self.video.duration
         # convert to minutes:seconds
@@ -510,14 +694,13 @@ class SliBar(ProgressBar):
         # fix bubble label & position
         self.bubble_label.text = '%d:%02d' % (minutes, seconds)
         self.bubble.center_x = self.x + seek * self.width
-        self.bubble.y = self.top
+        self.bubble.y = self.top+6
 
     def _showhide_bubble(self, instance, value):
         if value == 'play':
             self._hide_bubble()
         else:
             self._show_bubble()
-
 
 
 class Vid(Video):

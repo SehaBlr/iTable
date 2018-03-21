@@ -23,6 +23,8 @@
 #:include kv\video.kv
 #:include kv\booklet.kv
 #:include kv\solution.kv
+#:include kv\newproduct.kv
+#:include kv\digital.kv
 
 
 <Manager>:
@@ -106,4 +108,14 @@
     ScreenSolution:
         id: solution
         name: 'Solution'
+        manager: screen_manager
+
+    ScreenNewProduct:
+        id: newproduct
+        name: 'NewProduct'
+        manager: screen_manager
+
+    ScreenDigital:
+        id: digital
+        name: 'Digital'
         manager: screen_manager

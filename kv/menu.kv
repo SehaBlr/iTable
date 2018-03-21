@@ -2,6 +2,10 @@
 # menu.kv
 # Main menu and slide/carousel
 
+<PrezMain>:
+    orientation:'vertical'
+
+
 <ScreenMenu>:
     FloatLayout:
         size: 1920, 1080
@@ -22,131 +26,147 @@
             size: 115, 984
             source: 'img\\pattern_2.png'
             pos: 1805, 48
-        AnchorLayout:
-            anchor_x: 'center'
-            anchor_y: 'top'
-            size: 1690, 1080
+        BoxLayout:
+            orientation:'vertical'
+            AnchorLayout:
+                anchor_y:'center'
+                anchor_x:'center'
+                size_hint:1,None
+                height:132
+                Image:
+                    source:'img\\logo_white_300x72.png'
+                    size_hint:None,None
+                    size: 300, 72
             BoxLayout:
-                orientation:'vertical'
-                AnchorLayout:
-                    anchor_x: 'center'
-                    anchor_y: 'center'
-                    size_hint:1,None
-                    height:132
-                    Image:
-                        source:'img\\logo_white_300x72.png'
-                        size_hint:None,None
-                        size: 300, 72
-                AnchorLayout:
-                    anchor_x: 'center'
-                    anchor_y: 'top'
-                    GridLayout:
-                        size_hint:None,None
-                        size:1200,350
-                        cols:3
-                        AnchorLayout:
-                            anchor_y:'center'
-                            anchor_x:'center'
-                            BoxLayout:
-                                orientation:'vertical'
-                                size_hint:None,None
-                                size:250,300
-                                padding:[25,]
-                                Button:
-                                    text:u'\ue008'
-                                    font_name:'font\\education-48'
-                                    size_hint:None,None
-                                    size:200,200
-                                    font_size:80
-                                    background_normal:'img\\btn.png'
-                                    background_down:'img\\btn_press.png'
-                                    on_press: root.manager.current='Booklet';root.manager.start()
-                                Label:
-                                    text:app.uni_text(app.interface_lang,'acquainted')
-                                    font_name:'font\\PT_Sans_Narrow-Bold'
-                                    halign:'center'
-                                    font_size:28
-                                    color: 0.3, 0.3, 0.3, 1
-                        AnchorLayout:
-                            anchor_y:'center'
-                            anchor_x:'center'
-                            BoxLayout:
-                                orientation:'vertical'
-                                size_hint:None,None
-                                size:250,300
-                                padding:[25,]
-                                Button:
-                                    text:u'\ue02c'
-                                    font_name:'font\\education-48'
-                                    size_hint:None,None
-                                    size:200,200
-                                    font_size:90
-                                    background_normal:'img\\btn.png'
-                                    background_down:'img\\btn_press.png'
-                                    on_press: root.manager.current='Solution';root.manager.start()
-                                Label:
-                                    text:app.uni_text(app.interface_lang,'solution')
-                                    font_name:'font\\PT_Sans_Narrow-Bold'
-                                    halign:'center'
-                                    font_size:28
-                                    color: 0.3, 0.3, 0.3, 1
-                        AnchorLayout:
-                            anchor_y:'center'
-                            anchor_x:'center'
-                            BoxLayout:
-                                orientation:'vertical'
-                                size_hint:None,None
-                                size:250,300
-                                padding:[25,]
-                                Button:
-                                    text:'N'
-                                    font_name:'font\\education-48'
-                                    size_hint:None,None
-                                    size:200,200
-                                    font_size:90
-                                    background_normal:'img\\btn.png'
-                                    background_down:'img\\btn_press.png'
-                                    on_press: root.manager.current='Review1page';root.manager.start();root.manager.review_clear_info();root.manager.anketa_clear_info()
-                                Label:
-                                    text:app.uni_text(app.interface_lang,'service')
-                                    font_name:'font\\PT_Sans_Narrow-Bold'
-                                    halign:'center'
-                                    font_size:28
-                                    color: 0.3, 0.3, 0.3, 1
-                    BoxLayout:
-                        orientation:'horizontal'
-                        AnchorLayout:
-                            anchor_x: 'right'
-                            anchor_y: 'bottom'
-                            size_hint:None,1
-                            width: 1560
-                            padding:[0,100,]
-                            Carousel:
-                                size_hint:None,None
-                                size:1200,410
-                                loop: True
-                                scroll_timeout:200
-                                Image:
-                                    source:'img\\slider_1.png'
-                                    size_hint:None,None
-                                    size:1200,410
-                                Image:
-                                    source:'img\\slider_2.png'
-                                    size_hint:None,None
-                                    size:1200,410
-								Image:
-                                    source:'img\\slider_3.png'
-                                    size_hint:None,None
-                                    size:1200,410
-                        AnchorLayout:
-                            anchor_x: 'right'
-                            anchor_y: 'bottom'
-                            padding:[100,70,]
+                orientation:'horizontal'
+                size_hint:1,None
+                height:350
+                Widget:
+                GridLayout:
+                    size_hint:None,1
+                    width:1200
+                    cols:3
+                    AnchorLayout:
+                        anchor_y:'center'
+                        anchor_x:'center'
+                        BoxLayout:
+                            orientation:'vertical'
+                            size_hint:None,None
+                            size:250,300
+                            padding:[25,]
                             Button:
-                                text:''
+                                text:u'\ue008'
+                                font_name:'font\\education-48'
                                 size_hint:None,None
-                                size:151,105
-                                font_size:42
-                                background_normal:'img\\wifi_knopka.png'
-                                background_down:'img\\wifi_knopka.png'
-                                on_press: root.manager.current='FormAccess';root.open_wifi_form(root.manager);root.manager.start()
+                                size:200,200
+                                font_size:80
+                                background_normal:'img\\btn.png'
+                                background_down:'img\\btn_press.png'
+                                on_press: root.manager.current='Booklet';root.manager.start()
+                            Label:
+                                text:app.uni_text(app.interface_lang,'acquainted')
+                                font_name:'font\\PT_Sans_Narrow-Bold'
+                                halign:'center'
+                                font_size:28
+                                color: 0.3, 0.3, 0.3, 1
+                    AnchorLayout:
+                        anchor_y:'center'
+                        anchor_x:'center'
+                        BoxLayout:
+                            orientation:'vertical'
+                            size_hint:None,None
+                            size:250,300
+                            padding:[25,]
+                            Button:
+                                text:u'\ue02c'
+                                font_name:'font\\education-48'
+                                size_hint:None,None
+                                size:200,200
+                                font_size:90
+                                background_normal:'img\\btn.png'
+                                background_down:'img\\btn_press.png'
+                                on_press: root.manager.current='NewProduct';root.manager.start()
+                            Label:
+                                text:app.uni_text(app.interface_lang,'solution')
+                                font_name:'font\\PT_Sans_Narrow-Bold'
+                                halign:'center'
+                                font_size:28
+                                color: 0.3, 0.3, 0.3, 1
+                    AnchorLayout:
+                        anchor_y:'center'
+                        anchor_x:'center'
+                        BoxLayout:
+                            orientation:'vertical'
+                            size_hint:None,None
+                            size:250,300
+                            padding:[25,]
+                            Button:
+                                text:'N'
+                                font_name:'font\\education-48'
+                                size_hint:None,None
+                                size:200,200
+                                font_size:90
+                                background_normal:'img\\btn.png'
+                                background_down:'img\\btn_press.png'
+                                on_press: root.manager.current='Review1page';root.manager.start();root.manager.review_clear_info();root.manager.anketa_clear_info()
+                            Label:
+                                text:app.uni_text(app.interface_lang,'service')
+                                font_name:'font\\PT_Sans_Narrow-Bold'
+                                halign:'center'
+                                font_size:28
+                                color: 0.3, 0.3, 0.3, 1
+                Widget:
+            BoxLayout:
+                orientation:'horizontal'
+                Widget:
+                BoxLayout:
+                    orientation:'vertical'
+                    Widget:
+                        size_hint_y: None
+                        height:120
+                    AnchorLayout:
+                        anchor_y:'center'
+                        anchor_x:'center'
+                        Button:
+                            text:''
+                            background_normal:'img\\prev.png'
+                            background_down:'img\\prev.png'
+                            size_hint:None,None
+                            size:92,92
+                            on_release:prez_main.sl_carousel.load_previous()
+                    Widget:
+                        size_hint_y: None
+                        height:99
+                PrezMain:
+                    id: prez_main
+                    itable_manager: root.manager
+                    size_hint_x: None
+                    width: 1200
+                BoxLayout:
+                    orientation:'vertical'
+                    Widget:
+                        size_hint_y: None
+                        height:120
+                    AnchorLayout:
+                        anchor_y:'center'
+                        anchor_x:'center'
+                        Button:
+                            text:''
+                            background_normal:'img\\next.png'
+                            background_down:'img\\next.png'
+                            size_hint:None,None
+                            size:92,92
+                            on_release:prez_main.sl_carousel.load_next()
+                    Widget:
+                        size_hint_y: None
+                        height:99
+                Widget:
+        Button:
+            text:''
+            size_hint:None,None
+            size:151,105
+            pos: 1669, 70
+            font_size:42
+            background_normal:'img\\wifi_knopka.png'
+            background_down:'img\\wifi_knopka.png'
+            on_press: root.manager.current='FormAccess';root.open_wifi_form(root.manager);root.manager.start()

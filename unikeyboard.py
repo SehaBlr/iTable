@@ -63,13 +63,24 @@ class Key(Button,FocusBehavior,EventDispatcher):
 
 
     def key_up(self,keytext):
-        """Ищем среди проиндексированных клаасов, те, у которых фокус равен сохранненному в global_a"""
+        """Ищем среди проиндексированных классов, те, у которых фокус равен сохранненному в global_a"""
         for k, v in self.parent.idslist:
             try:
                 if k==self.parent.mem_focus:
                     if keytext not in self.parent.keyaction: #если это обычная клавиша, то плюсуем значение в поле
-                        pos1=v.cursor_col
+                        col=v.cursor_col
                         row=v.cursor_row
+                        print(col)
+                        print(row)
+                        print(f'{len(v.text)} символов')
+                        pos1 = 0
+                        if row>0:
+                            start = 0
+                            for i in range(0, row):
+                                pos1 = v.text.find('\n',start)
+                                start = pos1+1
+                        pos1 = pos1 +1+ col  
+                        print(f'Позиция курсора -- {pos1}')
                         if pos1>=len(v.text):
                             aftercursor=''
                         else:
@@ -79,10 +90,13 @@ class Key(Button,FocusBehavior,EventDispatcher):
                         else:
                             beforecursor=v.text[0:pos1]
                         # res=v.text+keytext
+                        print(beforecursor)
+                        print(f'------{keytext}------')
+                        print(aftercursor)
                         res=beforecursor+keytext+aftercursor
                         v.text=res
                         v.focus = True  # при любом раскладе пытаемся сохранить фокус, если он был
-                        v.cursor=(pos1+1,row)
+                        v.cursor=(col+1,row)
                         if self.parent.upper and self.parent.num_keyboard==False:
                             if self.parent.current_lang == 'RU':
                                 for i in self.parent.children:
@@ -106,8 +120,14 @@ class Key(Button,FocusBehavior,EventDispatcher):
                                         if self.focus_by_hint_text(self.parent.tablist[0]):
                                             break
                             else:
-                                pos1=v.cursor[0]
+                                col=v.cursor[0]
                                 row=v.cursor[1]
+                                start = 0
+                                pos1 = 0
+                                for i in range(0, row):
+                                    pos1 = v.text.find('\n', start)
+                                    start = pos1 + 1
+                                pos1 = pos1 + 1 + col
                                 if pos1>=len(v.text):
                                     aftercursor=''
                                 else:
