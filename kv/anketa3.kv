@@ -262,6 +262,7 @@
                         id: anketa3q8
                         step: 20
                         size_hint:0.3, 1
+                        cursor_image:'img\\rating.png'
                     Label:
                         text: '{} '.format(int(anketa3q8.value/20))
                         font_name:'font\\PT_Sans_Narrow-Regular'
@@ -291,7 +292,7 @@
                             font_size:32
                             background_normal:'img\\btn_k.png'
                             background_down:'img\\btn_k_press.png'
-                            on_press: root.manager.current='Anketa2page';root.manager.start()
+                            on_press: root.manager.current='Anketa2page';root.manager.start(600)
                     AnchorLayout:
                         anchor_y:'center'
                         anchor_x:'center'
@@ -303,7 +304,7 @@
                             font_size:32
                             background_normal:'img\\btn_k.png'
                             background_down:'img\\btn_k_press.png'
-                            on_press: root.manager.current='Anketa4page';root.manager.start()
+                            on_press: root.manager.current='Anketa4page';root.manager.start(600)
                 BoxLayout:
                     orientation:'horizontal'
                     size_hint: .5, 1

@@ -1,0 +1,137 @@
+Logged action: read
+Date: 2018-03-22 23:58:56.291700
+Params: ('/cbk/pswd.txt', 'pswd.txt', 'octet')
+Message: Initiating RRQ request to: 192.168.64.5 port: 69
+
+Logged action: read: outerexception
+Date: 2018-03-22 23:58:59.311775
+Params: ('/cbk/pswd.txt', 'pswd.txt', 'octet')
+Message: Error: timed out, traceback: Traceback (most recent call last):
+  File "F:\DEV\Python\Kivy\itable\client.py", line 68, in read
+    (rcv_buffer, (host, port)) = self.socket.recvfrom(self.BLK_SIZE)             # get response and addr_info
+socket.timeout: timed out
+
+
+Logged action: read
+Date: 2018-03-23 00:01:15.368693
+Params: ('/cbk/pswd.txt', 'pswd.txt', 'octet')
+Message: Initiating RRQ request to: 192.168.64.5 port: 69
+
+Logged action: read: outerexception
+Date: 2018-03-23 00:01:18.375762
+Params: ('/cbk/pswd.txt', 'pswd.txt', 'octet')
+Message: Error: timed out, traceback: Traceback (most recent call last):
+  File "F:\DEV\Python\Kivy\itable\client.py", line 68, in read
+    (rcv_buffer, (host, port)) = self.socket.recvfrom(self.BLK_SIZE)             # get response and addr_info
+socket.timeout: timed out
+
+
+Logged action: read
+Date: 2018-03-23 00:14:34.636459
+Params: ('/cbk/pswd.txt', 'pswd.txt', 'octet')
+Message: Initiating RRQ request to: 192.168.64.5 port: 69
+
+Logged action: read: outerexception
+Date: 2018-03-23 00:14:37.642957
+Params: ('/cbk/pswd.txt', 'pswd.txt', 'octet')
+Message: Error: timed out, traceback: Traceback (most recent call last):
+  File "F:\DEV\Python\Kivy\itable\client.py", line 68, in read
+    (rcv_buffer, (host, port)) = self.socket.recvfrom(self.BLK_SIZE)             # get response and addr_info
+socket.timeout: timed out
+
+
+Logged action: __del__
+Date: 2018-03-23 00:14:37.839499
+Params: 192.168.64.5:69
+Message: Calling tftpclient.destructor and closing socket.
+
+Logged action: read
+Date: 2018-03-23 00:17:02.791806
+Params: ('/cbk/pswd.txt', 'pswd.txt', 'octet')
+Message: Initiating RRQ request to: 192.168.64.5 port: 69
+
+Logged action: read: outerexception
+Date: 2018-03-23 00:17:05.798326
+Params: ('/cbk/pswd.txt', 'pswd.txt', 'octet')
+Message: Error: timed out, traceback: Traceback (most recent call last):
+  File "F:\DEV\Python\Kivy\itable\client.py", line 68, in read
+    (rcv_buffer, (host, port)) = self.socket.recvfrom(self.BLK_SIZE)             # get response and addr_info
+socket.timeout: timed out
+
+
+Logged action: __del__
+Date: 2018-03-23 00:17:05.984848
+Params: 192.168.64.5:69
+Message: Calling tftpclient.destructor and closing socket.
+
+Logged action: read
+Date: 2018-03-23 00:20:04.951353
+Params: ('/cbk/pswd.txt', 'pswd.txt', 'octet')
+Message: Initiating RRQ request to: 192.168.64.5 port: 69
+
+Logged action: read: outerexception
+Date: 2018-03-23 00:20:07.959239
+Params: ('/cbk/pswd.txt', 'pswd.txt', 'octet')
+Message: Error: timed out, traceback: Traceback (most recent call last):
+  File "F:\DEV\Python\Kivy\itable\client.py", line 68, in read
+    (rcv_buffer, (host, port)) = self.socket.recvfrom(self.BLK_SIZE)             # get response and addr_info
+socket.timeout: timed out
+
+
+Logged action: write
+Date: 2018-03-23 00:20:07.966240
+Params: ('/cbk/pswd.txt', 'pswd.txt', 'octet')
+Message: Initiating WRQ request ('192.168.64.5', 69)//cbk/pswd.txt of size 0 KB.
+
+Logged action: write: outerexception
+Date: 2018-03-23 00:20:10.971622
+Params: ('/cbk/pswd.txt', 'pswd.txt', 'octet')
+Message: Error: timed out, traceback: Traceback (most recent call last):
+  File "F:\DEV\Python\Kivy\itable\client.py", line 176, in write
+    (rcv_buffer, (host, port)) = self.socket.recvfrom(self.BLK_SIZE)
+socket.timeout: timed out
+
+
+Logged action: __del__
+Date: 2018-03-23 00:20:10.978622
+Params: 192.168.64.5:69
+Message: Calling tftpclient.destructor and closing socket.
+
+Logged action: read
+Date: 2018-03-25 13:39:39.935945
+Params: ('/cbk/pswd.txt', 'pswd.txt', 'octet')
+Message: Initiating RRQ request to: 192.168.64.5 port: 69
+
+Logged action: read: outerexception
+Date: 2018-03-25 13:39:42.959331
+Params: ('/cbk/pswd.txt', 'pswd.txt', 'octet')
+Message: Error: timed out, traceback: Traceback (most recent call last):
+  File "F:\DEV\Python\Kivy\itable\client.py", line 68, in read
+    (rcv_buffer, (host, port)) = self.socket.recvfrom(self.BLK_SIZE)             # get response and addr_info
+socket.timeout: timed out
+
+
+Logged action: __del__
+Date: 2018-03-25 13:39:42.978333
+Params: 192.168.64.5:69
+Message: Calling tftpclient.destructor and closing socket.
+
+Logged action: write
+Date: 2018-03-25 13:39:42.985834
+Params: ('/cbk/pswd.txt', 'pswd.txt', 'octet')
+Message: Initiating WRQ request ('192.168.64.5', 69)//cbk/pswd.txt of size 0 KB.
+
+Logged action: write: outerexception
+Date: 2018-03-25 13:39:45.995738
+Params: ('/cbk/pswd.txt', 'pswd.txt', 'octet')
+Message: Error: timed out, traceback: Traceback (most recent call last):
+  File "F:\DEV\Python\Kivy\itable\client.py", line 176, in write
+    (rcv_buffer, (host, port)) = self.socket.recvfrom(self.BLK_SIZE)
+socket.timeout: timed out
+
+
+Logged action: __del__
+Date: 2018-03-25 13:39:46.003720
+Params: 192.168.64.5:69
+Message: Calling tftpclient.destructor and closing socket.
+

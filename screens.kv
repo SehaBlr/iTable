@@ -25,6 +25,7 @@
 #:include kv\solution.kv
 #:include kv\newproduct.kv
 #:include kv\digital.kv
+#:include kv\idle.kv
 
 
 <Manager>:
@@ -118,4 +119,9 @@
     ScreenDigital:
         id: digital
         name: 'Digital'
+        manager: screen_manager
+
+    ScreenIdle:
+        id: idle
+        name: 'Idle'
         manager: screen_manager

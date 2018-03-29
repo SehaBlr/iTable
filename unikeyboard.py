@@ -70,17 +70,16 @@ class Key(Button,FocusBehavior,EventDispatcher):
                     if keytext not in self.parent.keyaction: #если это обычная клавиша, то плюсуем значение в поле
                         col=v.cursor_col
                         row=v.cursor_row
-                        print(col)
-                        print(row)
-                        print(f'{len(v.text)} символов')
                         pos1 = 0
-                        if row>0:
-                            start = 0
-                            for i in range(0, row):
-                                pos1 = v.text.find('\n',start)
-                                start = pos1+1
-                        pos1 = pos1 +1+ col  
-                        print(f'Позиция курсора -- {pos1}')
+                        # if row>0:
+                        start = 0
+                        for i in range(0, row):
+                            pos1 = v.text.find('\n',start)
+                            start = pos1+1
+                        if row:
+                            pos1 = pos1 +1+ col
+                        else:
+                            pos1 = pos1 + col
                         if pos1>=len(v.text):
                             aftercursor=''
                         else:
@@ -90,9 +89,6 @@ class Key(Button,FocusBehavior,EventDispatcher):
                         else:
                             beforecursor=v.text[0:pos1]
                         # res=v.text+keytext
-                        print(beforecursor)
-                        print(f'------{keytext}------')
-                        print(aftercursor)
                         res=beforecursor+keytext+aftercursor
                         v.text=res
                         v.focus = True  # при любом раскладе пытаемся сохранить фокус, если он был

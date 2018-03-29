@@ -3,7 +3,7 @@ import kivy
 
 from kivy.app import App
 
-from kivy.core.window import Window
+from kivy.core.window import Window, Keyboard
 from kivy.properties import ObjectProperty, StringProperty, ReferenceListProperty, NumericProperty, ListProperty
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.behaviors.cover import CoverBehavior
@@ -24,7 +24,10 @@ from kivy.factory import Factory
 from kivy.animation import Animation
 from kivy.event import EventDispatcher
 from functools import partial
+from kivy.uix.vkeyboard import VKeyboard
 import unikeyboard
+import tftp
+import client
 import re
 import json
 import smtplib
@@ -35,9 +38,10 @@ import csv
 import timer
 import time
 import win32net
-from datetime import datetime as dt, timedelta
+from datetime import datetime, timedelta
 from email.mime.text import MIMEText
 from email.header    import Header
+from kivy.base import EventLoop
 from kivy.uix.slider import Slider
 
 # TODO: ADD: Клавиатура к форме выыдачи доступа к WiFi
@@ -52,11 +56,165 @@ from kivy.uix.slider import Slider
 glob_tim = ObjectProperty(None)
 
 
+class MyText(TextInput, Keyboard):
+    rootmanager = ObjectProperty()
+    def __init__(self, **kwargs):
+        super(MyText, self).__init__(**kwargs)
+
+    def keyboard_on_key_up(self, window, key_str, * args):
+        key = self.string_to_keycode(key_str)
+        self.rootmanager.start()
+        keycode = (key, key_str)
+        k = self.interesting_keys.get(key)
+        if k:
+            key = (None, None, k, 1)
+            self._key_up(key)
+
+
+    def keyboard_on_key_down(self, window, key_str, text, modifiers):
+        # Keycodes on OS X:
+        ctrl, cmd = 64, 1024
+        key = self.string_to_keycode(key_str)
+        if key_str == 'ru':
+            key=400
+        if key_str == 'en':
+            key=401
+        if key_str == '123':
+            key = 402
+
+        keycode = (key, key_str)
+        win = EventLoop.window
+
+        # This allows *either* ctrl *or* cmd, but not both.
+        is_shortcut = (modifiers == ['ctrl'])
+        is_interesting_key = key in (list(self.interesting_keys.keys()) + [27, 400, 401, 402])
+
+        if not self.write_tab and super(MyText,
+                                        self).keyboard_on_key_down(window, key_str, text, modifiers):
+            return True
+
+        if not self._editable:
+            # duplicated but faster testing for non-editable keys
+            if text and not is_interesting_key:
+                if is_shortcut and key == ord('c'):
+                    self.copy()
+            elif key == 27:
+                self.focus = False
+            return True
+
+        if text and not is_interesting_key:
+
+            self._hide_handles(win)
+            self._hide_cut_copy_paste(win)
+            win.remove_widget(self._handle_middle)
+
+            # check for command modes
+            # we use \x01INFO\x02 to get info from IME on mobiles
+            # pygame seems to pass \x01 as the unicode for ctrl+a
+            # checking for modifiers ensures conflict resolution.
+
+            first_char = ord(text[0])
+            if not modifiers and first_char == 1:
+                self._command_mode = True
+                self._command = ''
+            if not modifiers and first_char == 2:
+                self._command_mode = False
+                self._command = self._command[1:]
+
+            if self._command_mode:
+                self._command += text
+                return
+
+            _command = self._command
+            if _command and first_char == 2:
+                from_undo = True
+                _command, data = _command.split(':')
+                self._command = ''
+                if self._selection:
+                    self.delete_selection()
+                if _command == 'DEL':
+                    count = int(data)
+                    if not count:
+                        self.delete_selection(from_undo=True)
+                    end = self.cursor_index()
+                    self._selection_from = max(end - count, 0)
+                    self._selection_to = end
+                    self._selection = True
+                    self.delete_selection(from_undo=True)
+                    return
+                elif _command == 'INSERT':
+                    self.insert_text(data, from_undo)
+                elif _command == 'INSERTN':
+                    from_undo = False
+                    self.insert_text(data, from_undo)
+                elif _command == 'SELWORD':
+                    self.dispatch('on_double_tap')
+                elif _command == 'SEL':
+                    if data == '0':
+                        Clock.schedule_once(lambda dt: self.cancel_selection())
+                elif _command == 'CURCOL':
+                    self.cursor = int(data), self.cursor_row
+                return
+
+            if is_shortcut:
+                if key == ord('x'):  # cut selection
+                    self._cut(self.selection_text)
+                elif key == ord('c'):  # copy selection
+                    self.copy()
+                elif key == ord('v'):  # paste selection
+                    self.paste()
+                elif key == ord('a'):  # select all
+                    self.select_all()
+                elif key == ord('z'):  # undo
+                    self.do_undo()
+                elif key == ord('r'):  # redo
+                    self.do_redo()
+            else:
+                if self._selection:
+                    self.delete_selection()
+                self.insert_text(text)
+            # self._recalc_size()
+            return
+
+        if is_interesting_key:
+            self._hide_cut_copy_paste(win)
+            self._hide_handles(win)
+
+        if key == 27:  # escape
+            self.focus = False
+            return True
+
+        if key == 400: # йцукен
+            self.keyboard.layout = 'json\\rukeyboard.json'
+            return True
+
+        if key == 401:  # qwerty
+            self.keyboard.layout = 'json\\qwerty.json'
+            return True
+
+        if key == 402:  # bignumeric
+            self.keyboard.layout = 'json\\bignum.json'
+            return True
+
+        elif key == 9:  # tab
+            self.insert_text(u'\t')
+            return True
+
+        k = self.interesting_keys.get(key)
+        if k:
+            key = (None, None, k, 1)
+            self._key_down(key)
+    
+
 class Manager(ScreenManager):
 
     login = StringProperty()
     password = StringProperty()
     access = ReferenceListProperty(login, password)
+
+    def __init__(self, **kwargs):
+        super(Manager, self).__init__(**kwargs)
+        Clock.schedule_interval(self.work_time, 25)
 
     def my_callback(self, dt):
         if self.current == 'Access':
@@ -71,7 +229,7 @@ class Manager(ScreenManager):
             glob_tim.cancel()
         except:
             pass
-        now = dt.now()
+        now = datetime.now()
         minute = int(ret//60)
         print(f'[{now:%d.%m.%Y %H:%M}] таймер сброшен на {minute} минуты')
         glob_tim = Clock.schedule_once(self.my_callback, ret)
@@ -106,7 +264,7 @@ class Manager(ScreenManager):
 
     def anketa_send_info(self):
         listing=[]
-        with open('data.csv', newline='') as csvfile:
+        with open('csv\\data.csv', newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=';')
             for row in reader:
                 if row:
@@ -125,9 +283,11 @@ class Manager(ScreenManager):
         anketa.append(self.ids.anketa4.ids.a4q1.text)
         anketa.append(self.ids.anketa5.ids.a5q1.text)
         listing.append(anketa)
+        now = datetime.now()
+        date = f'{now:%d.%m.%Y}'
+        anketa.append(date)
         # writer.writerow(anketa)
-        print(listing)
-        with open('data.csv', 'w') as csvfile:
+        with open('csv\\data.csv', 'w') as csvfile:
             writer = csv.writer(csvfile,  delimiter=';', lineterminator = '\n')
             writer.writerows(listing)
 
@@ -165,22 +325,57 @@ class Manager(ScreenManager):
 
     def review_send_info(self):
         listing=[]
-        with open('review.csv', newline='') as csvfile:
+        # считываем файл в лист
+        with open('csv\\review.csv', newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=';')
             for row in reader:
                 if row:
                     listing.append(row)
-
-
+        # собираем инфу из текущей анкеты отзывов
         review = [self.ids.review1.ids.ank1q1.text,self.ids.review1.ids.ank1q2.text,self.ids.review1.ids.ank1q3.text,self.ids.review1.ids.ank1q4.text]
         review.append(self.ids.review2.ids.a4q1.text)
+        now = datetime.now()
+        date = f'{now:%d.%m.%Y}'
+        review.append(date)
         listing.append(review)
-        print(listing)
-        with open('review.csv', 'w') as csvfile:
+        # дополняем лист с отзывами записываем в файл
+        with open('csv\\review.csv', 'w') as csvfile:
             writer = csv.writer(csvfile,  delimiter=';', lineterminator = '\n')
             writer.writerows(listing)
 
 
+
+    def work_time(self, dt):
+        now = datetime.now()
+        tt = now.timetuple()
+        wd = tt[6] # 5-6 - выходные
+        hr = tt[3]  # 8-18 - будем считать рабочими часами
+        mn = tt[4]  # минуты для тестов
+        if self.current == 'Language selection':
+            if (mn//10)%2:
+                self.ids['choice'].ids['logo'].source='img\\logo_white.png'
+                self.ids['choice'].ids['buttonru'].color = [0.97, 0.43, 0.08, 1]
+                self.ids['choice'].ids['buttonru'].canvas.before.children[0].rgb=[1, 1, 1]
+                self.ids['choice'].ids['sreenchoicetexxt1'].color = [1, 1, 1, 1]
+                self.ids['choice'].ids['podlozka'].canvas.children[0].rgba = [.3, .3, .3, .6]
+            else:
+                self.ids['choice'].ids['logo'].source='img\\logo_orange.png'
+                self.ids['choice'].ids['buttonru'].color = [1, 1, 1, 1]
+                self.ids['choice'].ids['buttonru'].canvas.before.children[0].rgb=[0.97, 0.43, 0.08]
+                self.ids['choice'].ids['sreenchoicetexxt1'].color = [0.97, 0.43, 0.08, 1]
+                self.ids['choice'].ids['podlozka'].canvas.children[0].rgba = [.3, .3, .3, .8]
+            if wd < 5: # будний день
+                if hr < 8 or hr >= 18:
+                    self.current = 'Idle'
+            else:
+                self.current = 'Idle'
+
+        if self.current == 'Idle':
+            if wd < 5:  # будний день
+                if hr >= 8 and hr < 18:
+                    self.current = 'Language selection'
+
+        
 class ScreenMenu(Screen):
 
     @staticmethod
@@ -214,6 +409,7 @@ class ScreenMenu(Screen):
                     v.background_down = 'img\\dot.png'
 
 
+
 class ScreenWiFiForm(Screen):
 
     def __init__(self, **kwargs):
@@ -227,35 +423,38 @@ class ScreenWiFiForm(Screen):
             self.ids.mail.background_color = [1, 1, 1, 1]
             self.ids.mail_error.text = u''
             a = 1
+            mail = self.ids.mail.text
         else:
             # TODO Тексты ошибок надо убрать в json и вытягивать значение для определённого языка
             self.ids.mail.background_color = [1, .7, .7, 1]
             if len(self.ids.mail.text):
-                self.ids.mail_error.text = u'e-mail заполнен некорректно'
+                self.ids.mail_error.text = u'Укажите действительный адрес почты'
             else:
-                self.ids.mail_error.text = u'Необходимо заполнить e-mail'
+                self.ids.mail_error.text = u'Необходимо указать email'
             a = 0
         if len(self.ids.imya.text) >= 2:
             self.ids.imya.background_color = [1, 1, 1, 1]
             self.ids.imya_error.text = u''
             b = 1
+            imya = self.ids.imya.text
         else:
             self.ids.imya.background_color = [1, .7, .7, 1]
             if len(self.ids.imya.text):
                 self.ids.imya_error.text = u'Имя заполнено некорректно'
             else:
-                self.ids.imya_error.text = u'Необходимо ввести Ваше имя'
+                self.ids.imya_error.text = u'Необходимо ввести ваше имя'
             b = 0
         if len(self.ids.prtn.text) >= 2:
             self.ids.prtn.background_color = [1, 1, 1, 1]
             self.ids.prtn_error.text = u''
             c = 1
+            prtn = self.ids.prtn.text
         else:
             self.ids.prtn.background_color = [1, .7, .7, 1]
             if len(self.ids.prtn.text):
-                self.ids.prtn_error.text = u'Наименование организации заполнено некорректно'
+                self.ids.prtn_error.text = u'Наименование компании заполнено некорректно'
             else:
-                self.ids.prtn_error.text = u'Необходимо заполнить наименование Вашей организации'
+                self.ids.prtn_error.text = u'Необходимо ввести название компании'
             c = 0
         # Проверка на заполнение полей, если всё
         # нормально слать почту и генерить пароль
@@ -263,46 +462,118 @@ class ScreenWiFiForm(Screen):
         if a+b+c == 3:
             manager.current = 'Access'
             manager.access = self.getconnect()
+            login = manager.access[0]
+            password = manager.access[1]
+            now = datetime.now()
+            date = f'{now:%d.%m.%Y}'
+            time = f'{now:%H:%M}'
+            wifiinfo = [imya, prtn, mail, login, password, date, time]
+            ScreenWiFiForm.wifi_send_info('csv\\wifi.csv',wifiinfo)
+            manager.start(420)
             # TODO В случае получения тапла с пустыпи логином и паролем, отрисовывать лейбл с информацией
 
     @staticmethod
     def getconnect():
-        tolist = App.get_running_app().config.get('mail','maillist').split(';')
-        smtp = App.get_running_app().config.get('mail','smtpip')
-        port = App.get_running_app().config.get('mail', 'smtpport')
-        sending = App.get_running_app().config.getint('mail', 'sendmail')
-        filepath = App.get_running_app().config.get('mail', 'filepath')
-        jsonfile = open(filepath, 'r')
-        logdict = json.load(jsonfile)
-        countpassword = len(logdict)
+        # tolist = App.get_running_app().config.get('mail','maillist').split(';')
+        # smtp = App.get_running_app().config.get('mail','smtpip')
+        # port = App.get_running_app().config.get('mail', 'smtpport')
+        # sending = App.get_running_app().config.getint('mail', 'sendmail')
+        # filepath = App.get_running_app().config.get('mail', 'filepath')
+        # jsonfile = open(filepath, 'r')
+        # logdict = json.load(jsonfile)
+        # countpassword = len(logdict)
         # TODO Если countpassword меньше, например, пяти, то отсылать письмо админам, о том, что паролей осталось мало
-        jsonfile.close()
-        if logdict:
-            x=logdict.pop()
-            login = x['login']
-            password = x['password']
-            date = x['date']
-            msg = "\nLogin: {}\n  Password: {}".format(login, password)
-            mail = MIMEText(msg, 'plain', 'utf-8')
-            mail['Subject'] = Header('Запрос пароля к Wi-Fi c iTable', 'utf-8')
-            mail['From'] = 'itable@uniflex.by'
-            mail['To'] = ", ".join(tolist)
-            if sending:
-                try:
-                    s = smtplib.SMTP(smtp, port)
-                    s.starttls()
-                    s.sendmail(mail['From'], tolist, mail.as_string())
-                    s.quit()
-                except:
-                    print('Не сработала отправка почты')
-            jsonfile = open(filepath, "w+")
-            jsonfile.write(json.dumps(logdict))
-            jsonfile.close()
-        else:
-            login = ''
-            password = ''
+        # jsonfile.close()
+        # if logdict:
+        # x=logdict.pop()
+        pswd_list = ScreenWiFiForm.get_pswd()
+        
+        r = client.TFTPClient('192.168.64.5','69')
+        try:
+            r.write('pswd.txt', '/cbk/pswd.txt')
+        except:
+            login =''
+            password=''
+        del r
+
+        try:
+            os.remove(os.path.abspath('pswd.txt'))
+        except:
+            print('файла для удаления нет')
+        
+        login = pswd_list[0]
+        password = pswd_list[1]
+        # countpassword = pswd_list[2]
+        # msg = u'\nLogin: {}\n  Password: {}'.format(login, password)
+        # mail = MIMEText(msg, 'plain', 'utf-8')
+        # mail['Subject'] = Header('Запрос пароля к Wi-Fi c iTable', 'utf-8')
+        # mail['From'] = 'itable@uniflex.by'
+        # mail['To'] = ", ".join(tolist)
+        # if sending:
+        #     try:
+        #         s = smtplib.SMTP(smtp, port)
+        #         s.starttls()
+        #         s.sendmail(mail['From'], tolist, mail.as_string())
+        #         s.quit()
+        #     except:
+        #         print('Не сработала отправка почты')
+        # jsonfile = open(filepath, "w+")
+        # jsonfile.write(json.dumps(logdict))
+        # jsonfile.close()
+        # else:
+        #     login = ''
+        #     password = ''
 
         return login, password
+
+    @staticmethod
+    def get_pswd():
+        d = client.TFTPClient('192.168.64.5','69')
+        d.read('/cbk/pswd.txt','pswd.txt')
+        l = []
+        login = ''
+        counter = 0
+        password = ''
+        try:
+            f = open('pswd.txt', 'r', encoding='utf-8')
+            flag = True
+            for line in f:
+                row = line.split()
+                if row[2] != '0' and flag:
+                    login = row[0]
+                    password = row[1]
+                    row[2] = '0'
+                    flag = False
+                if row[2]!= '0':
+                    counter = counter + 1
+                l.append(row)
+        except:
+            print('Доступ к фалу пароле не получен')
+        f = open('pswd.txt', 'w', encoding='utf-8')
+        for row in l:
+            f.write(' '.join(row)+'\n')
+        f.close
+        
+        del d
+        result = (login, password, counter)
+        return result
+
+    @staticmethod
+    def wifi_send_info(file,listinfo):
+        # TODO из 3ёх ф-ций, сделать одну с листом инфы и наим-ем файла
+        listing = []
+        # считываем файл в лист
+        with open(file, newline='') as csvfile:
+            reader = csv.reader(csvfile, delimiter=';')
+            for row in reader:
+                if row:
+                    listing.append(row)
+        # собираем инфу из формы перед выдачей доступа к wifi
+        listing.append(listinfo)
+        # дополняем лист с отзывами записываем в файл
+        with open(file, 'w') as csvfile:
+            writer = csv.writer(csvfile,  delimiter=';', lineterminator='\n')
+            writer.writerows(listing)
 
 
 class ScreenWiFiInfo(Screen):
@@ -358,7 +629,7 @@ class ScreenReview1(Screen):
 
 class ScreenReview2(Screen):
     pass
-
+    
 
 class ScreenReviewThanks(Screen):
     pass
@@ -416,7 +687,6 @@ class PrezCarousel(Carousel):
 
     def on_index(self, *args):
         super(PrezCarousel, self).on_index(*args)
-        print(self.index)
         main_layout=self.parent.parent
         Prez.change_slide(main_layout, self.index)
         main_layout.itable_manager.start()
@@ -582,7 +852,6 @@ class ScreenVideo(Screen):
     
     def rewind_video(self):
         st = self.ids.vframe.state
-        print (st)
         if self.ids.vframe.state != 'stop':
             pr = round(self.ids.vscale.get_norm_value(),3)
             self.ids.vframe.seek(pr)
@@ -709,6 +978,10 @@ class Vid(Video):
         super(Vid, self).__init__(**kwargs)
 
 
+class ScreenIdle(Screen):
+    pass
+
+
 class ScreensApp(App):
     interface_lang = StringProperty()
 
@@ -724,7 +997,7 @@ class ScreensApp(App):
             return ('!%%%%%!')
 
     def log_using(self, current):
-        now = dt.now()
+        now = datetime.now()
         print(f'[{now:%d.%m.%Y %H:%M}] start screen {current}')
 
     def change_current(self,screen_name):

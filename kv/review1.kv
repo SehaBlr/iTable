@@ -1,6 +1,6 @@
 #:kivy 1.10.0
 # review1.kv
-<RevText@TextInput>:
+<RevText@MyText>:
     font_name:'font\\PT_Sans_Narrow-Regular'
     size_hint: None, None
     size: 550, 70
@@ -104,6 +104,8 @@
                             anchor_x:'center'
                             RevText:
                                 id:ank1q1
+                                rootmanager:root.manager
+                                keyboard: kbv
                     Box:
                         AnchorLayout:
                             anchor_x:'center'
@@ -113,6 +115,8 @@
                             anchor_x:'center'
                             RevText:
                                 id:ank1q2
+                                rootmanager:root.manager
+                                keyboard: kbv
                     Box:
                         AnchorLayout:
                             anchor_x:'center'
@@ -122,6 +126,8 @@
                             anchor_x:'center'
                             RevText:
                                 id:ank1q3
+                                rootmanager:root.manager
+                                keyboard: kbv
                     Box:
                         AnchorLayout:
                             anchor_x:'center'
@@ -131,16 +137,20 @@
                             anchor_x:'center'
                             RevText:
                                 id:ank1q4
+                                rootmanager:root.manager
+                                keyboard: kbv
 
             AnchorLayout:
                 size_hint:1,None
                 height: 400
-                UniKeyboard:
-                    size_hint:None,None
-                    size:1450,400  #  1450 - ширина клавиатуры
-                    id:keyborda
-                    tablist:['ank1q1','ank1q2','ank1q3','ank1q4']
-                    idslist:root.ids.items()
+                MyKeybord:
+                    id: kbv
+                # UniKeyboard:
+                #     size_hint:None,None
+                #     size:1450,400  #  1450 - ширина клавиатуры
+                #     id:keyborda
+                #     tablist:['ank1q1','ank1q2','ank1q3','ank1q4']
+                #     idslist:root.ids.items()
             BoxLayout:
                 orientation: 'horizontal'
                 size_hint:1,None
@@ -162,7 +172,7 @@
                             font_size:32
                             background_normal:'img\\btn_k.png'
                             background_down:'img\\btn_k_press.png'
-                            on_press: root.manager.current='Review2page';root.manager.start()
+                            on_press: root.manager.current='Review2page';root.manager.start(600)
                 BoxLayout:
                     orientation:'horizontal'
                     size_hint: .5, 1

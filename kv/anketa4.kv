@@ -36,8 +36,9 @@
                 orientation:'horizontal'
                 padding: [0, 40, 0, 40]
                 Widget:
-                TextInput:
+                MyText:
                     id: a4q1
+                    rootmanager:root.manager
                     size_hint: None, 1
                     width: 1450
                     font_name:'font\\PT_Sans_Narrow-Regular'
@@ -45,16 +46,13 @@
                     background_color: [1, 1, 1, 1]
                     font_size:42
                     multiline: True
+                    keyboard: kbv
                 Widget:
             BoxLayout:
                 orientation:'horizontal'
                 Widget:
-                UniKeyboard:
-                    size_hint: None, None
-                    size: 1450, 400  #  1450 - ширина клавиатуры
-                    id: keyborda
-                    tablist: []
-                    idslist:root.ids.items()
+                MyKeybord:
+                    id: kbv
                 Widget:
             BoxLayout:
                 orientation: 'horizontal'
@@ -77,7 +75,7 @@
                             font_size:32
                             background_normal:'img\\btn_k.png'
                             background_down:'img\\btn_k_press.png'
-                            on_press: root.manager.current='Anketa3page';root.manager.start()
+                            on_press: root.manager.current='Anketa3page';root.manager.start(600)
                     AnchorLayout:
                         anchor_y:'center'
                         anchor_x:'center'
@@ -89,7 +87,7 @@
                             font_size:32
                             background_normal:'img\\btn_k.png'
                             background_down:'img\\btn_k_press.png'
-                            on_press: root.manager.current='Anketa5page';root.manager.start()
+                            on_press: root.manager.current='Anketa5page';root.manager.start(600)
                 BoxLayout:
                     orientation:'horizontal'
                     size_hint: .5, 1

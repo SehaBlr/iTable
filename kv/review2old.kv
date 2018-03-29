@@ -1,8 +1,9 @@
 #:kivy 1.10.0
-# anketa5.kv
-# 5 page anketa
+# review2.kv
 
-<ScreenAnketa5>:
+<MyText>:
+
+<ScreenReview2>:
     GridLayout:
         cols: 2
         canvas:
@@ -11,7 +12,7 @@
             Rectangle:
                 pos: self.pos
                 size: self.size
-        AnketaLeftSide:
+        RevLeftSide:
         BoxLayout:
             orientation: 'vertical'
             size_hint: 0.8,1
@@ -22,7 +23,7 @@
                 padding: [0, 40, 0, 0]
                 Widget:
                 Label:
-                    text: app.uni_text(app.interface_lang,'anketa5intro')
+                    text: app.uni_text(app.interface_lang,'review2intro')
                     size_hint_x: None
                     width: 1350
                     font_name:'font\\PT_Sans_Narrow-Bold'
@@ -37,8 +38,7 @@
                 padding: [0, 40, 0, 40]
                 Widget:
                 MyText:
-                    id: a5q1
-                    rootmanager:root.manager
+                    id: a4q1
                     size_hint: None, 1
                     width: 1450
                     font_name:'font\\PT_Sans_Narrow-Regular'
@@ -46,13 +46,26 @@
                     background_color: [1, 1, 1, 1]
                     font_size:42
                     multiline: True
-                    keyboard: kbv
+                    # keyboard: kbv
                 Widget:
+            
             BoxLayout:
                 orientation:'horizontal'
                 Widget:
-                MyKeybord:
-                    id: kbv
+                # VKeyboard:
+                #     id: kbv
+                #     size_hint: None,None
+                #     layout:'json\\qwerty.json'
+                #     size: 1450, 400
+                #     background:'img\\keboard_bg.png'
+                #     background_border: [1,1,1,1]
+                #     font_size:42
+                UniKeyboard:
+                    size_hint: None, None
+                    size: 1450, 400  #  1450 - ширина клавиатуры
+                    id: keyborda
+                    tablist: []
+                    idslist:root.ids.items()
                 Widget:
             BoxLayout:
                 orientation: 'horizontal'
@@ -75,7 +88,7 @@
                             font_size:32
                             background_normal:'img\\btn_k.png'
                             background_down:'img\\btn_k_press.png'
-                            on_press: root.manager.current='Anketa4page';root.manager.start(600)
+                            on_press: root.manager.current='Review1page';root.manager.start(600)
                     AnchorLayout:
                         anchor_y:'center'
                         anchor_x:'center'
@@ -87,7 +100,7 @@
                             font_size:32
                             background_normal:'img\\btn_k.png'
                             background_down:'img\\btn_k_press.png'
-                            on_press: root.manager.current='AnketaThanks';root.manager.anketa_send_info()
+                            on_press: root.manager.current='ReviewThanks';root.manager.review_send_info();root.manager.start()
                 BoxLayout:
                     orientation:'horizontal'
                     size_hint: .5, 1

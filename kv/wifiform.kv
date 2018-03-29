@@ -3,7 +3,7 @@
 #:include kv\unikeyboard.kv
 
 
-<FormInput@TextInput>:
+<FormInput@MyText>:
     size_hint: None,None
     size:800,80
     font_name:'font\\PT_Sans_Narrow-Regular'
@@ -82,6 +82,8 @@
                                 orientation:'vertical'
                                 FormInput:
                                     id: imya
+                                    rootmanager:root.manager
+                                    keyboard: kbv
                                     hint_text:app.uni_text(app.interface_lang,'wififormname')
                                 ErrorMsg:
                                     id:imya_error
@@ -89,6 +91,8 @@
                                 orientation:'vertical'
                                 FormInput:
                                     id:prtn
+                                    rootmanager:root.manager
+                                    keyboard: kbv
                                     hint_text:app.uni_text(app.interface_lang,'wififormprtn')
                                 ErrorMsg:
                                     id:prtn_error
@@ -96,7 +100,9 @@
                                 orientation:'vertical'
                                 FormInput:
                                     id:mail
-                                    hint_text:'e-mail'
+                                    rootmanager:root.manager
+                                    keyboard: kbv
+                                    hint_text:'Email'
                                 ErrorMsg:
                                     id:mail_error
                         AnchorLayout:
@@ -131,10 +137,8 @@
                             orientation:'vertical'
                             size_hint:None,None
                             size:1450,400  #  1450 - ширина клавиатуры
-                            UniKeyboard:
-                                id:keyborda
-                                tablist:['imya','prtn','mail']
-                                idslist:root.ids.items()
+                            MyKeybord:
+                                id: kbv
                         AnchorLayout:
                             anchor_x: 'center'
                             anchor_y: 'bottom'

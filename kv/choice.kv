@@ -25,8 +25,10 @@
         orientation:'vertical'
         size_hint:None,None
         size:1200,500
+        id:podlozka
         canvas:
             Color:
+                
                 rgba:.3,.3,.3,.6
             RoundedRectangle:
                 size:self.size
@@ -38,12 +40,14 @@
             size_hint:1,None
             height:200
             Image:
+                id: logo
                 source:'img\\logo_white.png'
         Widget: # при двух языках убрать
             size_hint_y:None
             height: 40
         Label:
             # text:app.uni_text('RU','choiceplease')
+            id:sreenchoicetexxt1
             text:app.uni_text('RU','choicepleaseonelang')
             font_size:32
             font_name:'font\\PT_Sans-Web-Regular'
@@ -73,6 +77,7 @@
                     anchor_y:'center'
                     LangButton:
                         # text:app.uni_text('RU','choicebutton')
+                        id:buttonru
                         text:app.uni_text('RU','choicebuttonone').upper()
                         on_press: root.manager.current='Menu';app.interface_lang='RU';root.manager.start();app.log_using(u'Ru меню')
                 # AnchorLayout:

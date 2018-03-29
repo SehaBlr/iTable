@@ -5,6 +5,22 @@
 <PrezMain>:
     orientation:'vertical'
 
+<MyKeybord@VKeyboard>:
+    size_hint: None,None
+    layout:'json\\qwerty.json'
+    size: 1450, 400
+    background:'img\\keboard_bg.png'
+    key_background_normal:'img\\btn_k.png'
+    key_background_down:'img\\btn_k_press.png'
+    background_border: [1,1,1,1]
+    do_rotation: False
+    do_scale: False
+    do_translation_y:False
+    do_translation_x:False
+    font_name:'font\\PT_Sans_Narrow-Regular'
+    font_size:42
+    key_margin:[0,0,0,0]
+    margin_hint:[0,0,0,0]
 
 <ScreenMenu>:
     FloatLayout:
@@ -161,12 +177,23 @@
                         size_hint_y: None
                         height:99
                 Widget:
-        Button:
-            text:''
-            size_hint:None,None
-            size:151,105
+        BoxLayout:
+			orientation:'vertical'
+			size_hint:None,None
+			# size:151,140
+            # pos: 1669, 35
+            size: 151,105
             pos: 1669, 70
-            font_size:42
-            background_normal:'img\\wifi_knopka.png'
-            background_down:'img\\wifi_knopka.png'
-            on_press: root.manager.current='FormAccess';root.open_wifi_form(root.manager);root.manager.start()
+			Button:
+				text:''
+				size_hint:None,None
+				size:151,105
+				font_size:42
+				background_normal:'img\\wifi_knopka.png'
+				background_down:'img\\wifi_knopka.png'
+				on_press: root.manager.current='FormAccess';root.open_wifi_form(root.manager);root.manager.start()
+			# Label:
+			# 	text:app.uni_text(app.interface_lang,'getpassword')
+            #     id: anim
+			# 	font_name:'font\\PT_Sans_Narrow-Regular'
+			# 	font_size:26
