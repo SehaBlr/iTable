@@ -281,41 +281,39 @@
                     orientation:'horizontal'
                     size_hint: None, 1
                     width: 600
-                    AnchorLayout:
-                        anchor_y:'center'
-                        anchor_x:'center'
-                        Button:
-                            text: app.uni_text(app.interface_lang,'back').upper()
-                            size_hint:None,None
-                            size:193,66
-                            font_name:'font\\PT_Sans_Narrow-Regular'
-                            font_size:32
-                            background_normal:'img\\btn_k.png'
-                            background_down:'img\\btn_k_press.png'
-                            on_press: root.manager.current='Anketa2page';root.manager.start(600)
-                    AnchorLayout:
-                        anchor_y:'center'
-                        anchor_x:'center'
-                        Button:
-                            text: app.uni_text(app.interface_lang,'forward').upper()
-                            size_hint:None,None
-                            size:193,66
-                            font_name:'font\\PT_Sans_Narrow-Regular'
-                            font_size:32
-                            background_normal:'img\\btn_k.png'
-                            background_down:'img\\btn_k_press.png'
-                            on_press: root.manager.current='Anketa4page';root.manager.start(600)
-                BoxLayout:
-                    orientation:'horizontal'
-                    size_hint: .5, 1
                     Widget:
-                    AnchorLayout:
-                        anchor_y:'center'
-                        anchor_x:'center'
-                        Button:
-                            text:''
-                            size_hint:None,None
-                            size:101,64
-                            background_normal:'img\\back.png'
-                            background_down:'img\\back.png'
-                            on_press: root.manager.current='Menu';root.manager.start()
+                        size_hint_x: None
+                        width:89
+                    BoxLayout:
+                        orientation:'vertical'
+                        size_hint_x: None
+                        width: 211
+                        Widget:
+                            size_hint_y: None
+                            height:23
+                        LeftArrow:
+                            id:leftbutton
+                            manager:app
+                            next_screen:'Anketa2page'
+                        Widget:
+                            size_hint_y: None
+                            height:35
+                    BoxLayout:
+                        orientation:'vertical'
+                        size_hint_x: None
+                        width: 211
+                        Widget:
+                            size_hint_y: None
+                            height:23
+                        RightArrow:
+                            id:rightbutton
+                            manager:app
+                            next_screen:'Anketa4page'
+                        Widget:
+                            size_hint_y: None
+                            height:35
+                    Widget:
+                        size_hint_x: None
+                        width:89
+                Widget:
+                    size_hint: .5, 1

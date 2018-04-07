@@ -15,7 +15,6 @@
         BoxLayout:
             orientation: 'vertical'
             size_hint: 0.8,1
-            padding:[40,0,40,0]
             Widget:
                 size_hint:1,.4
             Label:
@@ -39,11 +38,15 @@
                 Widget:
                     size_hint: .8, 1
                 AnchorLayout:
+                    anchor_y:'bottom'
+                    anchor_x:'right'
                     size_hint: .2, 1
-                    Button:
-                        text:''
-                        size_hint:None,None
-                        size:101,64
-                        background_normal:'img\\back.png'
-                        background_down:'img\\back.png'
-                        on_press: root.manager.current='Menu';root.manager.start()
+                    BoxLayout:
+                        orientation:'vertical'
+                        size_hint: None, None
+                        size: 234,124
+                        BackButton:
+                            BackButtonText:
+                                text: app.uni_text(app.interface_lang,'tomain')
+                                on_press: root.manager.current='Menu';root.manager.start()
+                        Widget:

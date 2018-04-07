@@ -4,7 +4,7 @@ import kivy
 from kivy.app import App
 
 from kivy.core.window import Window, Keyboard
-from kivy.properties import ObjectProperty, StringProperty, ReferenceListProperty, NumericProperty, ListProperty
+from kivy.properties import ObjectProperty, StringProperty, ReferenceListProperty, NumericProperty, BooleanProperty, ListProperty
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.behaviors.cover import CoverBehavior
 from kivy.uix.behaviors.focus import FocusBehavior
@@ -12,7 +12,8 @@ from kivy.uix.button import Button
 from kivy.atlas import Atlas
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.carousel import Carousel
-from kivy.uix.image import AsyncImage
+from kivy.uix.image import Image, AsyncImage
+from kivy.uix.label import Label
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.video import Video
@@ -24,8 +25,8 @@ from kivy.factory import Factory
 from kivy.animation import Animation
 from kivy.event import EventDispatcher
 from functools import partial
+from kivy.graphics import Ellipse, Color, Rectangle
 from kivy.uix.vkeyboard import VKeyboard
-import unikeyboard
 import tftp
 import client
 import re
@@ -37,18 +38,10 @@ import codecs
 import csv
 import timer
 import time
-import win32net
 from datetime import datetime, timedelta
-from email.mime.text import MIMEText
-from email.header    import Header
 from kivy.base import EventLoop
 from kivy.uix.slider import Slider
 
-# TODO: ADD: Клавиатура к форме выыдачи доступа к WiFi
-# TODO: ADD: Форма анкеты на выдачу доступа к WiWi: кнопка отправить
-# TODO: ADD: Организовать подгрузку текста из JSON файла на выбранном языке из первой формы
-# TODO: Окно с данными доступа к Wifi
-# TODO: Настроить отправщик почты с кириллицей
 # Оранжевый  - 250, 110,  20
 # Серый      - 149, 179, 179
 # Графитовый -  77,  77,  77
@@ -204,7 +197,177 @@ class MyText(TextInput, Keyboard):
         if k:
             key = (None, None, k, 1)
             self._key_down(key)
-    
+
+
+class MyKeyboard(VKeyboard):
+
+    def __init__(self, **kwargs):
+        super(MyKeyboard, self).__init__(**kwargs)
+
+    def process_key_up(self, touch):
+        uid = touch.uid
+        if self.uid not in touch.ud:
+            return
+
+        # save pressed key on the touch
+        key_data, key = touch.ud[self.uid]['key']
+        displayed_char, internal, special_char, size = key_data
+
+        # send info to the bus
+        b_keycode = special_char
+        b_modifiers = self._get_modifiers()
+        self.dispatch('on_key_up', b_keycode, internal, b_modifiers)
+
+        if special_char == 'capslock':
+            uid = -1
+        
+        if -1 in self.active_keys and special_char != 'capslock':
+            self.have_capslock = False
+            self.active_keys.pop(-1, None)
+
+        if uid in self.active_keys:
+            self.active_keys.pop(uid, None)
+            if special_char == 'shift':
+                self.have_shift = False
+            elif special_char == 'special':
+                self.have_special = False
+            if special_char == 'capslock' and self.have_capslock:
+                self.active_keys[-1] = key
+            self.refresh_active_keys_layer()
+
+
+class RightArrow(Widget):
+    manager = ObjectProperty()
+    next_screen = StringProperty('')
+    changepos = BooleanProperty(True)
+    textbutton = StringProperty()
+    scrmanager = ObjectProperty(None)
+    def __init__(self, **kwargs):
+        super(RightArrow, self).__init__(**kwargs)
+        self.im = Image(source='img\\next.png',size_hint=[None,None],size=[92, 92])
+        self.bt = Button(size_hint=[None, None], size=[
+                         92, 92], background_normal='', background_color=[1, 1, 1, 0])
+        self.bt.text = self.textbutton
+        self.bt.font_name = 'font\\PT_Sans_Narrow-Bold'
+        self.bt.font_size = 24
+        self.bt.text_size = self.bt.size
+        self.bt.valign = 'center'
+        self.bt.halign = 'center'
+        self.bt.color = [0.97, 0.43, 0.08, 0]
+        with self.canvas:
+            Color(1, 1, 1, 1)
+            self.ell1 = Ellipse(pos=self.pos, size=[92, 92])
+            self.rect = Rectangle(pos=(self.pos[0] + 46, self.pos[1]), size=[0, 92])
+            self.ell2 = Ellipse(pos=(self.pos[0] + 92, self.pos[1]), size=[92, 92])
+        self.add_widget(self.im)
+        self.add_widget(self.bt)
+        self.bind(pos=self.update_rect, size=self.update_rect)
+        self.bt.bind(on_press = self.press_action)
+
+    def update_rect(self, *args):
+        if self.changepos:
+            self.rect.pos = (self.pos[0] + 165, self.pos[1])
+            self.ell1.pos = (self.pos[0] + 119, self.pos[1])
+            self.ell2.pos = (self.pos[0] + 119, self.pos[1])
+            self.im.pos = (self.pos[0] + 119, self.pos[1])
+            self.bt.pos = (self.pos[0] + 119, self.pos[1])
+            mn = self.manager
+            self.bt.text = mn.uni_text(mn.interface_lang,self.textbutton).upper() + ' '*10
+            # self.rect.size = self.size
+
+    def press_action(self, *args):
+        mn = self.manager
+        if self.scrmanager:
+            if self.next_screen == 'AnketaThanks':
+                self.scrmanager.anketa_send_info()
+            elif self.next_screen == 'ReviewThanks':
+                self.scrmanager.review_send_info()
+        mn.change_current(self.next_screen)
+
+        
+    def amin_on_enter(self):
+        self.changepos = False
+        anim1 = Animation(size=[119,92], pos=(self.pos[0] + 42, self.pos[1]), d = .5)
+        anim2 = Animation(pos=self.pos, d = .5)
+        anim3 = Animation(width=211, text_size = (self.size), pos=self.pos, d = .5)
+        anim3 += Animation(color=[0.97, 0.43, 0.08, 1], d = .5)
+        anim1.start(self.rect)
+        anim2.start(self.ell2)
+        anim3.start(self.bt)
+        self.changepos = True
+
+    def amin_on_leave(self):
+        self.changepos = False
+        self.rect.size = [0, 92]
+        self.rect.pos = (self.pos[0] + 165, self.pos[1])
+        self.ell2.pos = (self.pos[0] + 119, self.pos[1])
+        self.bt.width = 92
+        self.bt.text_size = self.size
+        self.bt.color = [0.97, 0.43, 0.08, 0]
+        self.changepos = True
+        
+
+class LeftArrow(Widget):
+    manager = ObjectProperty()
+    next_screen = StringProperty('')
+    changepos = BooleanProperty(True)
+    textbutton = StringProperty()
+    def __init__(self, **kwargs):
+        super(LeftArrow, self).__init__(**kwargs)
+        self.im = Image(source='img\\prev.png',size_hint=[None,None],size=[92, 92])
+        self.bt = Button(size_hint=[None,None],size=[92, 92],background_normal='',background_color=[1, 1, 1, 0])
+        self.bt.text = self.textbutton
+        self.bt.font_name = 'font\\PT_Sans_Narrow-Bold'
+        self.bt.font_size = 24
+        self.bt.text_size = self.bt.size
+        self.bt.valign = 'center'
+        self.bt.halign = 'center'
+        self.bt.color = [0.97, 0.43, 0.08, 0]
+        with self.canvas:
+            Color(1, 1, 1, 1)
+            self.ell1 = Ellipse(pos=self.pos, size=[92, 92])
+            self.rect = Rectangle(pos=(self.pos[0] + 46, self.pos[1]), size=[0, 92])
+            self.ell2 = Ellipse(pos=(self.pos[0] + 92, self.pos[1]), size=[92, 92])
+        self.add_widget(self.im)
+        self.add_widget(self.bt)
+        self.bind(pos=self.update_rect, size=self.update_rect)
+        self.bt.bind(on_press = self.press_action)
+
+    def update_rect(self, *args):
+        if self.changepos:
+            self.rect.pos = (self.pos[0] + 46, self.pos[1])
+            self.ell1.pos = self.pos
+            self.ell2.pos = self.pos
+            self.im.pos = self.pos
+            self.bt.pos = self.pos
+            mn = self.manager
+            self.bt.text = ' '*10 + mn.uni_text(mn.interface_lang,self.textbutton).upper()
+            # self.rect.size = self.size
+
+    def press_action(self, *args):
+        mn = self.manager
+        mn.change_current(self.next_screen)
+        
+    def amin_on_enter(self):
+        self.changepos = False
+        anim1 = Animation(size=[119,92], d = .5)
+        anim2 = Animation(pos=(self.pos[0] + 119, self.pos[1]), d = .5)
+        anim3 = Animation(width=211, text_size = (self.size), d = .5)
+        anim3 += Animation(color=[0.97, 0.43, 0.08, 1], d = .5)
+        anim1.start(self.rect)
+        anim2.start(self.ell2)
+        anim3.start(self.bt)
+        self.changepos = True
+
+    def amin_on_leave(self):
+        self.changepos = False
+        self.rect.size = [0, 92]
+        self.ell2.pos = self.pos
+        self.bt.width = 92
+        self.bt.text_size = self.size
+        self.bt.color = [0.97, 0.43, 0.08, 0]
+        self.changepos = True
+
 
 class Manager(ScreenManager):
 
@@ -343,8 +506,6 @@ class Manager(ScreenManager):
             writer = csv.writer(csvfile,  delimiter=';', lineterminator = '\n')
             writer.writerows(listing)
 
-
-
     def work_time(self, dt):
         now = datetime.now()
         tt = now.timetuple()
@@ -375,6 +536,22 @@ class Manager(ScreenManager):
                 if hr >= 8 and hr < 18:
                     self.current = 'Language selection'
 
+    def take_focus(self, dt):
+        if self.current == 'Review1page':
+            self.ids.review1.ids.ank1q1.focus = True
+        if self.current == 'Review2page':
+            self.ids.review2.ids.a4q1.focus = True
+        if self.current == 'Anketa1page':
+            self.ids.anketa1.ids.ank1q1.focus = True
+        if self.current == 'Anketa4page':
+            self.ids.anketa4.ids.a4q1.focus = True
+        if self.current == 'Anketa5page':
+            self.ids.anketa5.ids.a5q1.focus = True
+        if self.current == 'FormAccess':
+            self.ids.wifiform.ids.imya.focus = True
+
+    def auto_focus(self):
+        Clock.schedule_once(self.take_focus, .2)
         
 class ScreenMenu(Screen):
 
@@ -408,6 +585,22 @@ class ScreenMenu(Screen):
                     v.background_normal = 'img\\dot.png'
                     v.background_down = 'img\\dot.png'
 
+
+class AnimatedLabel(Label):
+
+    def __init__(self, **kwargs):
+        super(AnimatedLabel, self).__init__(**kwargs)
+        self.animate()
+
+    def animate(self):
+        anim = Animation(color=[1,1,1,1])
+        anim += Animation(color=[1,1,1,.5])
+        anim += Animation(color=[1,1,1,0])
+        anim += Animation(color=[1,1,1,0],duration = 10)
+        anim += Animation(color=[1,1,1,0])
+        anim += Animation(color=[1,1,1,0.5])
+        anim.repeat = True
+        anim.start(self)
 
 
 class ScreenWiFiForm(Screen):
@@ -474,18 +667,6 @@ class ScreenWiFiForm(Screen):
 
     @staticmethod
     def getconnect():
-        # tolist = App.get_running_app().config.get('mail','maillist').split(';')
-        # smtp = App.get_running_app().config.get('mail','smtpip')
-        # port = App.get_running_app().config.get('mail', 'smtpport')
-        # sending = App.get_running_app().config.getint('mail', 'sendmail')
-        # filepath = App.get_running_app().config.get('mail', 'filepath')
-        # jsonfile = open(filepath, 'r')
-        # logdict = json.load(jsonfile)
-        # countpassword = len(logdict)
-        # TODO Если countpassword меньше, например, пяти, то отсылать письмо админам, о том, что паролей осталось мало
-        # jsonfile.close()
-        # if logdict:
-        # x=logdict.pop()
         pswd_list = ScreenWiFiForm.get_pswd()
         
         r = client.TFTPClient('192.168.64.5','69')
@@ -503,27 +684,6 @@ class ScreenWiFiForm(Screen):
         
         login = pswd_list[0]
         password = pswd_list[1]
-        # countpassword = pswd_list[2]
-        # msg = u'\nLogin: {}\n  Password: {}'.format(login, password)
-        # mail = MIMEText(msg, 'plain', 'utf-8')
-        # mail['Subject'] = Header('Запрос пароля к Wi-Fi c iTable', 'utf-8')
-        # mail['From'] = 'itable@uniflex.by'
-        # mail['To'] = ", ".join(tolist)
-        # if sending:
-        #     try:
-        #         s = smtplib.SMTP(smtp, port)
-        #         s.starttls()
-        #         s.sendmail(mail['From'], tolist, mail.as_string())
-        #         s.quit()
-        #     except:
-        #         print('Не сработала отправка почты')
-        # jsonfile = open(filepath, "w+")
-        # jsonfile.write(json.dumps(logdict))
-        # jsonfile.close()
-        # else:
-        #     login = ''
-        #     password = ''
-
         return login, password
 
     @staticmethod
@@ -1000,9 +1160,9 @@ class ScreensApp(App):
         now = datetime.now()
         print(f'[{now:%d.%m.%Y %H:%M}] start screen {current}')
 
-    def change_current(self,screen_name):
+    def change_current(self,screen_name,time = 120):
         self.root.current = screen_name
-        self.root.start()
+        self.root.start(time)
 
     def build(self):
         config = self.config

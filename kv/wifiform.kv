@@ -1,6 +1,5 @@
 #:kivy 1.10.0
 # wifiinfo.kv
-#:include kv\unikeyboard.kv
 
 
 <FormInput@MyText>:
@@ -137,17 +136,17 @@
                             orientation:'vertical'
                             size_hint:None,None
                             size:1450,400  #  1450 - ширина клавиатуры
-                            MyKeybord:
+                            MyKeyboard:
                                 id: kbv
                         AnchorLayout:
-                            anchor_x: 'center'
+                            anchor_x: 'right'
                             anchor_y: 'bottom'
-                            size_hint:None,None
-                            size:235,400
-                            Button:
-                                text:''
-                                size_hint:None,None
-                                size:101,64
-                                background_normal:'img\\back.png'
-                                background_down:'img\\back.png'
-                                on_press: root.manager.current='Menu'
+                            BoxLayout:
+                                orientation:'vertical'
+                                size_hint: None, None
+                                size: 200,90
+                                Widget:
+                                BackButton:
+                                    BackButtonText:
+                                        text: app.uni_text(app.interface_lang,'tomain')
+                                        on_press: root.manager.current='Menu'

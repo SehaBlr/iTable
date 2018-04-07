@@ -31,6 +31,7 @@
 <Manager>:
     id: screen_manager
     transition: NoTransition()
+    
     ScreenChoice:
         id: choice
         name: 'Language selection'
@@ -45,6 +46,7 @@
         id: wifiform
         name: 'FormAccess'
         manager: screen_manager
+        on_enter:root.auto_focus()
 
     ScreenWiFiInfo:
         id: dostup
@@ -55,6 +57,8 @@
         id: anketa1
         name: 'Anketa1page'
         manager: screen_manager
+        on_enter:self.ids.leftbutton.amin_on_enter();root.auto_focus()
+        on_leave:self.ids.leftbutton.amin_on_leave()
 
     ScreenAnketa2:
         id: anketa2
@@ -70,11 +74,14 @@
         id: anketa4
         name: 'Anketa4page'
         manager: screen_manager
+        on_enter:root.auto_focus()
 
     ScreenAnketa5:
         id: anketa5
         name: 'Anketa5page'
         manager: screen_manager
+        on_enter:self.ids.rightbutton.amin_on_enter();root.auto_focus()
+        on_leave:self.ids.rightbutton.amin_on_leave()
 
     ScreenAnketaThanks:
         id: anketathanks
@@ -85,11 +92,15 @@
         id: review1
         name: 'Review1page'
         manager: screen_manager
+        on_enter:self.ids.leftbutton.amin_on_enter();root.auto_focus()
+        on_leave:self.ids.leftbutton.amin_on_leave()
 
     ScreenReview2:
         id: review2
         name: 'Review2page'
         manager: screen_manager
+        on_enter:self.ids.rightbutton.amin_on_enter();root.auto_focus()
+        on_leave:self.ids.rightbutton.amin_on_leave()
 
     ScreenReviewThanks:
         id: reviewthanks

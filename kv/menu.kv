@@ -5,7 +5,7 @@
 <PrezMain>:
     orientation:'vertical'
 
-<MyKeybord@VKeyboard>:
+<MyKeyboard>:
     size_hint: None,None
     layout:'json\\qwerty.json'
     size: 1450, 400
@@ -21,6 +21,37 @@
     font_size:42
     key_margin:[0,0,0,0]
     margin_hint:[0,0,0,0]
+
+<AnimatedLabel>:
+
+
+<BackButton@BoxLayout>:
+    orientation:'vertical'
+    canvas:
+        Color:
+            rgb: 1, 1, 1
+        Ellipse:
+            size: 64, 64
+            pos: self.pos
+        Rectangle:
+            size: 92, 64
+            pos: self.pos[0]+32, self.pos[1]
+        Ellipse:
+            size: 64, 64
+            pos: self.pos[0]+92, self.pos[1]
+    size_hint: None, None
+    size:156,64
+
+
+<BackButtonText@Button>:
+    size_hint: None, None
+    size:156,64
+    background_normal:''
+    background_down:''
+    background_color:1,1,1,0
+    font_name:'font\\PT_Sans_Narrow-Bold'
+    font_size:24
+    color:0.97, 0.43, 0.08, 1
 
 <ScreenMenu>:
     FloatLayout:
@@ -49,6 +80,14 @@
                 anchor_x:'center'
                 size_hint:1,None
                 height:132
+                Button:
+                    text:''
+                    background_nornal:'img\\logo_white_300x72.png'
+                    background_down:'img\\logo_white_300x72.png'
+                    background_color: [1, 1, 1, 0]
+                    size_hint:None,None
+                    size: 300, 72
+                    on_press: root.manager.start(0)
                 Image:
                     source:'img\\logo_white_300x72.png'
                     size_hint:None,None
@@ -180,10 +219,11 @@
         BoxLayout:
 			orientation:'vertical'
 			size_hint:None,None
-			# size:151,140
-            # pos: 1669, 35
-            size: 151,105
-            pos: 1669, 70
+			size:151,140
+            pos: 1669, 35
+            # size: 151,105
+            # pos: 1669, 70
+            rootmanager:root.manager
 			Button:
 				text:''
 				size_hint:None,None
@@ -192,8 +232,8 @@
 				background_normal:'img\\wifi_knopka.png'
 				background_down:'img\\wifi_knopka.png'
 				on_press: root.manager.current='FormAccess';root.open_wifi_form(root.manager);root.manager.start()
-			# Label:
-			# 	text:app.uni_text(app.interface_lang,'getpassword')
-            #     id: anim
-			# 	font_name:'font\\PT_Sans_Narrow-Regular'
-			# 	font_size:26
+			AnimatedLabel:
+				text:app.uni_text(app.interface_lang,'getpassword')
+                id: anim
+				font_name:'font\\PT_Sans_Narrow-Regular'
+				font_size:26

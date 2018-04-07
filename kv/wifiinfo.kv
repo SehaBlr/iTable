@@ -54,15 +54,14 @@
                 halign: 'center'
                 text:app.uni_text(app.interface_lang,'wififormattention')
             AnchorLayout:
-                anchor_x: 'right'
-                anchor_y: 'bottom'
-                size_hint:1,None
-                height: 80
-                padding:[0,0,50,16]
-                Button:
-                    text:''
-                    size_hint:None,None
-                    size:101,64
-                    background_normal:'img\\back.png'
-                    background_down:'img\\back.png'
-                    on_press: root.manager.current='Menu';root.manager.start()
+                anchor_y:'bottom'
+                anchor_x:'right'
+                BoxLayout:
+                    orientation:'vertical'
+                    size_hint: None, None
+                    size: 234,124
+                    BackButton:
+                        BackButtonText:
+                            text: app.uni_text(app.interface_lang,'tomain')
+                            on_press: root.manager.current='Menu';root.manager.start();root.manager.start();root.manager.ids.newproduct.ids.prez_new.sl_carousel.load_slide(root.manager.ids.newproduct.ids.prez_new.sl_carousel.slides[0]);root.manager.ids.solution.ids.prez_flex.sl_carousel.load_slide(root.manager.ids.solution.ids.prez_flex.sl_carousel.slides[0]);root.manager.ids.digital.ids.prez_digital.sl_carousel.load_slide(root.manager.ids.digital.ids.prez_digital.sl_carousel.slides[0])
+                    Widget:
